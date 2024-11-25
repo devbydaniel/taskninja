@@ -3,6 +3,7 @@ import { Icon } from "astro-icon/components";
 import Nav from "../components/Nav.astro";
 import Button from "../components/Button.astro";
 import NewTaskModal from "../components/NewTaskModal.astro";
+import ConfirmationModal from "../components/ConfirmationModal.astro";
 
 interface Props {
   projects: string[];
@@ -30,6 +31,7 @@ const { projects, tags, currentProject } = Astro.props;
     tags={tags}
     preSelectedProject={currentProject}
   />
+  <ConfirmationModal />
 </div>
 
 <style>

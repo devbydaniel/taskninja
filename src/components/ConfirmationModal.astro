@@ -1,20 +1,11 @@
 ---
 import Modal from "./Modal.astro";
 import Button from "./Button.astro";
-
-interface Props {
-  id: string;
-  title: string;
-  message: string;
-  confirmEventData: Record<string, unknown>;
-}
-
-const { id, title, message, confirmEventData } = Astro.props;
 ---
 
-<Modal id={id} title={title}>
+<Modal id={"confirmation-modal"} title={"Are you sure?"}>
   <div class="confirmation-modal">
-    <p class="confirmation-modal__message">{message}</p>
+    <p class="confirmation-modal__message"></p>
     <div class="confirmation-modal__buttons">
       <Button
         variant="ghost"
@@ -43,40 +34,43 @@ const { id, title, message, confirmEventData } = Astro.props;
   }
 </style>
 
-<script define:vars={{ id, confirmEventData }} is:inline>
-  //import { confirmationModal } from "../lib/customEvents";
-  const modal = document.getElementById(id);
-  const confirmButton = modal.querySelector("#confirm");
-  const cancelButton = modal.querySelector("#cancel");
+<script>
+  import { confirmationModal } from "../lib/customEvents";
 
-  // emit custom--confirm event when confirm button is clicked
-  confirmButton.addEventListener("click", () => {
-    modal.dispatchEvent(
-      new CustomEvent("custom--confirm", { detail: confirmEventData }),
-    );
-    modal.close();
+  const modal = document.getElementById(
+    "confirmation-modal",
+  )! as HTMLDialogElement;
+
+  const description = modal.querySelector(
+    ".confirmation-modal__message",
+  )! as HTMLParagraphElement;
+
+  const confirmButton = modal.querySelector("#confirm")! as HTMLButtonElement;
+  const cancelButton = modal.querySelector("#cancel")! as HTMLButtonElement;
+
+  // Listen to the trigger event, open the modal, add content & listeners
+  document.addEventListener(confirmationModal.eventName, (event) => {
+    const customEvent = event as CustomEvent;
+    const message = customEvent.detail.message;
+    const confirmEvent = customEvent.detail.confirmEvent;
+
+    description.textContent = message;
+    modal.showModal();
+    confirmButton.focus();
+
+    function handleConfirm() {
+      document.dispatchEvent(new CustomEvent(confirmEvent));
+      modal.close();
+    }
+
+    confirmButton.addEventListener("click", handleConfirm, { once: true });
+    modal.addEventListener("close", () => {
+      confirmButton.removeEventListener("click", handleConfirm);
+    });
   });
-  // Listen to the trigger event and open the modal
-  //document.addEventListener(confirmationModal.trigger, (event) => {
-  //  const confirmEvent = event.detail.confirmEvent;
-  //  confirmButton.addEventListener("click", () => {
-  //    modal.dispatchEvent(new CustomEvent(confirmEvent));
-  //    modal.close();
-  //  });
-  //});
 
   // Close the modal when the cancel button is clicked
   cancelButton.addEventListener("click", () => {
     modal.close();
   });
-
-  // Focus the confirm button when the modal is opened
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === "open" && modal.hasAttribute("open")) {
-        confirmButton.focus();
-      }
-    });
-  });
-  observer.observe(modal, { attributes: true });
 </script>

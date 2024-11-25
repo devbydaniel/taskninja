@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
 import Button from "../Button.astro";
-import ConfirmationModal from "../ConfirmationModal.astro";
 import MoveToProjectModal from "./MoveToProjectModal.astro";
 import EditTagsModal from "./EditTagsModal.astro";
 import EditTaskByCommandModal from "./EditTaskByCommandModal.astro";
@@ -103,13 +102,6 @@ function displayDate(date: string) {
     </button>
   </div>
 </div>
-
-<ConfirmationModal
-  id={`delete-task-${task.uuid}`}
-  title="Are you sure?"
-  message="The task can will no longer be displayed"
-  confirmEventData={{ uuid: task.uuid }}
-/>
 
 <MoveToProjectModal
   id={`move-task-${task.uuid}`}
@@ -361,56 +353,26 @@ function displayDate(date: string) {
 <script>
   import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
   import shortcuts from "../../lib/shortcuts";
-  //import { confirmationModal } from "../../lib/customEvents";
+  import { confirmationModal } from "../../lib/customEvents";
 
-  // Delete task on delete after confirmation
-  function handleDelete(uuid: string) {
-    const confirmDeleteModal = document.getElementById(
-      `delete-task-${uuid}`,
-    ) as HTMLDialogElement;
-
-    async function handleConfirmDelete(event: Event) {
-      const taskUuid = (event as CustomEvent).detail.uuid;
-      const res = await fetch("/api/tasks/" + taskUuid, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        const task = document.querySelector(
-          `[data-js=chechbox-${taskUuid}]`,
-        ) as HTMLInputElement;
-        task.closest(".item")?.remove();
-      }
+  async function handleDelete(uuid: string) {
+    const res = await fetch("/api/tasks/" + uuid, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      const task = document.querySelector(
+        `[data-js=chechbox-${uuid}]`,
+      ) as HTMLInputElement;
+      task.closest(".item")?.remove();
     }
-
-    function cleanUpListeners() {
-      confirmDeleteModal.removeEventListener(
-        "custom--confirm",
-        handleConfirmDelete,
-      );
-      confirmDeleteModal.removeEventListener("close", cleanUpListeners);
-    }
-
-    confirmDeleteModal.addEventListener(
-      "custom--confirm",
-      handleConfirmDelete,
-      { once: true },
-    );
-
-    confirmDeleteModal.addEventListener("close", cleanUpListeners);
-
-    confirmDeleteModal.showModal();
   }
-  //async function handleDelete(uuid: string) {
-  //  const res = await fetch("/api/tasks/" + uuid, {
-  //    method: "DELETE",
-  //  });
-  //  if (res.ok) {
-  //    const task = document.querySelector(
-  //      `[data-js=chechbox-${uuid}]`,
-  //    ) as HTMLInputElement;
-  //    task.closest(".item")?.remove();
-  //  }
-  //}
+
+  function triggerDelete(uuid: string) {
+    confirmationModal.trigger({
+      message: "You can still access the task with the status:deleted filter",
+      onConfirm: () => handleDelete(uuid),
+    });
+  }
 
   // Trigger delete confirm on delete button click
   const deleteButtons = document.getElementsByClassName("item__menu__item");
@@ -423,8 +385,7 @@ function displayDate(date: string) {
           ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
         const task = JSON.parse(taskData);
         const uuid = task.uuid;
-        handleDelete(uuid);
-        //confirmationModal.trigger(() => handleDelete(uuid));
+        triggerDelete(uuid);
       });
     }
   }
@@ -439,7 +400,7 @@ function displayDate(date: string) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
       const uuid = task.uuid;
-      handleDelete(uuid);
+      triggerDelete(uuid);
     }
   });
 </script>
