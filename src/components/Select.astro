@@ -1,0 +1,45 @@
+---
+interface Props {
+  id?: string;
+  name: string;
+  class?: string;
+  options: { value: string; label: string }[];
+  preSelected?: string;
+  autofocus?: boolean;
+}
+
+const {
+  id,
+  name,
+  class: className,
+  options,
+  autofocus,
+  preSelected,
+} = Astro.props;
+---
+
+<select
+  id={id}
+  name={name}
+  autofocus={autofocus}
+  class:list={["select", className]}
+  value={"nasti"}
+>
+  {
+    options.map((option) => (
+      <option selected={option.value === preSelected} value={option.value}>
+        {option.label}
+      </option>
+    ))
+  }
+</select>
+
+<style>
+  .select {
+    padding: var(--gap-sm);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-text-muted);
+    font-family: var(--font-family);
+    background-color: white;
+  }
+</style>

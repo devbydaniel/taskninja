@@ -1,0 +1,64 @@
+---
+import { type Task } from "../../lib/models/types";
+import TaskListItem from "./TaskListItem.astro";
+
+interface Props {
+  tasks: Task[];
+  projects: string[];
+  tags: string[];
+}
+
+const { tasks, projects, tags } = Astro.props;
+---
+
+<ul class="task-list">
+  {
+    tasks.map((task, i) => (
+      <li class="task-list__item" tabindex={i + 1}>
+        <TaskListItem projects={projects} tags={tags} task={task} />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .task-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+  }
+
+  .task-list__item {
+  }
+</style>
+
+<script>
+  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+
+  const listItems = Array.from(
+    document.querySelectorAll<HTMLLIElement>(".task-list__item"),
+  );
+  let currentIndex = -1;
+
+  document.addEventListener("keydown", function (event) {
+    if (!shouldTriggerKeyboardShortcut(event)) return;
+    if (event.key !== "j" && event.key !== "k") return;
+    event.preventDefault();
+
+    if (event.key === "j") {
+      currentIndex =
+        currentIndex < listItems.length - 1 ? currentIndex + 1 : currentIndex;
+    } else if (event.key === "k") {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+    }
+    listItems[currentIndex]?.focus();
+  });
+
+  listItems.forEach((item, index) => {
+    item.addEventListener("click", () => {
+      currentIndex = index;
+    });
+  });
+</script>

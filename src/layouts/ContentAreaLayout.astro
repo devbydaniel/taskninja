@@ -1,0 +1,47 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="content">
+  <div class="content__header">
+    <h1 class="content__header__title">{title}</h1>
+    <div class="content__header__actions"><slot name="actions" /></div>
+  </div>
+  <div class="content__body"><slot /></div>
+</div>
+
+<style>
+  .content {
+    position: relative;
+  }
+
+  .content__header {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--gap-md);
+    background: var(--background);
+    z-index: 10;
+    border-bottom: var(--border-width) solid var(--border-color);
+  }
+
+  .content__header__title {
+    font-size: var(--font-size-lg);
+    margin: 0;
+  }
+
+  .content__header__actions {
+    display: flex;
+    gap: var(--gap-md);
+  }
+
+  .content__body {
+    padding: var(--gap-md);
+  }
+</style>

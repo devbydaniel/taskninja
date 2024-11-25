@@ -1,0 +1,98 @@
+---
+import Modal from "../Modal.astro";
+import Button from "../Button.astro";
+import Input from "../Input.astro";
+import { type Task } from "../../lib/models/types";
+
+interface Props {
+  id: string;
+  task: Task;
+}
+
+const { id, task } = Astro.props;
+---
+
+<Modal id={id} title={task.description}>
+  <form class="edit-task-form__form">
+    <div class="edit-task-form">
+      <div class="edit-task-form__input">
+        <label for="command" class="edit-task-form__input__label">Command</label
+        >
+        <Input
+          autofocus
+          required
+          id="command"
+          type="text"
+          name="command"
+          class="edit-task-form__input__input"
+        />
+      </div>
+      <input type="hidden" name="task-id" value={task.uuid} />
+      <div class="edit-task-form__buttons">
+        <Button
+          variant="ghost"
+          class="edit-task-form__buttons__button"
+          id="cancel"
+        >
+          Cancel
+        </Button>
+        <Button class="edit-task-form__buttons__button" id="save" type="submit">
+          Save
+        </Button>
+      </div>
+    </div>
+  </form></Modal
+>
+
+<style>
+  .edit-task-form {
+    display: grid;
+    gap: var(--gap-md);
+  }
+
+  .edit-task-form__input {
+    display: grid;
+    gap: var(--gap-sm);
+  }
+
+  .edit-task-form__buttons {
+    display: flex;
+    justify-content: end;
+    gap: var(--gap-sm);
+  }
+</style>
+
+<script define:vars={{ id }} is:inline>
+  const modal = document.getElementById(id);
+  const cancelButton = modal.querySelector("#cancel");
+
+  // Close the modal when the cancel button is clicked
+  cancelButton.addEventListener("click", () => {
+    modal.close();
+  });
+
+  // Execute command when save button is clicked
+  const form = modal.querySelector("form");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const command = formData.get("command");
+    const taskId = formData.get("task-id");
+    const response = await fetch(`/api/tasks/${taskId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ command }),
+    });
+    if (!response.ok) {
+      const { message } = await response.json();
+      console.error(message);
+    }
+    if (response.ok) {
+      form.reset();
+      modal.close();
+      location.reload();
+    }
+  });
+</script>

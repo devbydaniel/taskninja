@@ -1,0 +1,105 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+  size?: "md" | "sm";
+  type?: "button" | "submit" | "reset";
+  variant?: "solid" | "outline" | "ghost";
+  square?: boolean;
+  block?: boolean;
+}
+
+const {
+  id,
+  class: className,
+  size = "md",
+  type = "button",
+  variant = "solid",
+  square = false,
+  block = false,
+} = Astro.props;
+---
+
+<button
+  id={id}
+  type={type || "button"}
+  class:list={[
+    "button",
+    {
+      "button--sm": size === "sm",
+      "button--md": size === "md",
+      "button--solid": variant === "solid",
+      "button--outline": variant === "outline",
+      "button--ghost": variant === "ghost",
+      "button--square": square,
+      "button--block": block,
+    },
+    className,
+  ]}
+>
+  <slot />
+</button>
+
+<style>
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    border-radius: var(--border-radius);
+    background: var(--background);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-family: var(--font-family);
+  }
+
+  .button:hover {
+    background: var(--background-focus);
+  }
+
+  .button:active {
+    background: var(--background-clicked);
+  }
+
+  .button--sm {
+    padding: var(--gap-xs) var(--gap-sm);
+    font-size: 1rem;
+  }
+
+  .button--md {
+    padding: var(--padding-y) var(--padding-x);
+    font-size: var(--font-size);
+  }
+
+  .button--solid {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
+    border: none;
+  }
+
+  .button--solid:hover {
+    background: var(--color-primary-light);
+  }
+
+  .button--solid:active {
+    background: var(--color-primary-lighter);
+  }
+
+  .button--outline {
+    border: 1px solid var(--color-primary);
+  }
+
+  .button--ghost {
+    background: none;
+    border: none;
+  }
+
+  .button--square {
+    aspect-ratio: 1;
+  }
+
+  .button--block {
+    width: 100%;
+    justify-content: center;
+  }
+</style>

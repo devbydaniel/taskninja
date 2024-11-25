@@ -1,0 +1,82 @@
+---
+import Modal from "./Modal.astro";
+import Button from "./Button.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  message: string;
+  confirmEventData: Record<string, unknown>;
+}
+
+const { id, title, message, confirmEventData } = Astro.props;
+---
+
+<Modal id={id} title={title}>
+  <div class="confirmation-modal">
+    <p class="confirmation-modal__message">{message}</p>
+    <div class="confirmation-modal__buttons">
+      <Button
+        variant="ghost"
+        class="confirmation-modal__buttons__button"
+        id="cancel"
+      >
+        Cancel
+      </Button>
+      <Button class="confirmation-modal__buttons__button" id="confirm">
+        Confirm
+      </Button>
+    </div>
+  </div>
+</Modal>
+
+<style>
+  .confirmation-modal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+  .confirmation-modal__buttons {
+    display: flex;
+    justify-content: end;
+    gap: var(--gap-sm);
+  }
+</style>
+
+<script define:vars={{ id, confirmEventData }} is:inline>
+  //import { confirmationModal } from "../lib/customEvents";
+  const modal = document.getElementById(id);
+  const confirmButton = modal.querySelector("#confirm");
+  const cancelButton = modal.querySelector("#cancel");
+
+  // emit custom--confirm event when confirm button is clicked
+  confirmButton.addEventListener("click", () => {
+    modal.dispatchEvent(
+      new CustomEvent("custom--confirm", { detail: confirmEventData }),
+    );
+    modal.close();
+  });
+  // Listen to the trigger event and open the modal
+  //document.addEventListener(confirmationModal.trigger, (event) => {
+  //  const confirmEvent = event.detail.confirmEvent;
+  //  confirmButton.addEventListener("click", () => {
+  //    modal.dispatchEvent(new CustomEvent(confirmEvent));
+  //    modal.close();
+  //  });
+  //});
+
+  // Close the modal when the cancel button is clicked
+  cancelButton.addEventListener("click", () => {
+    modal.close();
+  });
+
+  // Focus the confirm button when the modal is opened
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === "open" && modal.hasAttribute("open")) {
+        confirmButton.focus();
+      }
+    });
+  });
+  observer.observe(modal, { attributes: true });
+</script>

@@ -1,0 +1,116 @@
+---
+import Modal from "../Modal.astro";
+import Button from "../Button.astro";
+import { type Task } from "../../lib/models/types";
+
+interface Props {
+  id: string;
+  task: Task;
+  tags?: string[];
+}
+
+const { id, task, tags } = Astro.props;
+---
+
+<Modal id={id} title={task.description}>
+  <form class="edit-tags-form__form">
+    <div class="edit-tags-form">
+      <div class="edit-tags-form__input">
+        <label for="tags" class="edit-tags-form__input__label">Tags</label>
+        <ul id="tags" tabindex="-1">
+          {
+            tags?.map((tag) => (
+              <li class="edit-tags-form__input__input">
+                <input
+                  id={tag}
+                  type="checkbox"
+                  name={`tag-${tag}`}
+                  checked={task.tags?.includes(tag)}
+                />
+                <label for={tag}>{tag}</label>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <input type="hidden" name="task-id" value={task.uuid} />
+      <div class="edit-tags-form__buttons">
+        <Button
+          variant="ghost"
+          class="edit-tags-form__buttons__button"
+          id="cancel"
+        >
+          Cancel
+        </Button>
+        <Button class="edit-tags-form__buttons__button" id="save" type="submit">
+          Save
+        </Button>
+      </div>
+    </div>
+  </form>
+</Modal>
+
+<style>
+  .edit-tags-form {
+    display: grid;
+    gap: var(--gap-md);
+  }
+
+  .edit-tags-form__input {
+    display: grid;
+    gap: var(--gap-sm);
+  }
+
+  ul#tags {
+    margin: 0;
+    padding: var(--gap-sm) var(--gap-sm);
+    border: 1px solid var(--color-text-muted);
+    border-radius: var(--border-radius);
+    background-color: white;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    max-height: 100px;
+    overflow-y: auto;
+  }
+
+  .edit-tags-form__buttons {
+    display: flex;
+    justify-content: end;
+  }
+</style>
+
+<script define:vars={{ id }} is:inline>
+  const modal = document.getElementById(id);
+  const cancelButton = modal.querySelector("#cancel");
+
+  // Close the modal when the cancel button is clicked
+  cancelButton.addEventListener("click", () => {
+    modal.close();
+  });
+
+  // Edit tags when the save button is clicked
+  const form = modal.querySelector("form");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const task = formData.get("task-id");
+    const tags = Array.from(formData.keys())
+      .filter((key) => key.startsWith("tag-"))
+      .map((key) => key.replace("tag-", ""));
+    const response = await fetch(`/api/tasks/${task}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: "tags", newValue: tags }),
+    });
+    if (!response.ok) {
+      const { message } = await response.json();
+      console.error(message);
+    }
+    if (response.ok) {
+      modal.close();
+      location.reload();
+    }
+  });
+</script>

@@ -1,0 +1,143 @@
+---
+import Modal from "./Modal.astro";
+import Button from "./Button.astro";
+import Input from "./Input.astro";
+import Select from "./Select.astro";
+
+interface Props {
+  id: string;
+  projects: string[];
+  tags: string[];
+  preSelectedProject?: string;
+}
+
+const { id, projects, tags, preSelectedProject } = Astro.props;
+const projectOptions = [
+  { value: "", label: "No project" },
+  ...projects.map((project) => ({
+    value: project,
+    label: project,
+  })),
+];
+
+const tagOptions = tags.sort((a, b) => (a > b ? 1 : -1));
+---
+
+<Modal id={id} title="Add Task">
+  <form id="new-task-form__form">
+    <div class="new-task-form">
+      <div class="new-task-form__input">
+        <label for="title" class="new-task-form__input__label"
+          >Title // Command</label
+        >
+        <Input
+          autofocus
+          required
+          id="title"
+          type="text"
+          name="description"
+          placeholder="Buy Milk +groceries due:+1d"
+          class="new-task-form__input__input"
+        />
+      </div>
+      <div class="new-task-form__input">
+        <label for="project" class="new-task-form__input__label">Project</label>
+        <Select
+          id="project"
+          name="project"
+          class="new-task-form__input__input"
+          options={projectOptions}
+          preSelected={preSelectedProject}
+        />
+      </div>
+      <div class="new-task-form__input">
+        <label for="tags" class="new-task-form__input__label">Tags</label>
+        <ul id="tags" tabindex="-1">
+          {
+            tagOptions.map((tag) => (
+              <li class="new-task-form__input__input">
+                <Input id={tag} type="checkbox" name={`tag-${tag}`} />
+                <label for={tag}>{tag}</label>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="new-task-form__input">
+        <label for="scheduled" class="new-task-form__input__label"
+          >Scheduled</label
+        >
+        <Input
+          id="scheduled"
+          type="date"
+          name="scheduled"
+          placeholder="Scheduled"
+          class="new-task-form__input__input"
+        />
+      </div>
+      <div class="new-task-form__input">
+        <label for="due" class="new-task-form__input__label">Due</label>
+        <Input
+          id="due"
+          type="date"
+          name="due"
+          placeholder="Due"
+          class="new-task-form__input__input"
+        />
+      </div>
+      <Button class="new-task-form__submit" type="submit" variant="solid" block
+        ><span>Add Task</span></Button
+      >
+    </div>
+  </form>
+
+  <style>
+    .new-task-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .new-task-form__input {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    ul#tags {
+      margin: 0;
+      padding: var(--gap-sm) var(--gap-sm);
+      border: 1px solid var(--color-text-muted);
+      border-radius: var(--border-radius);
+      background-color: white;
+      list-style-type: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-sm);
+      max-height: 100px;
+      overflow-y: auto;
+    }
+  </style>
+
+  <script>
+    const form = document.getElementById(
+      "new-task-form__form",
+    ) as HTMLFormElement;
+
+    document
+      .getElementById("new-task-form__form")!
+      .addEventListener("submit", async (e: SubmitEvent) => {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        const res = await fetch("/api/tasks", {
+          method: "POST",
+          body: formData,
+        });
+        if (!res.ok) {
+          const { message } = await res.json();
+          console.error("Failed to create task: ", message);
+          return;
+        }
+        form.reset();
+        location.reload();
+      });
+  </script></Modal
+>

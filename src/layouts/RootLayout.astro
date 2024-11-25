@@ -1,0 +1,67 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+<style is:global>
+  :root {
+    --background: #fff;
+    --background-raised: #f0f0f0;
+    --background-focus: #d0d0d0;
+    --background-clicked: #c0c0c0;
+    --border-radius: 0.25rem;
+    --border-color: #ccc;
+    --border-width: 1px;
+    --color-primary: #000;
+    --color-primary-light: #4d4d4d;
+    --color-primary-lighter: #666;
+    --color-primary-foreground: #fff;
+    --color-text: #333;
+    --color-text-muted: #666;
+    --color-warning: #ff0;
+    --color-error: #f00;
+    --font-family: monospace;
+    --font-size-sm: 0.8rem;
+    --font-size: 1rem;
+    --font-size-lg: 1.2rem;
+    --gap-xs: 0.25rem;
+    --gap-md: 1rem;
+    --gap-sm: 0.5rem;
+    --padding-x: var(--gap-md);
+    --padding-y: var(--gap-sm);
+  }
+  body {
+    font-family: monospace;
+    background: var(--background);
+    color: var(--color-text);
+    margin: 0;
+    padding: 0;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ul {
+    margin: 0;
+  }
+</style>

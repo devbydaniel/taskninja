@@ -1,0 +1,568 @@
+---
+import { Icon } from "astro-icon/components";
+import Button from "../Button.astro";
+import ConfirmationModal from "../ConfirmationModal.astro";
+import MoveToProjectModal from "./MoveToProjectModal.astro";
+import EditTagsModal from "./EditTagsModal.astro";
+import EditTaskByCommandModal from "./EditTaskByCommandModal.astro";
+import { type Task } from "../../lib/models/types";
+import { parseDate, formatDate } from "../../lib/util/dates";
+
+interface Props {
+  task: Task;
+  projects: string[];
+  tags: string[];
+}
+
+const { task, projects, tags } = Astro.props;
+const isOverdue = task.due && parseDate(task.due) < new Date();
+const isPastScheduled =
+  task.scheduled && parseDate(task.scheduled) < new Date();
+
+const showDetails =
+  task.scheduled ||
+  task.due ||
+  task.project ||
+  (task.tags && task.tags.length > 0);
+
+function displayDate(date: string) {
+  return formatDate(parseDate(date));
+}
+---
+
+<div class="item">
+  <input
+    id={`chechbox-${task.uuid}`}
+    class="item__checkbox"
+    type="checkbox"
+    data-task={JSON.stringify(task)}
+    data-js={`chechbox-${task.uuid}`}
+  />
+  <div class="item__content">
+    <div class="item__description">{task.description}</div>
+    {
+      showDetails && (
+        <div class="item__details">
+          {task.scheduled && !isOverdue && (
+            <div
+              class:list={[
+                "item__details__scheduled",
+                { "item__details__scheduled--highlighted": isPastScheduled },
+              ]}
+            >
+              <Icon name="mdi:clock-time-eight-outline" />{" "}
+              {displayDate(task.scheduled)}
+            </div>
+          )}
+          {task.due && (
+            <div
+              class:list={[
+                "item__details__due",
+                { "item__details__due--highlighted": isOverdue },
+              ]}
+            >
+              <Icon name="mdi:flag-variant-outline" /> {displayDate(task.due)}
+            </div>
+          )}
+          {task.project && (
+            <div class="item__details__project">
+              <Icon name="mdi:order-checkbox-descending" /> {task.project}
+            </div>
+          )}
+          {task.tags && (
+            <div class="item__details__tags">
+              {task.tags.map((tag) => (
+                <div class="item__details__tags__tag">
+                  <Icon name="mdi:tag-outline" /> {tag}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )
+    }
+  </div>
+  <div class="item__actions">
+    <Button square size="sm" variant="ghost">
+      <Icon name="mdi:dots-vertical" />
+    </Button>
+  </div>
+  <div class:list={["item__menu"]}>
+    <button class="item__menu__item" id="edit"
+      ><span>Edit</span><kbd>e</kbd></button
+    >
+    <button class="item__menu__item" id="move"
+      ><span>Move</span><kbd>m</kbd></button
+    >
+    <button class="item__menu__item" id="tag"
+      ><span>Tag</span><kbd>t</kbd></button
+    >
+    <button class="item__menu__item" id="delete">
+      <span>Delete</span>
+      <Icon name="mdi:backspace" />
+    </button>
+  </div>
+</div>
+
+<ConfirmationModal
+  id={`delete-task-${task.uuid}`}
+  title="Are you sure?"
+  message="The task can will no longer be displayed"
+  confirmEventData={{ uuid: task.uuid }}
+/>
+
+<MoveToProjectModal
+  id={`move-task-${task.uuid}`}
+  task={task}
+  projects={projects}
+/>
+
+<EditTagsModal id={`tag-task-${task.uuid}`} task={task} tags={tags} />
+
+<EditTaskByCommandModal id={`edit-task-${task.uuid}`} task={task} />
+
+<style>
+  .item {
+    display: flex;
+    position: relative;
+    transition: background 0.3s ease;
+    border-radius: var(--border-radius);
+    padding: var(--gap-sm) 0;
+  }
+
+  .item:hover {
+    background: var(--background-raised);
+  }
+
+  .item--completed {
+    opacity: 0.5;
+  }
+
+  .item__checkbox {
+    margin: 0 var(--gap-md);
+  }
+
+  .item__description {
+    font-size: var(--font-size);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .item__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--gap-sm);
+    width: 100%;
+  }
+
+  .item__details {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--gap-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .item__details__scheduled {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .item__details__scheduled--highlighted {
+    color: var(--color-warning);
+  }
+
+  .item__details__due {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .item__details__due--highlighted {
+    color: var(--color-error);
+  }
+
+  .item__details__project {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .item__details__tags {
+    display: flex;
+    flex-wrap: wrap;
+    items: center;
+    gap: 1rem;
+  }
+
+  .item__details__tags__tag {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .item__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+    margin-right: var(--gap-sm);
+  }
+
+  .item__menu {
+    padding: var(--gap-xs);
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--background-raised);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    z-index: 1000;
+  }
+
+  .item__menu--open {
+    display: block;
+  }
+
+  .item__menu__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-md);
+    width: 100%;
+    border: none;
+    background: none;
+    padding: var(--gap-sm);
+    cursor: pointer;
+    text-align: left;
+    border-radius: var(--border-radius);
+    transition: background 0.3s ease;
+  }
+
+  .item__menu__item:hover {
+    background: var(--background-focus);
+  }
+
+  .item__menu__item:active {
+    background: var(--background-clicked);
+  }
+</style>
+
+<script>
+  // Set task to completed or pending on checkbox change
+  const checkboxes = document.getElementsByClassName("item__checkbox");
+  window.onload = () => {
+    // avoid task after completed task to be checked after page refresh
+    for (let i = 0; i < checkboxes.length; i++) {
+      const checkbox = checkboxes[i] as HTMLInputElement;
+      checkbox.checked = false;
+    }
+  };
+
+  for (let i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener("change", async (e) => {
+      const isChecked = (e.target as HTMLInputElement).checked;
+      const newStatus = isChecked ? "completed" : "pending";
+      const taskData = (e.target as HTMLInputElement).dataset.task!;
+      const task = JSON.parse(taskData);
+      const taskUuid = task.uuid;
+      const res = await fetch("/api/tasks/" + taskUuid, {
+        method: "PATCH",
+        body: JSON.stringify({
+          uuid: taskUuid,
+          key: "status",
+          newValue: newStatus,
+        }),
+      });
+      if (res.ok) {
+        (e.target as HTMLInputElement)
+          .closest(".item")
+          ?.classList.toggle("item--completed");
+      }
+    });
+  }
+</script>
+
+<script>
+  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+  import shortcuts from "../../lib/shortcuts";
+
+  // Allow space to toggle checkbox
+  document.addEventListener("keydown", function (event) {
+    if (!shouldTriggerKeyboardShortcut(event)) return;
+    if (!shortcuts.completeTask.includes(event.key)) return;
+    event.preventDefault();
+
+    const focused = document.activeElement as HTMLElement;
+    const checkbox = focused.querySelector<HTMLInputElement>("[type=checkbox]");
+    if (checkbox) {
+      checkbox.click();
+    }
+  });
+</script>
+
+<script>
+  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+  // Toggle menu on actions button click
+  const actionsButtons = document.getElementsByClassName("item__actions");
+  const menus = document.getElementsByClassName("item__menu");
+
+  for (let i = 0; i < actionsButtons.length; i++) {
+    actionsButtons[i].addEventListener("click", () => {
+      const menu = menus[i];
+      menu.classList.toggle("item__menu--open");
+    });
+  }
+
+  // Close menu on click outside
+  document.addEventListener("click", (event) => {
+    for (let i = 0; i < menus.length; i++) {
+      const menu = menus[i];
+      const actionsButton = actionsButtons[i];
+      if (
+        !menu.contains(event.target as Node) &&
+        !actionsButton.contains(event.target as Node)
+      ) {
+        menu.classList.remove("item__menu--open");
+      }
+    }
+  });
+
+  // Close menu on Escape key
+  document.addEventListener("keydown", function (event) {
+    if (!shouldTriggerKeyboardShortcut(event)) return;
+    if (event.key !== "Escape") return;
+    for (let i = 0; i < menus.length; i++) {
+      const menu = menus[i];
+      menu.classList.remove("item__menu--open");
+    }
+  });
+
+  // Close menu on unfocus
+  document.addEventListener("focusin", (event) => {
+    for (let i = 0; i < menus.length; i++) {
+      const menu = menus[i];
+      if (!menu.contains(event.target as Node)) {
+        menu.classList.remove("item__menu--open");
+      }
+    }
+  });
+</script>
+
+<script>
+  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+  import shortcuts from "../../lib/shortcuts";
+  //import { confirmationModal } from "../../lib/customEvents";
+
+  // Delete task on delete after confirmation
+  function handleDelete(uuid: string) {
+    const confirmDeleteModal = document.getElementById(
+      `delete-task-${uuid}`,
+    ) as HTMLDialogElement;
+
+    async function handleConfirmDelete(event: Event) {
+      const taskUuid = (event as CustomEvent).detail.uuid;
+      const res = await fetch("/api/tasks/" + taskUuid, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        const task = document.querySelector(
+          `[data-js=chechbox-${taskUuid}]`,
+        ) as HTMLInputElement;
+        task.closest(".item")?.remove();
+      }
+    }
+
+    function cleanUpListeners() {
+      confirmDeleteModal.removeEventListener(
+        "custom--confirm",
+        handleConfirmDelete,
+      );
+      confirmDeleteModal.removeEventListener("close", cleanUpListeners);
+    }
+
+    confirmDeleteModal.addEventListener(
+      "custom--confirm",
+      handleConfirmDelete,
+      { once: true },
+    );
+
+    confirmDeleteModal.addEventListener("close", cleanUpListeners);
+
+    confirmDeleteModal.showModal();
+  }
+  //async function handleDelete(uuid: string) {
+  //  const res = await fetch("/api/tasks/" + uuid, {
+  //    method: "DELETE",
+  //  });
+  //  if (res.ok) {
+  //    const task = document.querySelector(
+  //      `[data-js=chechbox-${uuid}]`,
+  //    ) as HTMLInputElement;
+  //    task.closest(".item")?.remove();
+  //  }
+  //}
+
+  // Trigger delete confirm on delete button click
+  const deleteButtons = document.getElementsByClassName("item__menu__item");
+  for (let i = 0; i < deleteButtons.length; i++) {
+    const button = deleteButtons[i] as HTMLButtonElement;
+    if (button.id === "delete") {
+      button.addEventListener("click", async (e) => {
+        const taskData = (e.target as HTMLButtonElement)
+          .closest(".item")
+          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+        const task = JSON.parse(taskData);
+        const uuid = task.uuid;
+        handleDelete(uuid);
+        //confirmationModal.trigger(() => handleDelete(uuid));
+      });
+    }
+  }
+
+  // Trigger delete confirm on delete backspace key
+  document.addEventListener("keydown", async function (event) {
+    if (!shouldTriggerKeyboardShortcut(event)) return;
+    if (!shortcuts.deleteTask.includes(event.key)) return;
+    const focused = document.activeElement as HTMLElement;
+    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    if (checkbox) {
+      const taskData = checkbox.dataset.task!;
+      const task = JSON.parse(taskData);
+      const uuid = task.uuid;
+      handleDelete(uuid);
+    }
+  });
+</script>
+
+<script>
+  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+  import shortcuts from "../../lib/shortcuts";
+
+  // Trigger MoveToProjectModal on move button click
+  const moveButtons = document.getElementsByClassName("item__menu__item");
+  for (let i = 0; i < moveButtons.length; i++) {
+    const button = moveButtons[i] as HTMLButtonElement;
+    if (button.id === "move") {
+      button.addEventListener("click", async (e) => {
+        const taskData = (e.target as HTMLButtonElement)
+          .closest(".item")
+          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+        const task = JSON.parse(taskData);
+        const uuid = task.uuid;
+        const modal = document.getElementById(
+          `move-task-${uuid}`,
+        ) as HTMLDialogElement;
+        modal.showModal();
+      });
+    }
+  }
+
+  // Trigger MoveToProjectModal on move m key
+  document.addEventListener("keydown", async function (event) {
+    if (!shouldTriggerKeyboardShortcut(event)) return;
+    if (!shortcuts.editProject.includes(event.key)) return;
+    const focused = document.activeElement as HTMLElement;
+    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    if (checkbox) {
+      const taskData = checkbox.dataset.task!;
+      const task = JSON.parse(taskData);
+      const uuid = task.uuid;
+      const modal = document.getElementById(
+        `move-task-${uuid}`,
+      ) as HTMLDialogElement;
+      modal.showModal();
+    }
+  });
+</script>
+
+<script>
+  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+  import shortcuts from "../../lib/shortcuts";
+
+  // Trigger EditTagsModal on tag button click
+  const tagButtons = document.getElementsByClassName("item__menu__item");
+  for (let i = 0; i < tagButtons.length; i++) {
+    const button = tagButtons[i] as HTMLButtonElement;
+    if (button.id === "tag") {
+      button.addEventListener("click", async (e) => {
+        const taskData = (e.target as HTMLButtonElement)
+          .closest(".item")
+          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+        const task = JSON.parse(taskData);
+        const uuid = task.uuid;
+        const modal = document.getElementById(
+          `tag-task-${uuid}`,
+        ) as HTMLDialogElement;
+        modal.showModal();
+      });
+    }
+  }
+
+  // Trigger EditTagsModal on tag t key
+  document.addEventListener("keydown", async function (event) {
+    if (!shouldTriggerKeyboardShortcut(event)) return;
+    if (!shortcuts.editTags.includes(event.key)) return;
+    const focused = document.activeElement as HTMLElement;
+    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    if (checkbox) {
+      const taskData = checkbox.dataset.task!;
+      const task = JSON.parse(taskData);
+      const uuid = task.uuid;
+      const modal = document.getElementById(
+        `tag-task-${uuid}`,
+      ) as HTMLDialogElement;
+      modal.showModal();
+    }
+  });
+</script>
+
+<script>
+  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+  import shortcuts from "../../lib/shortcuts";
+
+  // Trigger EditTaskByCommandModal on edit button click
+  const editButtons = document.getElementsByClassName("item__menu__item");
+  for (let i = 0; i < editButtons.length; i++) {
+    const button = editButtons[i] as HTMLButtonElement;
+    if (button.id === "edit") {
+      button.addEventListener("click", async (e) => {
+        const taskData = (e.target as HTMLButtonElement)
+          .closest(".item")
+          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+        const task = JSON.parse(taskData);
+        const uuid = task.uuid;
+        const modal = document.getElementById(
+          `edit-task-${uuid}`,
+        ) as HTMLDialogElement;
+        modal.showModal();
+      });
+    }
+  }
+
+  // Trigger EditTaskByCommandModal on edit e key
+  document.addEventListener("keyup", async function (event) {
+    if (!shouldTriggerKeyboardShortcut(event)) return;
+    if (!shortcuts.modifyTask.includes(event.key)) return;
+    const focused = document.activeElement as HTMLElement;
+    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    if (checkbox) {
+      const taskData = checkbox.dataset.task!;
+      const task = JSON.parse(taskData);
+      const uuid = task.uuid;
+      const modal = document.getElementById(
+        `edit-task-${uuid}`,
+      ) as HTMLDialogElement;
+      modal.showModal();
+    }
+  });
+</script>

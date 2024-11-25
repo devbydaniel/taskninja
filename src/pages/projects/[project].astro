@@ -1,0 +1,26 @@
+---
+import RootLayout from "../../layouts/RootLayout.astro";
+import AppLayout from "../../layouts/AppLayout.astro";
+import ContentAreaLayout from "../../layouts/ContentAreaLayout.astro";
+import TaskList from "../../components/TaskList/TaskList.astro";
+import {
+  getProjectTasks,
+  getProjects,
+  getTags,
+} from "../../lib/data/taskWarrior";
+
+const projects = await getProjects();
+const tags = await getTags();
+const { project } = Astro.params;
+const withoutProject = project === "null";
+
+const tasks = await getProjectTasks(withoutProject ? null : project!);
+---
+
+<RootLayout title="Welcome to Astro.">
+  <AppLayout projects={projects} tags={tags} currentProject={project}>
+    <ContentAreaLayout title={project!}>
+      <TaskList tasks={tasks} projects={projects} tags={tags} />
+    </ContentAreaLayout>
+  </AppLayout>
+</RootLayout>
