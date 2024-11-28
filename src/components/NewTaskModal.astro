@@ -5,13 +5,12 @@ import Input from "./Input.astro";
 import Select from "./Select.astro";
 
 interface Props {
-  id: string;
   projects: string[];
   tags: string[];
   preSelectedProject?: string;
 }
 
-const { id, projects, tags, preSelectedProject } = Astro.props;
+const { projects, tags, preSelectedProject } = Astro.props;
 const projectOptions = [
   { value: "", label: "No project" },
   ...projects.map((project) => ({
@@ -23,7 +22,7 @@ const projectOptions = [
 const tagOptions = tags.sort((a, b) => (a > b ? 1 : -1));
 ---
 
-<Modal id={id} title="Add Task">
+<Modal id={"new-task-modal"} title="Add Task">
   <form id="new-task-form__form">
     <div class="new-task-form">
       <div class="new-task-form__input">
@@ -118,6 +117,18 @@ const tagOptions = tags.sort((a, b) => (a > b ? 1 : -1));
   </style>
 
   <script>
+    // listen to trigger event and open modal
+    import { newTaskModal } from "../lib/customEvents";
+    document.addEventListener(newTaskModal.eventName, () => {
+      const modal = document.getElementById(
+        "new-task-modal",
+      ) as HTMLDialogElement;
+      modal.showModal();
+    });
+  </script>
+
+  <script>
+    // submit form
     const form = document.getElementById(
       "new-task-form__form",
     ) as HTMLFormElement;

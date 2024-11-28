@@ -95,3 +95,13 @@ const REPORTS = ["next", "ready", "list", "blocked", "blocking", "waiting"];
     margin: 1rem 0;
   }
 </style>
+
+<script>
+  import { newTaskModal } from "../lib/customEvents";
+
+  const newTaskButton = document.querySelector(".nav__new-task-button")!;
+
+  newTaskButton.addEventListener("click", () => {
+    newTaskModal.trigger();
+  });
+</script>

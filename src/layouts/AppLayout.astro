@@ -26,7 +26,6 @@ const { projects, tags, currentProject } = Astro.props;
     <Button size="md"><Icon name="mdi:plus" /> <span>Add Task</span></Button>
   </div>
   <NewTaskModal
-    id="app__new-task-modal"
     projects={projects}
     tags={tags}
     preSelectedProject={currentProject}
@@ -119,23 +118,22 @@ const { projects, tags, currentProject } = Astro.props;
 </script>
 
 <script>
+  import { newTaskModal } from "../lib/customEvents";
+  import shortcuts from "../lib/shortcuts";
   import shouldTriggerKeyboardShortcut from "../lib/util/shouldTriggerKeyboardShortcut";
-  const newTaskModal = document.getElementById(
-    "app__new-task-modal",
-  ) as HTMLDialogElement;
 
   const newTaskButton = document.querySelector(".app__new-task-button button");
 
   // Open the modal when the new task button is clicked
   newTaskButton?.addEventListener("click", () => {
-    newTaskModal.showModal();
+    newTaskModal.trigger();
   });
 
   // Open the modal when 'n' is pressed
   document.addEventListener("keyup", (event) => {
     if (!shouldTriggerKeyboardShortcut(event)) return;
-    if (event.key === "n") {
-      newTaskModal.showModal();
+    if (shortcuts.addTask.includes(event.key)) {
+      newTaskModal.trigger();
     }
   });
 </script>

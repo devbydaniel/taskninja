@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "docker:push": "docker buildx build --platform linux/amd64,linux/arm64 -t wh00pwh00p12369/taskninja --push ."
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

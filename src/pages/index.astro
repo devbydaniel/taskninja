@@ -1,10 +1,5 @@
 ---
-import RootLayout from "../layouts/RootLayout.astro";
-import AppLayout from "../layouts/AppLayout.astro";
+// redirect to /reports/next
+Astro.response.headers.set("Location", "/reports/next");
+Astro.response.status = 302;
 ---
-
-<RootLayout title="Welcome to Astro.">
-  <AppLayout>
-    <Fragment slot="default">This is the main area</Fragment>
-  </AppLayout>
-</RootLayout>

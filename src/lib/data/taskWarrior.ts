@@ -1,6 +1,8 @@
 import exec from "../util/exec";
 import { TaskStatus, type Task, type TaskCreateFields } from "../models/types";
 
+const COMMAND = "task rc.verbose=no";
+
 const builtInTags = [
   "ACTIVE",
   "ANNOTATED",
@@ -41,17 +43,17 @@ const builtInTags = [
 ];
 
 export async function getProjects(): Promise<string[]> {
-  const { stdout, stderr } = await exec("task _projects");
+  const { stdout, stderr } = await exec(COMMAND + " _projects");
   if (stderr) {
     console.error(stderr);
-    //throw new Error(stderr);
+    throw new Error(stderr);
   }
   const projects = stdout.split("\n").filter(Boolean);
   return projects;
 }
 
 export async function getTags(): Promise<string[]> {
-  const { stdout, stderr } = await exec("task _tags");
+  const { stdout, stderr } = await exec(COMMAND + " _tags");
   if (stderr) {
     console.error(stderr);
     throw new Error(stderr);
@@ -64,7 +66,9 @@ export async function getTags(): Promise<string[]> {
 }
 
 export async function getProjectTasks(project: string | null): Promise<Task[]> {
-  const { stdout, stderr } = await exec(`task project:${project || ""} export`);
+  const { stdout, stderr } = await exec(
+    `${COMMAND} project:${project || ""} export`,
+  );
   if (stderr) {
     console.error(stderr);
     throw new Error(stderr);
@@ -76,7 +80,7 @@ export async function getProjectTasks(project: string | null): Promise<Task[]> {
 }
 
 export async function getReportTasks(reportName: string): Promise<Task[]> {
-  const { stdout, stderr } = await exec(`task export ${reportName}`);
+  const { stdout, stderr } = await exec(`${COMMAND} export ${reportName}`);
   if (stderr) {
     console.error(stderr);
     throw new Error(stderr);
@@ -92,7 +96,7 @@ export async function createTask({
   due,
 }: TaskCreateFields): Promise<void> {
   const { stderr } = await exec(
-    `task add ${description} ${project ? `project:${project}` : ""} ${tags ? `${tags.map((tag) => `+${tag}`).join(" ")}` : ""} ${scheduled ? `scheduled:${scheduled}` : ""} ${due ? `due:${due}` : ""}`,
+    `${COMMAND} add ${description} ${project ? `project:${project}` : ""} ${tags ? `${tags.map((tag) => `+${tag}`).join(" ")}` : ""} ${scheduled ? `scheduled:${scheduled}` : ""} ${due ? `due:${due}` : ""}`,
   );
   if (stderr) {
     if (stderr.includes("has changed.")) return;
@@ -106,9 +110,12 @@ export async function updateTask(
   key: string,
   newValue: "pending" | "completed",
 ): Promise<void> {
-  const { stderr } = await exec(`task modify ${taskUuid} ${key}:${newValue}`);
-  if (stderr && !stderr.includes("You have more urgent tasks")) {
+  const { stderr } = await exec(
+    `${COMMAND} modify ${taskUuid} ${key}:${newValue}`,
+  );
+  if (stderr) {
     console.error("stderr:", stderr);
+    throw new Error(stderr);
   }
 }
 
@@ -116,15 +123,17 @@ export async function updateTaskWithCommand(
   taskUuid: string,
   command: string,
 ): Promise<void> {
-  const { stderr } = await exec(`task ${taskUuid} modify ${command}`);
+  const { stderr } = await exec(`${command} ${taskUuid} modify ${command}`);
   if (stderr) {
     console.error("stderr:", stderr);
+    throw new Error(stderr);
   }
 }
 
 export async function deleteTask(taskUuid: string): Promise<void> {
-  const { stderr } = await exec(`task modify ${taskUuid} status:deleted`);
+  const { stderr } = await exec(`${COMMAND} modify ${taskUuid} status:deleted`);
   if (stderr) {
     console.error("stderr:", stderr);
+    throw new Error(stderr);
   }
 }
