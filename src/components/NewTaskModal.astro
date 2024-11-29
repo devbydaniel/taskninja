@@ -39,29 +39,39 @@ const tagOptions = tags.sort((a, b) => (a > b ? 1 : -1));
           class="new-task-form__input__input"
         />
       </div>
-      <div class="new-task-form__input">
-        <label for="project" class="new-task-form__input__label">Project</label>
-        <Select
-          id="project"
-          name="project"
-          class="new-task-form__input__input"
-          options={projectOptions}
-          preSelected={preSelectedProject}
-        />
-      </div>
-      <div class="new-task-form__input">
-        <label for="tags" class="new-task-form__input__label">Tags</label>
-        <ul id="tags" tabindex="-1">
-          {
-            tagOptions.map((tag) => (
-              <li class="new-task-form__input__input">
-                <Input id={tag} type="checkbox" name={`tag-${tag}`} />
-                <label for={tag}>{tag}</label>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      {
+        projectOptions.length > 1 && (
+          <div class="new-task-form__input">
+            <label for="project" class="new-task-form__input__label">
+              Project
+            </label>
+            <Select
+              id="project"
+              name="project"
+              class="new-task-form__input__input"
+              options={projectOptions}
+              preSelected={preSelectedProject}
+            />
+          </div>
+        )
+      }
+      {
+        tagOptions.length > 0 && (
+          <div class="new-task-form__input">
+            <label for="tags" class="new-task-form__input__label">
+              Tags
+            </label>
+            <ul id="tags" tabindex="-1">
+              {tagOptions.map((tag) => (
+                <li class="new-task-form__input__input">
+                  <Input id={tag} type="checkbox" name={`tag-${tag}`} />
+                  <label for={tag}>{tag}</label>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
       <div class="new-task-form__input">
         <label for="scheduled" class="new-task-form__input__label"
           >Scheduled</label

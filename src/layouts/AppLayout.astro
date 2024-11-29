@@ -20,7 +20,7 @@ const { projects, tags, currentProject } = Astro.props;
   </nav>
   <main class="app__main"><slot /></main>
   <div class="app__nav-toggle" data-js="nav-toggle">
-    <Button size="md" variant="ghost"><Icon name="mdi:dock-left" /></Button>
+    <Button size="md" variant="muted"><Icon name="mdi:dock-left" /></Button>
   </div>
   <div class="app__new-task-button">
     <Button size="md"><Icon name="mdi:plus" /> <span>Add Task</span></Button>
@@ -71,7 +71,7 @@ const { projects, tags, currentProject } = Astro.props;
     position: fixed;
     bottom: 1rem;
     right: 1rem;
-    z-index: 1000;
+    z-index: 100;
   }
 
   /* Tablet */

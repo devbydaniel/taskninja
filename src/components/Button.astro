@@ -4,7 +4,7 @@ interface Props {
   class?: string;
   size?: "md" | "sm";
   type?: "button" | "submit" | "reset";
-  variant?: "solid" | "outline" | "ghost";
+  variant?: "solid" | "muted" | "outline" | "ghost";
   square?: boolean;
   block?: boolean;
 }
@@ -29,6 +29,7 @@ const {
       "button--sm": size === "sm",
       "button--md": size === "md",
       "button--solid": variant === "solid",
+      "button--muted": variant === "muted",
       "button--outline": variant === "outline",
       "button--ghost": variant === "ghost",
       "button--square": square,
@@ -83,6 +84,20 @@ const {
 
   .button--solid:active {
     background: var(--color-primary-lighter);
+  }
+
+  .button--muted {
+    border: none;
+    background: var(--background-raised);
+    color: var(--color-text-muted);
+  }
+
+  .button--muted:hover {
+    background: var(--background-focus);
+  }
+
+  .button--muted:active {
+    background: var(--background-clicked);
   }
 
   .button--outline {

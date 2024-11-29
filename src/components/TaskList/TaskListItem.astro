@@ -88,13 +88,13 @@ function displayDate(date: string) {
   </div>
   <div class:list={["item__menu"]}>
     <button class="item__menu__item" id="edit"
-      ><span>Edit</span><kbd>e</kbd></button
+      ><span>Modify</span><kbd>m</kbd></button
     >
     <button class="item__menu__item" id="move"
-      ><span>Move</span><kbd>m</kbd></button
+      ><span>Move to project</span><kbd>p</kbd></button
     >
     <button class="item__menu__item" id="tag"
-      ><span>Tag</span><kbd>t</kbd></button
+      ><span>Edit tags</span><kbd>t</kbd></button
     >
     <button class="item__menu__item" id="delete">
       <span>Delete</span>
@@ -222,18 +222,22 @@ function displayDate(date: string) {
   }
 
   .item__menu--open {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
   }
 
   .item__menu__item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--gap-md);
+    gap: var(--gap-lg);
     width: 100%;
     border: none;
     background: none;
-    padding: var(--gap-sm);
+    padding: var(--gap-sm) var(--gap-md);
+    font-size: var(--font-size);
+    font-family: var(--font-family);
     cursor: pointer;
     text-align: left;
     border-radius: var(--border-radius);
