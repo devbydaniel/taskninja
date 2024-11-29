@@ -47,3 +47,11 @@ new [description:"Test" entry:"1732877798" modified:"1732882584" status:"pending
 time 1732882625
 new [description:"another task" entry:"1732882625" modified:"1732882625" status:"pending" uuid:"9894c340-5f62-4ba6-9b53-9cd8e75024b6"]
 ---
+time 1732883101
+old [description:"hello" entry:"1732874361" modified:"1732882583" project:"nosti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+new [description:"hello" end:"1732883101" entry:"1732874361" modified:"1732883101" project:"nosti" status:"completed" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+---
+time 1732883101
+old [description:"hello" end:"1732883101" entry:"1732874361" modified:"1732883101" project:"nosti" status:"completed" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+new [description:"hello" entry:"1732874361" modified:"1732883101" project:"nosti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+---

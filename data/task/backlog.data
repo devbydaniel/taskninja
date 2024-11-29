@@ -11,3 +11,5 @@
 {"description":"Test","end":"20241129T121624Z","entry":"20241129T105638Z","modified":"20241129T121624Z","status":"completed","uuid":"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699","tags":["tag1"]}
 {"description":"Test","entry":"20241129T105638Z","modified":"20241129T121624Z","status":"pending","uuid":"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699","tags":["tag1"]}
 {"description":"another task","entry":"20241129T121705Z","modified":"20241129T121705Z","status":"pending","uuid":"9894c340-5f62-4ba6-9b53-9cd8e75024b6"}
+{"description":"hello","end":"20241129T122501Z","entry":"20241129T095921Z","modified":"20241129T122501Z","project":"nosti","status":"completed","uuid":"f7726897-d656-4744-8699-02d6dde75a97","tags":["tag1"]}
+{"description":"hello","entry":"20241129T095921Z","modified":"20241129T122501Z","project":"nosti","status":"pending","uuid":"f7726897-d656-4744-8699-02d6dde75a97","tags":["tag1"]}

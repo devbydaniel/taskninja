@@ -28,6 +28,7 @@ function displayDate(date: string) {
   <div class="item__checkbox">
     <input
       id={`chechbox-${task.uuid}`}
+      class="item__checkbox__checkbox"
       type="checkbox"
       data-task={JSON.stringify(task)}
       data-js={`chechbox-${task.uuid}`}
@@ -251,7 +252,9 @@ function displayDate(date: string) {
 
 <script>
   // Set task to completed or pending on checkbox change
-  const checkboxes = document.getElementsByClassName("item__checkbox");
+  const checkboxes = document.getElementsByClassName(
+    "item__checkbox__checkbox",
+  );
   window.onload = () => {
     // avoid task after completed task to be checked after page refresh
     for (let i = 0; i < checkboxes.length; i++) {
@@ -382,7 +385,8 @@ function displayDate(date: string) {
       button.addEventListener("click", async (e) => {
         const taskData = (e.target as HTMLButtonElement)
           .closest(".item")
-          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+          ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
+          .dataset.task!;
         const task = JSON.parse(taskData);
         const uuid = task.uuid;
         triggerDelete(uuid);
@@ -395,7 +399,9 @@ function displayDate(date: string) {
     if (!shouldTriggerKeyboardShortcut(event)) return;
     if (!shortcuts.deleteTask.includes(event.key)) return;
     const focused = document.activeElement as HTMLElement;
-    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    const checkbox = focused.querySelector<HTMLInputElement>(
+      ".item__checkbox__checkbox",
+    );
     if (checkbox) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
@@ -418,7 +424,8 @@ function displayDate(date: string) {
       button.addEventListener("click", async (e) => {
         const taskData = (e.target as HTMLButtonElement)
           .closest(".item")
-          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+          ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
+          .dataset.task!;
         const task = JSON.parse(taskData);
         moveToProjectModal.trigger({ task });
       });
@@ -430,7 +437,9 @@ function displayDate(date: string) {
     if (!shouldTriggerKeyboardShortcut(event)) return;
     if (!shortcuts.editProject.includes(event.key)) return;
     const focused = document.activeElement as HTMLElement;
-    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    const checkbox = focused.querySelector<HTMLInputElement>(
+      ".item__checkbox__checkbox",
+    );
     if (checkbox) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
@@ -452,7 +461,8 @@ function displayDate(date: string) {
       button.addEventListener("click", async (e) => {
         const taskData = (e.target as HTMLButtonElement)
           .closest(".item")
-          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+          ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
+          .dataset.task!;
         const task = JSON.parse(taskData);
         editTagsModal.trigger({ task });
       });
@@ -464,7 +474,9 @@ function displayDate(date: string) {
     if (!shouldTriggerKeyboardShortcut(event)) return;
     if (!shortcuts.editTags.includes(event.key)) return;
     const focused = document.activeElement as HTMLElement;
-    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    const checkbox = focused.querySelector<HTMLInputElement>(
+      ".item__checkbox__checkbox",
+    );
     if (checkbox) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
@@ -486,7 +498,8 @@ function displayDate(date: string) {
       button.addEventListener("click", async (e) => {
         const taskData = (e.target as HTMLButtonElement)
           .closest(".item")
-          ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
+          ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
+          .dataset.task!;
         const task = JSON.parse(taskData);
         editTaskModal.trigger({ task });
       });
@@ -498,7 +511,9 @@ function displayDate(date: string) {
     if (!shouldTriggerKeyboardShortcut(event)) return;
     if (!shortcuts.modifyTask.includes(event.key)) return;
     const focused = document.activeElement as HTMLElement;
-    const checkbox = focused.querySelector<HTMLInputElement>(".item__checkbox");
+    const checkbox = focused.querySelector<HTMLInputElement>(
+      ".item__checkbox__checkbox",
+    );
     if (checkbox) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
