@@ -123,7 +123,7 @@ export async function updateTaskWithCommand(
   taskUuid: string,
   command: string,
 ): Promise<void> {
-  const { stderr } = await exec(`${command} ${taskUuid} modify ${command}`);
+  const { stderr } = await exec(`${COMMAND} ${taskUuid} modify ${command}`);
   if (stderr) {
     console.error("stderr:", stderr);
     throw new Error(stderr);

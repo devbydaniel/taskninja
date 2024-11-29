@@ -98,7 +98,7 @@ function displayDate(date: string) {
     >
     <button class="item__menu__item" id="delete">
       <span>Delete</span>
-      <Icon name="mdi:backspace" />
+      <kbd>⌫</kbd>
     </button>
   </div>
 </div>
@@ -238,6 +238,7 @@ function displayDate(date: string) {
     padding: var(--gap-sm) var(--gap-md);
     font-size: var(--font-size);
     font-family: var(--font-family);
+    color: var(--color-text);
     cursor: pointer;
     text-align: left;
     border-radius: var(--border-radius);
@@ -250,6 +251,12 @@ function displayDate(date: string) {
 
   .item__menu__item:active {
     background: var(--background-clicked);
+  }
+
+  kbd {
+    padding: var(--gap-xs) var(--gap-sm);
+    border-radius: var(--border-radius);
+    background: var(--background-focus);
   }
 </style>
 
