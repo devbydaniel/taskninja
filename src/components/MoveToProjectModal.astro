@@ -83,6 +83,7 @@ const { projects } = Astro.props;
   const taskIdInput = modal.querySelector(
     "input[name=task-id]",
   ) as HTMLInputElement;
+  const cancelButton = modal.querySelector("#cancel") as HTMLButtonElement;
 
   // Listen to the trigger event, open the modal, add content
   document.addEventListener(moveToProjectModal.eventName, (event) => {
@@ -122,5 +123,10 @@ const { projects } = Astro.props;
       modal.close();
       location.reload();
     }
+  });
+
+  // Close the modal when the cancel button is clicked
+  cancelButton.addEventListener("click", () => {
+    modal.close();
   });
 </script>
