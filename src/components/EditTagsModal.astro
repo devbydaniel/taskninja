@@ -80,6 +80,7 @@ const { tags } = Astro.props;
   const modal = document.getElementById(
     "edit-tags-modal",
   )! as HTMLDialogElement;
+  const modalTitle = modal.querySelector(".modal__title") as HTMLHeadingElement;
   const cancelButton = modal.querySelector("#cancel") as HTMLButtonElement;
   const form = modal.querySelector(".edit-tags-form__form") as HTMLFormElement;
   const taskIdInput = modal.querySelector(
@@ -90,6 +91,7 @@ const { tags } = Astro.props;
   document.addEventListener(editTagsModal.eventName, (event) => {
     const customEvent = event as CustomEvent;
     const task = customEvent.detail.task as Task;
+    modalTitle.textContent = task.description;
     taskIdInput.value = task.id.toString();
     task.tags?.forEach((tag) => {
       const checkbox = modal.querySelector(

@@ -72,6 +72,7 @@ const { projects } = Astro.props;
   const modal = document.getElementById(
     "move-to-project-modal",
   ) as HTMLDialogElement;
+  const modalTitle = modal.querySelector(".modal__title") as HTMLHeadingElement;
   const form = modal.querySelector(
     ".move-to-project-form__form",
   ) as HTMLFormElement;
@@ -90,6 +91,7 @@ const { projects } = Astro.props;
     const customEvent = event as CustomEvent;
     const task = customEvent.detail.task as Task;
 
+    modalTitle.textContent = task.description;
     taskIdInput.value = task.uuid;
 
     const projectOptions = [
