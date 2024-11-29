@@ -1,18 +1,15 @@
 ---
-import Modal from "../Modal.astro";
-import Button from "../Button.astro";
-import { type Task } from "../../lib/models/types";
+import Modal from "./Modal.astro";
+import Button from "./Button.astro";
 
 interface Props {
-  id: string;
-  task: Task;
   tags?: string[];
 }
 
-const { id, task, tags } = Astro.props;
+const { tags } = Astro.props;
 ---
 
-<Modal id={id} title={task.description}>
+<Modal id={"edit-tags-modal"}>
   <form class="edit-tags-form__form">
     <div class="edit-tags-form">
       <div class="edit-tags-form__input">
@@ -21,19 +18,14 @@ const { id, task, tags } = Astro.props;
           {
             tags?.map((tag) => (
               <li class="edit-tags-form__input__input">
-                <input
-                  id={tag}
-                  type="checkbox"
-                  name={`tag-${tag}`}
-                  checked={task.tags?.includes(tag)}
-                />
+                <input id={tag} type="checkbox" name={`tag-${tag}`} />
                 <label for={tag}>{tag}</label>
               </li>
             ))
           }
         </ul>
       </div>
-      <input type="hidden" name="task-id" value={task.uuid} />
+      <input type="hidden" name="task-id" />
       <div class="edit-tags-form__buttons">
         <Button
           variant="ghost"
@@ -81,17 +73,34 @@ const { id, task, tags } = Astro.props;
   }
 </style>
 
-<script define:vars={{ id }} is:inline>
-  const modal = document.getElementById(id);
-  const cancelButton = modal.querySelector("#cancel");
+<script>
+  import { editTagsModal } from "../lib/customEvents";
+  import { type Task } from "../lib/models/types";
 
-  // Close the modal when the cancel button is clicked
-  cancelButton.addEventListener("click", () => {
-    modal.close();
+  const modal = document.getElementById(
+    "edit-tags-modal",
+  )! as HTMLDialogElement;
+  const cancelButton = modal.querySelector("#cancel") as HTMLButtonElement;
+  const form = modal.querySelector(".edit-tags-form__form") as HTMLFormElement;
+  const taskIdInput = modal.querySelector(
+    "input[name=task-id]",
+  ) as HTMLInputElement;
+
+  // Listen to the trigger event, open the modal, add content
+  document.addEventListener(editTagsModal.eventName, (event) => {
+    const customEvent = event as CustomEvent;
+    const task = customEvent.detail.task as Task;
+    taskIdInput.value = task.id.toString();
+    task.tags?.forEach((tag) => {
+      const checkbox = modal.querySelector(
+        `input[name=tag-${tag}]`,
+      ) as HTMLInputElement;
+      checkbox.checked = true;
+    });
+    modal.showModal();
   });
 
   // Edit tags when the save button is clicked
-  const form = modal.querySelector("form");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(form);
@@ -112,5 +121,10 @@ const { id, task, tags } = Astro.props;
       modal.close();
       location.reload();
     }
+  });
+
+  // Close the modal when the cancel button is clicked
+  cancelButton.addEventListener("click", () => {
+    modal.close();
   });
 </script>

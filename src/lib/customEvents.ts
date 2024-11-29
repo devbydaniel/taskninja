@@ -48,3 +48,35 @@ export const editTaskModal: CustomEventInfo = {
     );
   },
 };
+
+type MoveToProjectModalTriggerProps = {
+  task: Task;
+};
+export const moveToProjectModal: CustomEventInfo = {
+  eventName: "custom:move-to-project-modal",
+  trigger: ({ task }: MoveToProjectModalTriggerProps) => {
+    document.dispatchEvent(
+      new CustomEvent(moveToProjectModal.eventName, {
+        detail: {
+          task,
+        },
+      }),
+    );
+  },
+};
+
+type EditTagsModalTriggerProps = {
+  task: Task;
+};
+export const editTagsModal: CustomEventInfo = {
+  eventName: "custom:edit-tags-modal",
+  trigger: ({ task }: EditTagsModalTriggerProps) => {
+    document.dispatchEvent(
+      new CustomEvent(editTagsModal.eventName, {
+        detail: {
+          task,
+        },
+      }),
+    );
+  },
+};

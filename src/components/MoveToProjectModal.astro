@@ -1,23 +1,16 @@
 ---
-import Modal from "../Modal.astro";
-import Select from "../Select.astro";
-import Button from "../Button.astro";
-import { type Task } from "../../lib/models/types";
+import Modal from "./Modal.astro";
+import Select from "./Select.astro";
+import Button from "./Button.astro";
 
 interface Props {
-  id: string;
-  task: Task;
   projects: string[];
 }
 
-const { id, task, projects } = Astro.props;
-const projectOptions = [
-  { value: "", label: "No project" },
-  ...projects.map((project) => ({ value: project, label: project })),
-];
+const { projects } = Astro.props;
 ---
 
-<Modal id={id} title={task.description}>
+<Modal id={"move-to-project-modal"}>
   <form class="move-to-project-form__form">
     <div class="move-to-project-form">
       <div class="move-to-project-form__input">
@@ -26,13 +19,13 @@ const projectOptions = [
         >
         <Select
           autofocus
-          preSelected={task.project}
           name="project"
           class="move-to-project-form__input__input"
-          options={projectOptions}
+          options={[]}
         />
       </div>
-      <input type="hidden" name="task-id" value={task.uuid} />
+      <input type="hidden" name="task-id" />
+      <input type="hidden" name="projects" value={projects.join(";")} />
       <div class="move-to-project-form__buttons">
         <Button
           variant="ghost"
@@ -71,17 +64,47 @@ const projectOptions = [
   }
 </style>
 
-<script define:vars={{ id }} is:inline>
-  const modal = document.getElementById(id);
-  const cancelButton = modal.querySelector("#cancel");
+<script>
+  import { moveToProjectModal } from "../lib/customEvents";
+  import addSelectOptions from "../lib/util/addSelectOptions";
+  import { type Task } from "../lib/models/types";
 
-  // Close the modal when the cancel button is clicked
-  cancelButton.addEventListener("click", () => {
-    modal.close();
+  const modal = document.getElementById(
+    "move-to-project-modal",
+  ) as HTMLDialogElement;
+  const form = modal.querySelector(
+    ".move-to-project-form__form",
+  ) as HTMLFormElement;
+  const select = modal.querySelector("select") as HTMLSelectElement;
+  const projectsInput = modal.querySelector(
+    "input[name=projects]",
+  ) as HTMLInputElement;
+  const projects = projectsInput.value.split(";");
+  const taskIdInput = modal.querySelector(
+    "input[name=task-id]",
+  ) as HTMLInputElement;
+
+  // Listen to the trigger event, open the modal, add content
+  document.addEventListener(moveToProjectModal.eventName, (event) => {
+    const customEvent = event as CustomEvent;
+    const task = customEvent.detail.task as Task;
+
+    taskIdInput.value = task.uuid;
+
+    const projectOptions = [
+      { value: "", text: "No project" },
+      ...projects.map((project) => ({
+        value: project,
+        text: project,
+        selected: task.project === project,
+      })),
+    ];
+    addSelectOptions(select, projectOptions);
+
+    modal.showModal();
   });
 
-  // Move task to project on submit
-  const form = modal.querySelector("form");
+  // Edit project when the submit button is clicked
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(form);

@@ -1,19 +1,14 @@
 ---
 import { Icon } from "astro-icon/components";
 import Button from "../Button.astro";
-import MoveToProjectModal from "./MoveToProjectModal.astro";
-import EditTagsModal from "./EditTagsModal.astro";
-import EditTaskByCommandModal from "./EditTaskByCommandModal.astro";
 import { type Task } from "../../lib/models/types";
 import { parseDate, formatDate } from "../../lib/util/dates";
 
 interface Props {
   task: Task;
-  projects: string[];
-  tags: string[];
 }
 
-const { task, projects, tags } = Astro.props;
+const { task } = Astro.props;
 const isOverdue = task.due && parseDate(task.due) < new Date();
 const isPastScheduled =
   task.scheduled && parseDate(task.scheduled) < new Date();
@@ -102,16 +97,6 @@ function displayDate(date: string) {
     </button>
   </div>
 </div>
-
-<MoveToProjectModal
-  id={`move-task-${task.uuid}`}
-  task={task}
-  projects={projects}
-/>
-
-<EditTagsModal id={`tag-task-${task.uuid}`} task={task} tags={tags} />
-
-<EditTaskByCommandModal id={`edit-task-${task.uuid}`} task={task} />
 
 <style>
   .item {
@@ -419,6 +404,7 @@ function displayDate(date: string) {
 <script>
   import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
   import shortcuts from "../../lib/shortcuts";
+  import { moveToProjectModal } from "../../lib/customEvents";
 
   // Trigger MoveToProjectModal on move button click
   const moveButtons = document.getElementsByClassName("item__menu__item");
@@ -430,11 +416,7 @@ function displayDate(date: string) {
           .closest(".item")
           ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
         const task = JSON.parse(taskData);
-        const uuid = task.uuid;
-        const modal = document.getElementById(
-          `move-task-${uuid}`,
-        ) as HTMLDialogElement;
-        modal.showModal();
+        moveToProjectModal.trigger({ task });
       });
     }
   }
@@ -448,11 +430,7 @@ function displayDate(date: string) {
     if (checkbox) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
-      const uuid = task.uuid;
-      const modal = document.getElementById(
-        `move-task-${uuid}`,
-      ) as HTMLDialogElement;
-      modal.showModal();
+      moveToProjectModal.trigger({ task });
     }
   });
 </script>
@@ -460,6 +438,7 @@ function displayDate(date: string) {
 <script>
   import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
   import shortcuts from "../../lib/shortcuts";
+  import { editTagsModal } from "../../lib/customEvents";
 
   // Trigger EditTagsModal on tag button click
   const tagButtons = document.getElementsByClassName("item__menu__item");
@@ -471,11 +450,7 @@ function displayDate(date: string) {
           .closest(".item")
           ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
         const task = JSON.parse(taskData);
-        const uuid = task.uuid;
-        const modal = document.getElementById(
-          `tag-task-${uuid}`,
-        ) as HTMLDialogElement;
-        modal.showModal();
+        editTagsModal.trigger({ task });
       });
     }
   }
@@ -489,11 +464,7 @@ function displayDate(date: string) {
     if (checkbox) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
-      const uuid = task.uuid;
-      const modal = document.getElementById(
-        `tag-task-${uuid}`,
-      ) as HTMLDialogElement;
-      modal.showModal();
+      editTagsModal.trigger({ task });
     }
   });
 </script>
@@ -501,6 +472,7 @@ function displayDate(date: string) {
 <script>
   import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
   import shortcuts from "../../lib/shortcuts";
+  import { editTaskModal } from "../../lib/customEvents";
 
   // Trigger EditTaskByCommandModal on edit button click
   const editButtons = document.getElementsByClassName("item__menu__item");
@@ -512,11 +484,7 @@ function displayDate(date: string) {
           .closest(".item")
           ?.querySelector<HTMLInputElement>(".item__checkbox")!.dataset.task!;
         const task = JSON.parse(taskData);
-        const uuid = task.uuid;
-        const modal = document.getElementById(
-          `edit-task-${uuid}`,
-        ) as HTMLDialogElement;
-        modal.showModal();
+        editTaskModal.trigger({ task });
       });
     }
   }
@@ -530,11 +498,7 @@ function displayDate(date: string) {
     if (checkbox) {
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
-      const uuid = task.uuid;
-      const modal = document.getElementById(
-        `edit-task-${uuid}`,
-      ) as HTMLDialogElement;
-      modal.showModal();
+      editTaskModal.trigger({ task });
     }
   });
 </script>

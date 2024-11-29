@@ -20,7 +20,7 @@ const tasks = await getProjectTasks(withoutProject ? null : project!);
 <RootLayout title="Welcome to Astro.">
   <AppLayout projects={projects} tags={tags} currentProject={project}>
     <ContentAreaLayout title={project!}>
-      <TaskList tasks={tasks} projects={projects} tags={tags} />
+      <TaskList tasks={tasks} />
     </ContentAreaLayout>
   </AppLayout>
 </RootLayout>

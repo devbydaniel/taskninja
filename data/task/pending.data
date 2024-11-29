@@ -1,2 +1,2 @@
-[description:"hello" entry:"1732874361" modified:"1732878102" project:"nosti" status:"pending" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
-[description:"Test" entry:"1732877798" modified:"1732877798" project:"nasti" status:"pending" uuid:"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699"]
+[description:"hello" entry:"1732874361" modified:"1732881905" project:"nosti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+[description:"Test" entry:"1732877798" modified:"1732882500" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699"]

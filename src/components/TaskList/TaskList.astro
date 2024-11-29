@@ -4,18 +4,16 @@ import TaskListItem from "./TaskListItem.astro";
 
 interface Props {
   tasks: Task[];
-  projects: string[];
-  tags: string[];
 }
 
-const { tasks, projects, tags } = Astro.props;
+const { tasks } = Astro.props;
 ---
 
 <ul class="task-list">
   {
     tasks.map((task, i) => (
       <li class="task-list__item" tabindex={i + 1}>
-        <TaskListItem projects={projects} tags={tags} task={task} />
+        <TaskListItem task={task} />
       </li>
     ))
   }

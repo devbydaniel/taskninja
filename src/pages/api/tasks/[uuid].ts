@@ -17,7 +17,8 @@ export const PATCH: APIRoute = async ({ request, params }) => {
       { status: 400 },
     );
   }
-  if ((!key || !newValue) && !command) {
+  if (!key && !command) {
+    // value can be empty string
     return new Response(
       JSON.stringify({
         message: "Missing key and newValue or command",
@@ -47,7 +48,7 @@ export const PATCH: APIRoute = async ({ request, params }) => {
     );
   }
   try {
-    await updateTask(uuid, key, newValue);
+    await updateTask(uuid, key, newValue || "");
     return new Response(null, { status: 200 });
   } catch (error) {
     console.error(error);

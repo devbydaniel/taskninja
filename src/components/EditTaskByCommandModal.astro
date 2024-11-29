@@ -1,18 +1,10 @@
 ---
-import Modal from "../Modal.astro";
-import Button from "../Button.astro";
-import Input from "../Input.astro";
-import { type Task } from "../../lib/models/types";
-
-interface Props {
-  id: string;
-  task: Task;
-}
-
-const { id, task } = Astro.props;
+import Modal from "./Modal.astro";
+import Button from "./Button.astro";
+import Input from "./Input.astro";
 ---
 
-<Modal id={id} title={task.description}>
+<Modal id={"edit-task-by-command-modal"}>
   <form class="edit-task-form__form">
     <div class="edit-task-form">
       <div class="edit-task-form__input">
@@ -27,7 +19,7 @@ const { id, task } = Astro.props;
           class="edit-task-form__input__input"
         />
       </div>
-      <input type="hidden" name="task-id" value={task.uuid} />
+      <input type="hidden" name="task-id" />
       <div class="edit-task-form__buttons">
         <Button
           variant="ghost"
@@ -62,17 +54,38 @@ const { id, task } = Astro.props;
   }
 </style>
 
-<script define:vars={{ id }} is:inline>
-  const modal = document.getElementById(id);
-  const cancelButton = modal.querySelector("#cancel");
+<script>
+  import { editTaskModal } from "../lib/customEvents";
+  import { type Task } from "../lib/models/types";
 
-  // Close the modal when the cancel button is clicked
-  cancelButton.addEventListener("click", () => {
-    modal.close();
+  const modal = document.getElementById(
+    "edit-task-by-command-modal",
+  )! as HTMLDialogElement;
+
+  const modalTitle = modal.querySelector(
+    ".modal__title",
+  )! as HTMLHeadingElement;
+  const form = modal.querySelector(".edit-task-form__form") as HTMLFormElement;
+  const taskIdInput = modal.querySelector(
+    "input[name=task-id]",
+  )! as HTMLInputElement;
+  const commandInput = modal.querySelector(
+    "input[name=command]",
+  )! as HTMLInputElement;
+  const cancelButton = modal.querySelector("#cancel")! as HTMLButtonElement;
+
+  // Listen to the trigger event, open the modal, add content & listeners
+  document.addEventListener(editTaskModal.eventName, (event) => {
+    const customEvent = event as CustomEvent;
+    const task = customEvent.detail.task as Task;
+
+    modalTitle.textContent = task.description;
+    taskIdInput.value = task.uuid;
+    modal.showModal();
+    commandInput.focus();
   });
 
   // Execute command when save button is clicked
-  const form = modal.querySelector("form");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const formData = new FormData(form);
@@ -94,5 +107,11 @@ const { id, task } = Astro.props;
       modal.close();
       location.reload();
     }
+  });
+
+  // Close the modal when the cancel button is clicked
+  cancelButton.addEventListener("click", () => {
+    form.reset();
+    modal.close();
   });
 </script>

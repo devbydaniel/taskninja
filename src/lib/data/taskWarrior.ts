@@ -108,7 +108,7 @@ export async function createTask({
 export async function updateTask(
   taskUuid: string,
   key: string,
-  newValue: "pending" | "completed",
+  newValue: string,
 ): Promise<void> {
   const { stderr } = await exec(
     `${COMMAND} modify ${taskUuid} ${key}:${newValue}`,

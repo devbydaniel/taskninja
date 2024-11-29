@@ -4,6 +4,9 @@ import Nav from "../components/Nav.astro";
 import Button from "../components/Button.astro";
 import NewTaskModal from "../components/NewTaskModal.astro";
 import ConfirmationModal from "../components/ConfirmationModal.astro";
+import EditTaskByCommandModal from "../components/EditTaskByCommandModal.astro";
+import MoveToProjectModal from "../components/MoveToProjectModal.astro";
+import EditTagsModal from "../components/EditTagsModal.astro";
 
 interface Props {
   projects: string[];
@@ -31,6 +34,9 @@ const { projects, tags, currentProject } = Astro.props;
     preSelectedProject={currentProject}
   />
   <ConfirmationModal />
+  <EditTaskByCommandModal />
+  <MoveToProjectModal projects={projects} />
+  <EditTagsModal tags={tags} />
 </div>
 
 <style>
