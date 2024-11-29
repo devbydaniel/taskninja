@@ -25,13 +25,14 @@ function displayDate(date: string) {
 ---
 
 <div class="item">
-  <input
-    id={`chechbox-${task.uuid}`}
-    class="item__checkbox"
-    type="checkbox"
-    data-task={JSON.stringify(task)}
-    data-js={`chechbox-${task.uuid}`}
-  />
+  <div class="item__checkbox">
+    <input
+      id={`chechbox-${task.uuid}`}
+      type="checkbox"
+      data-task={JSON.stringify(task)}
+      data-js={`chechbox-${task.uuid}`}
+    />
+  </div>
   <div class="item__content">
     <div class="item__description">{task.description}</div>
     {
@@ -116,7 +117,10 @@ function displayDate(date: string) {
   }
 
   .item__checkbox {
-    margin: 0 var(--gap-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--gap-sm);
   }
 
   .item__description {
