@@ -55,3 +55,11 @@ time 1732883101
 old [description:"hello" end:"1732883101" entry:"1732874361" modified:"1732883101" project:"nosti" status:"completed" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
 new [description:"hello" entry:"1732874361" modified:"1732883101" project:"nosti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
 ---
+time 1732884626
+old [description:"hello" entry:"1732874361" modified:"1732883101" project:"nosti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+new [description:"hello" end:"1732884626" entry:"1732874361" modified:"1732884626" project:"nosti" status:"completed" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+---
+time 1732884627
+old [description:"hello" end:"1732884626" entry:"1732874361" modified:"1732884626" project:"nosti" status:"completed" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+new [description:"hello" entry:"1732874361" modified:"1732884627" project:"nosti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
+---

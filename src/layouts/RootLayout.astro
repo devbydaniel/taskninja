@@ -12,7 +12,24 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
@@ -48,6 +65,23 @@ const { title } = Astro.props;
     --padding-x: var(--gap-md);
     --padding-y: var(--gap-sm);
   }
+
+  .dark {
+    --background: #000;
+    --background-raised: #111;
+    --background-focus: #333;
+    --background-clicked: #444;
+    --border-color: #666;
+    --color-primary: #fff;
+    --color-primary-light: #ccc;
+    --color-primary-lighter: #aaa;
+    --color-primary-foreground: #000;
+    --color-text: #ddd;
+    --color-text-muted: #aaa;
+    --color-warning: #ff0;
+    --color-error: #f00;
+  }
+
   body {
     font-family: monospace;
     background: var(--background);
