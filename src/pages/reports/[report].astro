@@ -16,7 +16,7 @@ const tags = await getTags();
 const projects = await getProjects();
 ---
 
-<RootLayout title="Welcome to Astro.">
+<RootLayout title="TaskNinja">
   <AppLayout projects={projects} tags={tags}>
     <ContentAreaLayout title={report!}>
       <TaskList tasks={tasks} />
