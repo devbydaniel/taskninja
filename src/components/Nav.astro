@@ -8,7 +8,14 @@ interface Props {
 const { projects } = Astro.props;
 
 const { report: reportParam } = Astro.params;
-const REPORTS = ["next", "ready", "list", "blocked", "blocking", "waiting"];
+const REPORTS: string[] = import.meta.env.REPORTS?.split(",") || [
+  "next",
+  "ready",
+  "list",
+  "blocked",
+  "blocking",
+  "waiting",
+];
 ---
 
 <div class="nav">
@@ -19,26 +26,27 @@ const REPORTS = ["next", "ready", "list", "blocked", "blocking", "waiting"];
   <ul class="nav__list">
     {
       REPORTS.map((report) => (
-        <a
-          href={`/reports/${report}`}
+        <li
           class:list={[
             "nav__list__item",
             { "nav__list__item--active": reportParam === report },
           ]}
         >
-          {report}
-        </a>
+          <a href={`/reports/${report}`}>{report}</a>
+        </li>
       ))
     }
   </ul>
   <h2 class="nav__title">Projects</h2>
   <ul class="nav__list">
-    <a href="/projects/null" class="nav__list__item">w/o project</a>
+    <li class="nav__list__item">
+      <a href="/projects/null">w/o project</a>
+    </li>
     {
       projects.map((project) => (
-        <a href={`/projects/${project}`} class="nav__list__item">
-          {project}
-        </a>
+        <li class="nav__list__item">
+          <a href={`/projects/${project}`}>{project}</a>
+        </li>
       ))
     }
   </ul>
@@ -79,6 +87,8 @@ const REPORTS = ["next", "ready", "list", "blocked", "blocking", "waiting"];
     color: var(--color-text);
     border-radius: var(--border-radius);
     transitions: background 0.3s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .nav__list__item:hover {
     background: var(--background-focus);
@@ -88,6 +98,10 @@ const REPORTS = ["next", "ready", "list", "blocked", "blocking", "waiting"];
   }
   .nav__list__item--active {
     background: var(--background-raised);
+  }
+  .nav__list__item a {
+    text-decoration: none;
+    color: var(--color-text);
   }
   .nav__separator {
     border: none;
