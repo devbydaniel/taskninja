@@ -87,8 +87,8 @@ const { tags } = Astro.props;
     "input[name=task-id]",
   ) as HTMLInputElement;
 
-  // Listen to the trigger event, open the modal, add content
-  document.addEventListener(editTagsModal.eventName, (event) => {
+  // TODO extract this to a helper function and remove it on modal close!
+  function handleEvent(event: Event) {
     const customEvent = event as CustomEvent;
     const task = customEvent.detail.task as Task;
     modalTitle.textContent = task.description;
@@ -100,10 +100,9 @@ const { tags } = Astro.props;
       checkbox.checked = true;
     });
     modal.showModal();
-  });
+  }
 
-  // Edit tags when the save button is clicked
-  form.addEventListener("submit", async (event) => {
+  async function handleSubmit(event: Event) {
     event.preventDefault();
     const formData = new FormData(form);
     const task = formData.get("task-id");
@@ -123,10 +122,29 @@ const { tags } = Astro.props;
       modal.close();
       location.reload();
     }
-  });
+  }
+
+  function handleClose() {
+    form.removeEventListener("submit", handleSubmit);
+    const checkboxes = modal.querySelectorAll(
+      "input[type=checkbox]",
+    ) as NodeListOf<HTMLInputElement>;
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+
+  // Listen to the trigger event, open the modal, add content
+  document.addEventListener(editTagsModal.eventName, handleEvent);
+  // Edit tags when the save button is clicked
+  form.addEventListener("submit", handleSubmit);
 
   // Close the modal when the cancel button is clicked
   cancelButton.addEventListener("click", () => {
     modal.close();
+  });
+
+  modal.addEventListener("close", () => {
+    handleClose();
   });
 </script>
