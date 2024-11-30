@@ -67,3 +67,22 @@ time 1732896088
 old [description:"hello" entry:"1732874361" modified:"1732884627" project:"nosti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
 new [description:"hello" entry:"1732874361" modified:"1732896088" project:"nasti" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"f7726897-d656-4744-8699-02d6dde75a97"]
 ---
+time 1732896828
+old [description:"another task" entry:"1732882625" modified:"1732882625" status:"pending" uuid:"9894c340-5f62-4ba6-9b53-9cd8e75024b6"]
+new [description:"another task" entry:"1732882625" modified:"1732896828" status:"pending" tags:"tag2" tags_tag2:"x" uuid:"9894c340-5f62-4ba6-9b53-9cd8e75024b6"]
+---
+time 1732896866
+old [description:"Test" entry:"1732877798" modified:"1732882584" status:"pending" tags:"tag1" tags_tag1:"x" uuid:"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699"]
+new [description:"Test" entry:"1732877798" modified:"1732896866" status:"pending" tags:"tag2" tags_tag2:"x" uuid:"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699"]
+---
+time 1732999990
+new [description:"Task with" entry:"1732999990" modified:"1732999990" project:"A.very.super.long.ProjectName" status:"pending" uuid:"cb037b29-b41e-4ec7-bd89-3ffaea958a4b"]
+---
+time 1733001686
+old [description:"Task with" entry:"1732999990" modified:"1732999990" project:"A.very.super.long.ProjectName" status:"pending" uuid:"cb037b29-b41e-4ec7-bd89-3ffaea958a4b"]
+new [description:"Task with" entry:"1732999990" modified:"1733001686" project:"A.very.super.long.ProjectName" status:"pending" tags:"tag2" tags_tag2:"x" uuid:"cb037b29-b41e-4ec7-bd89-3ffaea958a4b"]
+---
+time 1733001813
+old [description:"Test" entry:"1732877798" modified:"1732896866" status:"pending" tags:"tag2" tags_tag2:"x" uuid:"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699"]
+new [description:"Test" entry:"1732877798" modified:"1733001813" status:"pending" uuid:"41ca03dd-10fd-4cd5-8c20-4ac5b18c9699"]
+---

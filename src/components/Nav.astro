@@ -87,8 +87,6 @@ const REPORTS: string[] = import.meta.env.REPORTS?.split(",") || [
     color: var(--color-text);
     border-radius: var(--border-radius);
     transitions: background 0.3s ease;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   .nav__list__item:hover {
     background: var(--background-focus);
@@ -102,6 +100,10 @@ const REPORTS: string[] = import.meta.env.REPORTS?.split(",") || [
   .nav__list__item a {
     text-decoration: none;
     color: var(--color-text);
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .nav__separator {
     border: none;
