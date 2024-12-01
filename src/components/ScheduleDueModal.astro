@@ -1,0 +1,168 @@
+---
+import Modal from "./Modal.astro";
+import Input from "./Input.astro";
+import Button from "./Button.astro";
+---
+
+<Modal id={"schedule-due-modal"}>
+  <form class="schedule-due-form__form">
+    <div class="schedule-due-form">
+      <div class="schedule-due-form__input">
+        <label for="scheduled" class="schedule-due-form__input__label"
+          >Scheduled</label
+        >
+        <Input
+          id="scheduled"
+          type="date"
+          name="scheduled"
+          class="schedule-due-form__input__input"
+        />
+      </div>
+      <div class="schedule-due-form__input">
+        <label for="due" class="schedule-due-form__input__label">Due</label>
+        <Input
+          id="due"
+          type="date"
+          name="due"
+          class="schedule-due-form__input__input"
+        />
+      </div>
+      <input type="hidden" name="task-id" />
+      <div class="schedule-due-form__buttons">
+        <Button
+          variant="ghost"
+          class="schedule-due-form__buttons__button"
+          id="cancel"
+        >
+          Cancel
+        </Button>
+        <Button
+          class="schedule-due-form__buttons__button"
+          id="schedule"
+          type="submit"
+        >
+          Save
+        </Button>
+      </div>
+    </div>
+  </form>
+</Modal>
+
+<style>
+  .schedule-due-form {
+    display: grid;
+    gap: var(--gap-md);
+  }
+
+  .schedule-due-form__input {
+    display: grid;
+    gap: var(--gap-sm);
+  }
+
+  .schedule-due-form__buttons {
+    display: flex;
+    justify-content: end;
+    gap: var(--gap-sm);
+  }
+</style>
+
+<script>
+  import { scheduleDueModal } from "../lib/customEvents";
+  import { type Task } from "../lib/models/types";
+  import { parseDate, stringifyDate } from "../lib/util/dates";
+
+  const modal = document.getElementById(
+    "schedule-due-modal",
+  ) as HTMLDialogElement;
+  const modalTitle = modal.querySelector(".modal__title") as HTMLHeadingElement;
+  const form = modal.querySelector(
+    ".schedule-due-form__form",
+  ) as HTMLFormElement;
+  const scheduledInput = form.querySelector("#scheduled") as HTMLInputElement;
+  const dueInput = form.querySelector("#due") as HTMLInputElement;
+  const taskIdInput = form.querySelector(
+    "input[name=task-id]",
+  ) as HTMLInputElement;
+  const cancelButton = form.querySelector("#cancel") as HTMLButtonElement;
+
+  // Listen to the trigger event, open the modal, add content & listeners
+  document.addEventListener(scheduleDueModal.eventName, (event) => {
+    const customEvent = event as CustomEvent;
+    const task = customEvent.detail.task as Task;
+
+    modalTitle.textContent = task.description;
+    if (task.scheduled) {
+      scheduledInput.valueAsDate = parseDate(task.scheduled);
+    } else {
+      scheduledInput.value = "";
+    }
+    if (task.due) {
+      dueInput.valueAsDate = parseDate(task.due);
+    } else {
+      dueInput.value = "";
+    }
+    taskIdInput.value = task.uuid;
+
+    modal.showModal();
+    scheduledInput.focus();
+
+    async function handleSubmit(event: SubmitEvent) {
+      event.preventDefault();
+      const scheduled = scheduledInput.valueAsDate;
+      const due = dueInput.valueAsDate;
+      const taskId = taskIdInput.value;
+
+      const scheduledUpdateResponse = await fetch(`/api/tasks/${taskId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: "scheduled",
+          newValue: scheduled ? stringifyDate(scheduled) : undefined,
+        }),
+      });
+      if (!scheduledUpdateResponse.ok) {
+        const { message } = await scheduledUpdateResponse.json();
+        console.error(message);
+      }
+      const dueUpdateResponse = await fetch(`/api/tasks/${taskId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: "due",
+          newValue: due ? stringifyDate(due) : undefined,
+        }),
+      });
+      if (!dueUpdateResponse.ok) {
+        const { message } = await dueUpdateResponse.json();
+        console.error(message);
+      }
+      form.reset();
+      modal.close();
+      location.reload();
+    }
+
+    form.addEventListener("submit", handleSubmit);
+
+    cancelButton.addEventListener("click", () => {
+      form.reset();
+      modal.close();
+    });
+
+    // Close the modal on escape key press
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        form.reset();
+        modal.close();
+      }
+    }
+    document.addEventListener("keyup", closeOnEscape);
+    modal.addEventListener("close", () => {
+      form.removeEventListener("submit", handleSubmit);
+      document.removeEventListener("keyup", closeOnEscape);
+    });
+  });
+</script>

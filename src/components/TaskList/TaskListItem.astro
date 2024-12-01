@@ -20,7 +20,7 @@ const showDetails =
   (task.tags && task.tags.length > 0);
 
 function displayDate(date: string) {
-  return formatDate(parseDate(date));
+  return formatDate(parseDate(date), { variant: "short" });
 }
 ---
 
@@ -74,6 +74,11 @@ function displayDate(date: string) {
               ))}
             </div>
           )}
+          {task.annotations && task.annotations.length > 0 && (
+            <div class="item__details__annotations">
+              <Icon name="mdi:note-text-outline" /> {task.annotations.length}
+            </div>
+          )}
         </div>
       )
     }
@@ -85,14 +90,17 @@ function displayDate(date: string) {
   </div>
   <div class:list={["item__menu"]}>
     <button class="item__menu__item" id="edit"
-      ><span>Modify</span><kbd>m</kbd></button
-    >
+      ><span>Modify</span><kbd>m</kbd>
+    </button>
     <button class="item__menu__item" id="move"
-      ><span>Move to project</span><kbd>p</kbd></button
-    >
+      ><span>Move to project</span><kbd>p</kbd>
+    </button>
     <button class="item__menu__item" id="tag"
-      ><span>Edit tags</span><kbd>t</kbd></button
-    >
+      ><span>Edit tags</span><kbd>t</kbd>
+    </button>
+    <button class="item__menu__item" id="schedule-and-due">
+      <span>Schedule and due</span><kbd>s</kbd>
+    </button>
     <button class="item__menu__item" id="delete">
       <span>Delete</span>
       <kbd>⌫</kbd>
@@ -121,8 +129,8 @@ function displayDate(date: string) {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--gap-sm);
     padding-right: var(--gap-md);
+    padding-left: var(--gap-sm);
   }
 
   .item__description {
@@ -138,6 +146,7 @@ function displayDate(date: string) {
     justify-content: center;
     gap: var(--gap-sm);
     width: 100%;
+    cursor: pointer;
   }
 
   .item__details {
@@ -184,6 +193,12 @@ function displayDate(date: string) {
   }
 
   .item__details__tags__tag {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .item__details__annotations {
     display: flex;
     align-items: center;
     gap: 0.2rem;
@@ -266,6 +281,7 @@ function displayDate(date: string) {
 
   for (let i = 0; i < checkboxes.length; i++) {
     checkboxes[i].addEventListener("change", async (e) => {
+      e.stopPropagation();
       const isChecked = (e.target as HTMLInputElement).checked;
       const newStatus = isChecked ? "completed" : "pending";
       const taskData = (e.target as HTMLInputElement).dataset.task!;
@@ -297,6 +313,7 @@ function displayDate(date: string) {
     if (!shouldTriggerKeyboardShortcut(event)) return;
     if (!shortcuts.completeTask.includes(event.key)) return;
     event.preventDefault();
+    event.stopPropagation();
 
     const focused = document.activeElement as HTMLElement;
     const checkbox = focused.querySelector<HTMLInputElement>("[type=checkbox]");
@@ -313,7 +330,8 @@ function displayDate(date: string) {
   const menus = document.getElementsByClassName("item__menu");
 
   for (let i = 0; i < actionsButtons.length; i++) {
-    actionsButtons[i].addEventListener("click", () => {
+    actionsButtons[i].addEventListener("click", (e) => {
+      e.stopPropagation();
       const menu = menus[i];
       menu.classList.toggle("item__menu--open");
     });
@@ -321,6 +339,7 @@ function displayDate(date: string) {
 
   // Close menu on click outside
   document.addEventListener("click", (event) => {
+    event.stopPropagation();
     for (let i = 0; i < menus.length; i++) {
       const menu = menus[i];
       const actionsButton = actionsButtons[i];
@@ -357,7 +376,14 @@ function displayDate(date: string) {
 <script>
   import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
   import shortcuts from "../../lib/shortcuts";
-  import { confirmationModal } from "../../lib/customEvents";
+  import {
+    confirmationModal,
+    moveToProjectModal,
+    editTagsModal,
+    editTaskModal,
+    scheduleDueModal,
+  } from "../../lib/customEvents";
+  import { type Task } from "../../lib/models/types";
 
   async function handleDelete(uuid: string) {
     const res = await fetch("/api/tasks/" + uuid, {
@@ -378,147 +404,88 @@ function displayDate(date: string) {
     });
   }
 
-  // Trigger delete confirm on delete button click
-  const deleteButtons = document.getElementsByClassName("item__menu__item");
-  for (let i = 0; i < deleteButtons.length; i++) {
-    const button = deleteButtons[i] as HTMLButtonElement;
-    if (button.id === "delete") {
-      button.addEventListener("click", async (e) => {
+  const menuActionData: Array<{
+    id: string;
+    action: (task: Task) => void;
+    shortcuts: string[];
+  }> = [
+    {
+      id: "delete",
+      action: (task) => triggerDelete(task.uuid),
+      shortcuts: shortcuts.deleteTask,
+    },
+    {
+      id: "move",
+      action: (task) => moveToProjectModal.trigger({ task }),
+      shortcuts: shortcuts.editProject,
+    },
+    {
+      id: "tag",
+      action: (task) => editTagsModal.trigger({ task }),
+      shortcuts: shortcuts.editTags,
+    },
+    {
+      id: "schedule-and-due",
+      action: (task) => scheduleDueModal.trigger({ task }),
+      shortcuts: shortcuts.scheduleOrDue,
+    },
+    {
+      id: "edit",
+      action: (task) => editTaskModal.trigger({ task }),
+      shortcuts: shortcuts.modifyTask,
+    },
+  ];
+
+  // Trigger action on menu item click
+  const menuItems = document.getElementsByClassName("item__menu__item");
+  for (let i = 0; i < menuItems.length; i++) {
+    const menuItem = menuItems[i] as HTMLButtonElement;
+    const actionData = menuActionData.find((data) => data.id === menuItem.id);
+    if (actionData) {
+      menuItem.addEventListener("click", async (e) => {
+        e.stopPropagation();
         const taskData = (e.target as HTMLButtonElement)
           .closest(".item")
           ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
           .dataset.task!;
         const task = JSON.parse(taskData);
-        const uuid = task.uuid;
-        triggerDelete(uuid);
+        actionData.action(task);
       });
     }
   }
 
-  // Trigger delete confirm on delete backspace key
-  document.addEventListener("keydown", async function (event) {
-    if (!shouldTriggerKeyboardShortcut(event)) return;
-    if (!shortcuts.deleteTask.includes(event.key)) return;
-    const focused = document.activeElement as HTMLElement;
-    const checkbox = focused.querySelector<HTMLInputElement>(
-      ".item__checkbox__checkbox",
-    );
-    if (checkbox) {
-      const taskData = checkbox.dataset.task!;
-      const task = JSON.parse(taskData);
-      const uuid = task.uuid;
-      triggerDelete(uuid);
-    }
-  });
-</script>
-
-<script>
-  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
-  import shortcuts from "../../lib/shortcuts";
-  import { moveToProjectModal } from "../../lib/customEvents";
-
-  // Trigger MoveToProjectModal on move button click
-  const moveButtons = document.getElementsByClassName("item__menu__item");
-  for (let i = 0; i < moveButtons.length; i++) {
-    const button = moveButtons[i] as HTMLButtonElement;
-    if (button.id === "move") {
-      button.addEventListener("click", async (e) => {
-        const taskData = (e.target as HTMLButtonElement)
-          .closest(".item")
-          ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
-          .dataset.task!;
-        const task = JSON.parse(taskData);
-        moveToProjectModal.trigger({ task });
-      });
-    }
-  }
-
-  // Trigger MoveToProjectModal on move m key
-  document.addEventListener("keydown", async function (event) {
-    if (!shouldTriggerKeyboardShortcut(event)) return;
-    if (!shortcuts.editProject.includes(event.key)) return;
-    const focused = document.activeElement as HTMLElement;
-    const checkbox = focused.querySelector<HTMLInputElement>(
-      ".item__checkbox__checkbox",
-    );
-    if (checkbox) {
-      const taskData = checkbox.dataset.task!;
-      const task = JSON.parse(taskData);
-      moveToProjectModal.trigger({ task });
-    }
-  });
-</script>
-
-<script>
-  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
-  import shortcuts from "../../lib/shortcuts";
-  import { editTagsModal } from "../../lib/customEvents";
-
-  // Trigger EditTagsModal on tag button click
-  const tagButtons = document.getElementsByClassName("item__menu__item");
-  for (let i = 0; i < tagButtons.length; i++) {
-    const button = tagButtons[i] as HTMLButtonElement;
-    if (button.id === "tag") {
-      button.addEventListener("click", async (e) => {
-        const taskData = (e.target as HTMLButtonElement)
-          .closest(".item")
-          ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
-          .dataset.task!;
-        const task = JSON.parse(taskData);
-        editTagsModal.trigger({ task });
-      });
-    }
-  }
-
-  // Trigger EditTagsModal on tag t key
-  document.addEventListener("keydown", async function (event) {
-    if (!shouldTriggerKeyboardShortcut(event)) return;
-    if (!shortcuts.editTags.includes(event.key)) return;
-    const focused = document.activeElement as HTMLElement;
-    const checkbox = focused.querySelector<HTMLInputElement>(
-      ".item__checkbox__checkbox",
-    );
-    if (checkbox) {
-      const taskData = checkbox.dataset.task!;
-      const task = JSON.parse(taskData);
-      editTagsModal.trigger({ task });
-    }
-  });
-</script>
-
-<script>
-  import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
-  import shortcuts from "../../lib/shortcuts";
-  import { editTaskModal } from "../../lib/customEvents";
-
-  // Trigger EditTaskByCommandModal on edit button click
-  const editButtons = document.getElementsByClassName("item__menu__item");
-  for (let i = 0; i < editButtons.length; i++) {
-    const button = editButtons[i] as HTMLButtonElement;
-    if (button.id === "edit") {
-      button.addEventListener("click", async (e) => {
-        const taskData = (e.target as HTMLButtonElement)
-          .closest(".item")
-          ?.querySelector<HTMLInputElement>(".item__checkbox__checkbox")!
-          .dataset.task!;
-        const task = JSON.parse(taskData);
-        editTaskModal.trigger({ task });
-      });
-    }
-  }
-
-  // Trigger EditTaskByCommandModal on edit e key
+  // Trigger action on menu item key
   document.addEventListener("keyup", async function (event) {
     if (!shouldTriggerKeyboardShortcut(event)) return;
-    if (!shortcuts.modifyTask.includes(event.key)) return;
     const focused = document.activeElement as HTMLElement;
     const checkbox = focused.querySelector<HTMLInputElement>(
       ".item__checkbox__checkbox",
     );
     if (checkbox) {
+      const actionData = menuActionData.find((data) =>
+        data.shortcuts.includes(event.key),
+      );
       const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
-      editTaskModal.trigger({ task });
+      if (actionData) {
+        actionData.action(task);
+      }
     }
   });
+</script>
+
+<script>
+  import { taskDetailsPanel } from "../../lib/customEvents";
+  const itemContent = document.getElementsByClassName("item__content");
+  for (let i = 0; i < itemContent.length; i++) {
+    itemContent[i].addEventListener("click", (e) => {
+      const task = JSON.parse(
+        (e.target as HTMLElement)
+          .closest(".item")!
+          .querySelector<HTMLInputElement>(".item__checkbox__checkbox")!.dataset
+          .task!,
+      );
+      taskDetailsPanel.trigger({ task });
+    });
+  }
 </script>

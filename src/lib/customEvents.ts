@@ -1,6 +1,6 @@
 import { type Task } from "./models/types";
 
-type CustomEventInfo = {
+export type CustomEventInfo = {
   eventName: string;
   trigger: Function;
 };
@@ -14,6 +14,7 @@ export const confirmationModal: CustomEventInfo = {
   trigger: ({ message, onConfirm }: ConfirmationModalTriggerProps) => {
     const random = Math.random().toString(36).substring(7);
     const confirmEvent = `custom:confirmation-modal:${random}`;
+    // dispatch an event with a unique confirm event
     document.dispatchEvent(
       new CustomEvent(confirmationModal.eventName, {
         detail: {
@@ -22,6 +23,7 @@ export const confirmationModal: CustomEventInfo = {
         },
       }),
     );
+    // listen to the confirm event (dispatched by the modal) and call onConfirm
     document.addEventListener(confirmEvent, onConfirm, { once: true });
   },
 };
@@ -73,6 +75,38 @@ export const editTagsModal: CustomEventInfo = {
   trigger: ({ task }: EditTagsModalTriggerProps) => {
     document.dispatchEvent(
       new CustomEvent(editTagsModal.eventName, {
+        detail: {
+          task,
+        },
+      }),
+    );
+  },
+};
+
+type ScheduleDueModalTriggerProps = {
+  task: Task;
+};
+export const scheduleDueModal: CustomEventInfo = {
+  eventName: "custom:schedule-due-modal",
+  trigger: ({ task }: ScheduleDueModalTriggerProps) => {
+    document.dispatchEvent(
+      new CustomEvent(scheduleDueModal.eventName, {
+        detail: {
+          task,
+        },
+      }),
+    );
+  },
+};
+
+type TaskDetailsPanelTriggerProps = {
+  task: Task;
+};
+export const taskDetailsPanel: CustomEventInfo = {
+  eventName: "custom:task-details-panel",
+  trigger: ({ task }: TaskDetailsPanelTriggerProps) => {
+    document.dispatchEvent(
+      new CustomEvent(taskDetailsPanel.eventName, {
         detail: {
           task,
         },

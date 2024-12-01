@@ -18,4 +18,5 @@ export type Task = {
   status: TaskStatus;
   uuid: string;
   urgency: number;
+  annotations?: { entry: string; description: string }[];
 } & TaskCreateFields;

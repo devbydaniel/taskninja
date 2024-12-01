@@ -30,6 +30,7 @@ const { tasks } = Astro.props;
   .task-list {
     list-style: none;
     padding: 0;
+    margin: var(--gap-sm);
     display: flex;
     flex-direction: column;
     gap: var(--gap-sm);
@@ -41,6 +42,7 @@ const { tasks } = Astro.props;
 
 <script>
   import shouldTriggerKeyboardShortcut from "../../lib/util/shouldTriggerKeyboardShortcut";
+  import shortcuts from "../../lib/shortcuts";
 
   const listItems = Array.from(
     document.querySelectorAll<HTMLLIElement>(".task-list__item"),
@@ -49,15 +51,13 @@ const { tasks } = Astro.props;
 
   document.addEventListener("keydown", function (event) {
     if (!shouldTriggerKeyboardShortcut(event)) return;
-    if (event.key !== "j" && event.key !== "k") return;
-    event.preventDefault();
-
-    if (event.key === "j") {
+    if (shortcuts.moveOneTaskUp.includes(event.key)) {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+    } else if (shortcuts.moveOneTaskDown.includes(event.key)) {
       currentIndex =
         currentIndex < listItems.length - 1 ? currentIndex + 1 : currentIndex;
-    } else if (event.key === "k") {
-      currentIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
     }
+
     listItems[currentIndex]?.focus();
   });
 

@@ -43,7 +43,11 @@ const builtInTags = [
 ];
 
 function filterForDisplay(task: Task): boolean {
-	return ![TaskStatus.deleted, TaskStatus.completed, TaskStatus.recurring].includes(task.status);
+  return ![
+    TaskStatus.deleted,
+    TaskStatus.completed,
+    TaskStatus.recurring,
+  ].includes(task.status);
 }
 
 export async function getProjects(): Promise<string[]> {
@@ -125,6 +129,32 @@ export async function updateTaskWithCommand(
   command: string,
 ): Promise<void> {
   const { stderr } = await exec(`${COMMAND} ${taskUuid} modify ${command}`);
+  if (stderr) {
+    console.error("stderr:", stderr);
+    throw new Error(stderr);
+  }
+}
+
+export async function getAnnotations(
+  taskUuid: string,
+): Promise<{ entry: string; description: string }[]> {
+  const { stdout, stderr } = await exec(`${COMMAND} ${taskUuid} export`);
+  if (stderr) {
+    console.error("stderr:", stderr);
+    throw new Error(stderr);
+  }
+  const tasks = JSON.parse(stdout) as Task[];
+  const task = tasks[0];
+  return task.annotations || [];
+}
+
+export async function annotateTask(
+  taskUuid: string,
+  annotation: string,
+): Promise<void> {
+  const { stderr } = await exec(
+    `${COMMAND} annotate ${taskUuid} ${annotation}`,
+  );
   if (stderr) {
     console.error("stderr:", stderr);
     throw new Error(stderr);

@@ -7,6 +7,8 @@ import ConfirmationModal from "../components/ConfirmationModal.astro";
 import EditTaskByCommandModal from "../components/EditTaskByCommandModal.astro";
 import MoveToProjectModal from "../components/MoveToProjectModal.astro";
 import EditTagsModal from "../components/EditTagsModal.astro";
+import TaskDetailsPanel from "../components/TaskDetailsPanel.astro";
+import ScheduleDueModal from "../components/ScheduleDueModal.astro";
 
 interface Props {
   projects: string[];
@@ -21,7 +23,9 @@ const { projects, tags, currentProject } = Astro.props;
   <nav class="app__nav" data-js="nav">
     <Nav projects={projects} />
   </nav>
-  <main class="app__main"><slot /></main>
+  <main class="app__main">
+    <slot />
+  </main>
   <div class="app__nav-toggle" data-js="nav-toggle">
     <Button size="md" variant="muted"><Icon name="mdi:dock-left" /></Button>
   </div>
@@ -37,6 +41,8 @@ const { projects, tags, currentProject } = Astro.props;
   <EditTaskByCommandModal />
   <MoveToProjectModal projects={projects} />
   <EditTagsModal tags={tags} />
+  <TaskDetailsPanel />
+  <ScheduleDueModal />
 </div>
 
 <style>
@@ -94,6 +100,7 @@ const { projects, tags, currentProject } = Astro.props;
     .app__nav-toggle {
       display: none;
     }
+
     .app__new-task-button {
       display: none;
     }
@@ -118,7 +125,6 @@ const { projects, tags, currentProject } = Astro.props;
 
   menuToggle?.addEventListener("click", () => {
     navbar?.classList.toggle("app__nav--open");
-    menuToggle?.classList.toggle("app__nav-toggle--right");
   });
 </script>
 

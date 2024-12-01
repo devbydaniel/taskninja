@@ -1,15 +1,14 @@
 import type { APIRoute } from "astro";
-import { TaskStatus } from "../../../lib/models/types";
+import { TaskStatus } from "../../../../lib/models/types";
 import {
   updateTask,
   updateTaskWithCommand,
   deleteTask,
-} from "../../../lib/data/taskWarrior";
+} from "../../../../lib/data/taskWarrior";
 
 export const PATCH: APIRoute = async ({ request, params }) => {
   const { uuid } = params;
   const { key, newValue, command } = await request.json();
-  console.log({ key, newValue, command });
   if (!uuid) {
     return new Response(
       JSON.stringify({

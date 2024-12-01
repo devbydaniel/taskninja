@@ -5,6 +5,9 @@ const shortcuts: Record<string, string[]> = {
   editProject: ["p"],
   editTags: ["t"],
   modifyTask: ["m"],
+  moveOneTaskDown: ["ArrowDown", "j"],
+  moveOneTaskUp: ["ArrowUp", "k"],
+  scheduleOrDue: ["s"],
 };
 
 export default shortcuts;

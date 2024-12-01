@@ -1,0 +1,197 @@
+---
+import { Icon } from "astro-icon/components";
+import ContentAreaLayout from "../layouts/ContentAreaLayout.astro";
+import Button from "./Button.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<dialog id="task-details-panel" class:list={[className, "task-details-panel"]}>
+  <ContentAreaLayout id="task-details-panel__layout" title="Task Details">
+    <Button
+      id="task-details-panel__close"
+      slot="actions"
+      size="sm"
+      square
+      variant="ghost"><Icon name="mdi:close" /></Button
+    >
+    <div class="task-details-panel__content">
+      <form id="task-details-panel__content__new-annotation__form">
+        <div class="task-details-panel__content__new-annotation">
+          <label for="new-annotation">New Annotation</label>
+          <textarea
+            id="new-annotation"
+            class="task-details-panel__content__new-annotation__input"
+          ></textarea>
+          <input type="hidden" name="task-id" />
+          <Button type="submit" block>Add Annotation</Button>
+        </div>
+      </form>
+      <div class="task-details-panel__content__annotations"></div>
+    </div>
+  </ContentAreaLayout>
+</dialog>
+
+<style>
+  .task-details-panel {
+    padding: 0;
+    margin: 0;
+    inset: 0 0 0 auto;
+    height: 100vh;
+    width: 400px;
+    max-width: 100vw;
+    background: var(--background-raised);
+    border: none;
+    border-left: var(--border-width) solid var(--border-color);
+    z-index: 100;
+    color: var(--text-color);
+    overflow-y: auto;
+  }
+
+  .task-details-panel__content {
+    padding: var(--gap-md);
+  }
+
+  .task-details-panel__content__annotations {
+    display: grid;
+    gap: var(--gap-md);
+    margin-top: var(--gap-lg);
+  }
+
+  :global(.task-details-panel__content__annotations__item) {
+    /* must be global because dynamically rendered with js */
+    display: grid;
+    gap: var(--gap-sm);
+  }
+
+  :global(.task-details-panel__content__annotations__item textarea) {
+    font-size: var(--font-size);
+    border: var(--border-width) solid var(--color-text-muted);
+    border-radius: var(--border-radius);
+    padding: var(--gap-xs);
+  }
+
+  .task-details-panel__content__new-annotation {
+    display: grid;
+    gap: var(--gap-sm);
+  }
+
+  .task-details-panel__content__new-annotation__input {
+    height: 100px;
+    resize: none;
+    border-radius: var(--border-radius);
+    border: var(--border-width) solid var(--color-text-muted);
+    font-size: var(--font-size);
+    padding: var(--gap-sm);
+  }
+</style>
+
+<script>
+  // listen for the custom event and show the dialog
+  import { taskDetailsPanel } from "../lib/customEvents";
+  import type { Task } from "../lib/models/types";
+  import addAnnotationMarkup from "../lib/markup/addAnnotationMarkup";
+
+  const taskDetailsPanelEl = document.getElementById(
+    "task-details-panel",
+  )! as HTMLDialogElement;
+
+  const closeBtn = taskDetailsPanelEl.querySelector(
+    "#task-details-panel__close",
+  ) as HTMLButtonElement;
+
+  const panelLayout = taskDetailsPanelEl.querySelector(
+    "#task-details-panel__layout",
+  )!;
+
+  const panelTitle = panelLayout.querySelector(".content__header__title")!;
+
+  const panelAnnotations = taskDetailsPanelEl.querySelector(
+    ".task-details-panel__content__annotations",
+  ) as HTMLDivElement;
+
+  const newAnnotationForm = document.getElementById(
+    "task-details-panel__content__new-annotation__form",
+  ) as HTMLFormElement;
+
+  const taskIdInput = newAnnotationForm.querySelector(
+    "input[name='task-id']",
+  ) as HTMLInputElement;
+
+  function fillTaskPanel(task: Task) {
+    if (task.annotations && task.annotations.length > 0) {
+      panelAnnotations.style.display = "grid";
+      addAnnotationMarkup({
+        container: panelAnnotations,
+        annotations: task.annotations,
+        itemContainerClassName:
+          "task-details-panel__content__annotations__item",
+      });
+    } else {
+      panelAnnotations.style.display = "none";
+    }
+    taskIdInput.value = task.uuid;
+  }
+
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    const annotation = newAnnotationForm.querySelector(
+      "#new-annotation",
+    ) as HTMLTextAreaElement;
+    const taskId = taskIdInput.value;
+    const res = await fetch(`/api/tasks/${taskId}/annotations`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ annotation: annotation.value }),
+    });
+    if (!res.ok) {
+      console.error("Failed to add annotation");
+      return;
+    }
+    const data = await res.json();
+    const updatedAnnotations = data.data;
+    annotation.value = "";
+    addAnnotationMarkup({
+      container: panelAnnotations,
+      annotations: updatedAnnotations,
+      itemContainerClassName: "task-details-panel__content__annotations__item",
+    });
+  }
+
+  function closePanel() {
+    taskDetailsPanelEl.close();
+  }
+
+  function closeOnEscape(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      closePanel();
+    }
+  }
+
+  document.addEventListener(taskDetailsPanel.eventName, (event) => {
+    const customEvent = event as CustomEvent;
+    const task = customEvent.detail.task as Task;
+    fillTaskPanel(task);
+    panelTitle.textContent = task.description;
+    taskDetailsPanelEl.show();
+    document.addEventListener("keyup", closeOnEscape);
+  });
+
+  newAnnotationForm.addEventListener("submit", handleSubmit);
+
+  closeBtn.addEventListener("click", closePanel);
+
+  taskDetailsPanelEl.addEventListener("close", () => {
+    newAnnotationForm.removeEventListener("submit", handleSubmit);
+    newAnnotationForm.reset();
+    document.removeEventListener("keyup", closeOnEscape);
+    panelAnnotations.innerHTML = "";
+    panelAnnotations.style.display = "grid";
+  });
+</script>
