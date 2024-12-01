@@ -5,6 +5,7 @@ RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/te
 # Set environment variables
 ENV TASKDATA=/root/.task
 ENV TASKRC=/root/.taskrc
+ENV REPORTS=
 
 WORKDIR /app
 
