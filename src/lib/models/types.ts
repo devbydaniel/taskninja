@@ -2,6 +2,7 @@ export enum TaskStatus {
   pending = "pending",
   completed = "completed",
   deleted = "deleted",
+  recurring = "recurring",
 }
 export type TaskCreateFields = {
   description: string;

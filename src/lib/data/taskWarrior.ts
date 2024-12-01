@@ -42,6 +42,10 @@ const builtInTags = [
   "nonag",
 ];
 
+function filterForDisplay(task: Task): boolean {
+	return ![TaskStatus.deleted, TaskStatus.completed, TaskStatus.recurring].includes(task.status);
+}
+
 export async function getProjects(): Promise<string[]> {
   const { stdout, stderr } = await exec(COMMAND + " _projects");
   if (stderr) {
@@ -73,10 +77,7 @@ export async function getProjectTasks(project: string | null): Promise<Task[]> {
     console.error(stderr);
     throw new Error(stderr);
   }
-  return JSON.parse(stdout).filter(
-    (task: Task) =>
-      ![TaskStatus.deleted, TaskStatus.completed].includes(task.status),
-  );
+  return JSON.parse(stdout).filter(filterForDisplay);
 }
 
 export async function getReportTasks(reportName: string): Promise<Task[]> {
@@ -85,7 +86,7 @@ export async function getReportTasks(reportName: string): Promise<Task[]> {
     console.error(stderr);
     throw new Error(stderr);
   }
-  return JSON.parse(stdout);
+  return JSON.parse(stdout).filter(filterForDisplay);
 }
 
 export async function createTask({
