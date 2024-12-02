@@ -267,6 +267,8 @@ function displayDate(date: string) {
 </style>
 
 <script>
+  import { errorAlert } from "../../lib/customEvents";
+
   // Set task to completed or pending on checkbox change
   const checkboxes = document.getElementsByClassName(
     "item__checkbox__checkbox",
@@ -299,6 +301,9 @@ function displayDate(date: string) {
         (e.target as HTMLInputElement)
           .closest(".item")
           ?.classList.toggle("item--completed");
+      } else {
+        const { message } = await res.json();
+        errorAlert.trigger({ message: `Failed to update task: ${message}` });
       }
     });
   }
@@ -382,6 +387,7 @@ function displayDate(date: string) {
     editTagsModal,
     editTaskModal,
     scheduleDueModal,
+    errorAlert,
   } from "../../lib/customEvents";
   import { type Task } from "../../lib/models/types";
 
@@ -394,6 +400,9 @@ function displayDate(date: string) {
         `[data-js=chechbox-${uuid}]`,
       ) as HTMLInputElement;
       task.closest(".item")?.remove();
+    } else {
+      const { message } = await res.json();
+      errorAlert.trigger({ message: `Failed to delete task: ${message}` });
     }
   }
 

@@ -67,7 +67,7 @@ import Button from "./Button.astro";
 </style>
 
 <script>
-  import { scheduleDueModal } from "../lib/customEvents";
+  import { errorAlert, scheduleDueModal } from "../lib/customEvents";
   import { type Task } from "../lib/models/types";
   import { parseDate, stringifyDate } from "../lib/util/dates";
 
@@ -124,7 +124,9 @@ import Button from "./Button.astro";
       });
       if (!scheduledUpdateResponse.ok) {
         const { message } = await scheduledUpdateResponse.json();
-        console.error(message);
+        errorAlert.trigger({
+          message: `Failed to update scheduled: ${message}`,
+        });
       }
       const dueUpdateResponse = await fetch(`/api/tasks/${taskId}`, {
         method: "PATCH",
@@ -138,7 +140,7 @@ import Button from "./Button.astro";
       });
       if (!dueUpdateResponse.ok) {
         const { message } = await dueUpdateResponse.json();
-        console.error(message);
+        errorAlert.trigger({ message: `Failed to update due: ${message}` });
       }
       form.reset();
       modal.close();

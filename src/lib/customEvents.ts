@@ -114,3 +114,19 @@ export const taskDetailsPanel: CustomEventInfo = {
     );
   },
 };
+
+type ErrorTriggerProps = {
+  message: string;
+};
+export const errorAlert: CustomEventInfo = {
+  eventName: "custom:error",
+  trigger: ({ message }: ErrorTriggerProps) => {
+    document.dispatchEvent(
+      new CustomEvent(errorAlert.eventName, {
+        detail: {
+          message,
+        },
+      }),
+    );
+  },
+};

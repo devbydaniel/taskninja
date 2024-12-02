@@ -92,7 +92,7 @@ const { class: className } = Astro.props;
 
 <script>
   // listen for the custom event and show the dialog
-  import { taskDetailsPanel } from "../lib/customEvents";
+  import { errorAlert, taskDetailsPanel } from "../lib/customEvents";
   import type { Task } from "../lib/models/types";
   import addAnnotationMarkup from "../lib/markup/addAnnotationMarkup";
 
@@ -151,7 +151,8 @@ const { class: className } = Astro.props;
       body: JSON.stringify({ annotation: annotation.value }),
     });
     if (!res.ok) {
-      console.error("Failed to add annotation");
+      const { message } = await res.json();
+      errorAlert.trigger({ message: `Failed to add annotation: ${message}` });
       return;
     }
     const data = await res.json();

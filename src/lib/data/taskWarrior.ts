@@ -61,7 +61,7 @@ export function getReports(): string[] {
 export async function getProjects(): Promise<string[]> {
   const { stdout, stderr } = await exec(COMMAND + " _projects");
   if (stderr) {
-    console.error("stderr in getProjects:", stderr);
+    console.error("stderr in getProjects: ", stderr);
     throw new Error(stderr);
   }
   const projects = stdout.split("\n").filter(Boolean);
@@ -71,7 +71,7 @@ export async function getProjects(): Promise<string[]> {
 export async function getTags(): Promise<string[]> {
   const { stdout, stderr } = await exec(COMMAND + " _tags");
   if (stderr) {
-    console.error("stderr in getTags:", stderr);
+    console.error("stderr in getTags: ", stderr);
     throw new Error(stderr);
   }
   const tags = stdout
@@ -86,7 +86,7 @@ export async function getProjectTasks(project: string | null): Promise<Task[]> {
     `${COMMAND} project:${project || ""} export`,
   );
   if (stderr) {
-    console.error("stderr in getProjectTasks:", stderr);
+    console.error("stderr in getProjectTasks: ", stderr);
     throw new Error(stderr);
   }
   return JSON.parse(stdout).filter(filterForDisplay);
@@ -95,7 +95,7 @@ export async function getProjectTasks(project: string | null): Promise<Task[]> {
 export async function getReportTasks(reportName: string): Promise<Task[]> {
   const { stdout, stderr } = await exec(`${COMMAND} export ${reportName}`);
   if (stderr) {
-    console.error("stderr in getReportTasks:", stderr);
+    console.error("stderr in getReportTasks: ", stderr);
     throw new Error(stderr);
   }
   return JSON.parse(stdout).filter(filterForDisplay);
@@ -113,7 +113,7 @@ export async function createTask({
   );
   if (stderr) {
     if (stderr.includes("has changed.")) return;
-    console.error("stderr in createTask:", stderr);
+    console.error("stderr in createTask: ", stderr);
     throw new Error(stderr);
   }
 }
@@ -127,7 +127,7 @@ export async function updateTask(
     `${COMMAND} modify ${taskUuid} ${key}:${newValue}`,
   );
   if (stderr) {
-    console.error("stderr in updateTask:", stderr);
+    console.error("stderr in updateTask: ", stderr);
     throw new Error(stderr);
   }
 }
@@ -138,7 +138,7 @@ export async function updateTaskWithCommand(
 ): Promise<void> {
   const { stderr } = await exec(`${COMMAND} ${taskUuid} modify ${command}`);
   if (stderr) {
-    console.error("stderr in updateTaskWithCommand:", stderr);
+    console.error("stderr in updateTaskWithCommand: ", stderr);
     throw new Error(stderr);
   }
 }
@@ -148,7 +148,7 @@ export async function getAnnotations(
 ): Promise<{ entry: string; description: string }[]> {
   const { stdout, stderr } = await exec(`${COMMAND} ${taskUuid} export`);
   if (stderr) {
-    console.error("stderr in getAnnotations:", stderr);
+    console.error("stderr in getAnnotations: ", stderr);
     throw new Error(stderr);
   }
   const tasks = JSON.parse(stdout) as Task[];
@@ -164,7 +164,7 @@ export async function annotateTask(
     `${COMMAND} annotate ${taskUuid} ${annotation}`,
   );
   if (stderr) {
-    console.error("stderr in annotateTask:", stderr);
+    console.error("stderr in annotateTask: ", stderr);
     throw new Error(stderr);
   }
 }
@@ -172,7 +172,7 @@ export async function annotateTask(
 export async function deleteTask(taskUuid: string): Promise<void> {
   const { stderr } = await exec(`${COMMAND} modify ${taskUuid} status:deleted`);
   if (stderr) {
-    console.error("stderr in deleteTask:", stderr);
+    console.error("stderr in deleteTask: ", stderr);
     throw new Error(stderr);
   }
 }

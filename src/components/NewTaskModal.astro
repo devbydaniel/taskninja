@@ -137,6 +137,7 @@ const tagOptions = tags.sort((a, b) => (a > b ? 1 : -1));
   </script>
 
   <script>
+    import { errorAlert } from "../lib/customEvents";
     // submit form
     const form = document.getElementById(
       "new-task-form__form",
@@ -153,7 +154,7 @@ const tagOptions = tags.sort((a, b) => (a > b ? 1 : -1));
         });
         if (!res.ok) {
           const { message } = await res.json();
-          console.error("Failed to create task: ", message);
+          errorAlert.trigger({ message: `Failed to create task: ${message}` });
           return;
         }
         form.reset();

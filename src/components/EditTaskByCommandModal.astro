@@ -101,7 +101,7 @@ import Input from "./Input.astro";
     });
     if (!response.ok) {
       const { message } = await response.json();
-      console.error(message);
+      alert("Failed to update task: " + message);
     }
     if (response.ok) {
       form.reset();

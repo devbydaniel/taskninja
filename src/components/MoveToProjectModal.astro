@@ -119,7 +119,8 @@ const { projects } = Astro.props;
       body: JSON.stringify({ key: "project", newValue: project }),
     });
     if (!response.ok) {
-      console.error("Failed to move task to project");
+      const { message } = await response.json();
+      alert("Failed to update project" + message);
     }
     if (response.ok) {
       modal.close();

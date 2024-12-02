@@ -9,6 +9,7 @@ import MoveToProjectModal from "../components/MoveToProjectModal.astro";
 import EditTagsModal from "../components/EditTagsModal.astro";
 import TaskDetailsPanel from "../components/TaskDetailsPanel.astro";
 import ScheduleDueModal from "../components/ScheduleDueModal.astro";
+import ErrorAlert from "../components/ErrorAlert.astro";
 
 interface Props {
   projects: string[];
@@ -43,6 +44,7 @@ const { projects, tags, currentProject } = Astro.props;
   <EditTagsModal tags={tags} />
   <TaskDetailsPanel />
   <ScheduleDueModal />
+  <ErrorAlert />
 </div>
 
 <style>
