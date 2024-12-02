@@ -3,7 +3,14 @@ interface Props {
   autofocus?: boolean;
   required?: boolean;
   id: string;
-  type: "text" | "email" | "password" | "date" | "number" | "checkbox";
+  type:
+    | "text"
+    | "email"
+    | "password"
+    | "date"
+    | "number"
+    | "checkbox"
+    | "datetime-local";
   name: string;
   placeholder?: string;
   class?: string;

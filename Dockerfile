@@ -1,6 +1,7 @@
 FROM node:alpine
 
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing task=2.6.2-r2
+RUN apk add --no-cache python3
 
 # Set environment variables
 ENV TASKDATA=/root/.task

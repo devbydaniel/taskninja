@@ -9,7 +9,6 @@ import {
 export const PATCH: APIRoute = async ({ request, params }) => {
   const { uuid } = params;
   const { key, newValue, command } = await request.json();
-  console.log({ key, newValue, command });
   if (!uuid) {
     return new Response(
       JSON.stringify({
