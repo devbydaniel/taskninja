@@ -1,0 +1,29 @@
+---
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<div
+  style={{
+    position: "fixed",
+    inset: 0,
+    display: "flex",
+    flexDirection: "column",
+    gap: "var(--gap-md)",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100%",
+    fontSize: "var(--font-size)",
+    maxWidth: "500px",
+    textAlign: "center",
+    margin: "auto",
+  }}
+>
+  <h1>Ooops</h1>
+  <p>{error instanceof Error ? error.message : "Unknown error"}</p>
+  <p><a href="/">Go back</a></p>
+</div>

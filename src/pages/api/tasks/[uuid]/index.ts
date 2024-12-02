@@ -12,7 +12,7 @@ export const PATCH: APIRoute = async ({ request, params }) => {
   if (!uuid) {
     return new Response(
       JSON.stringify({
-        message: "Missing param uuid",
+        message: "Missing param 'uuid'",
       }),
       { status: 400 },
     );
@@ -21,7 +21,7 @@ export const PATCH: APIRoute = async ({ request, params }) => {
     // value can be empty string
     return new Response(
       JSON.stringify({
-        message: "Missing key and newValue or command",
+        message: "Missing param 'key' and 'newValue' or 'command'",
       }),
       { status: 400 },
     );
@@ -31,9 +31,11 @@ export const PATCH: APIRoute = async ({ request, params }) => {
       await updateTaskWithCommand(uuid, command);
       return new Response(null, { status: 200 });
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "An error occurred";
       return new Response(
         JSON.stringify({
-          message: "An error occurred",
+          message,
         }),
         { status: 500 },
       );
@@ -42,7 +44,7 @@ export const PATCH: APIRoute = async ({ request, params }) => {
   if (key === "status" && !Object.values(TaskStatus).includes(newValue)) {
     return new Response(
       JSON.stringify({
-        message: "Invalid status",
+        message: `Invalid status: ${newValue}. Valid statuses are: ${Object.values(TaskStatus).join(", ")}`,
       }),
       { status: 400 },
     );
@@ -51,10 +53,11 @@ export const PATCH: APIRoute = async ({ request, params }) => {
     await updateTask(uuid, key, newValue || "");
     return new Response(null, { status: 200 });
   } catch (error) {
-    console.error(error);
+    const message =
+      error instanceof Error ? error.message : "An error occurred";
     return new Response(
       JSON.stringify({
-        message: "An error occurred",
+        message,
       }),
       { status: 500 },
     );
@@ -66,7 +69,7 @@ export const DELETE: APIRoute = async ({ params }) => {
   if (!uuid) {
     return new Response(
       JSON.stringify({
-        message: "Missing param uuid",
+        message: "Missing param 'uuid'",
       }),
       { status: 400 },
     );
@@ -75,10 +78,11 @@ export const DELETE: APIRoute = async ({ params }) => {
     await deleteTask(uuid);
     return new Response(null, { status: 200 });
   } catch (error) {
-    console.error(error);
+    const message =
+      error instanceof Error ? error.message : "An error occurred";
     return new Response(
       JSON.stringify({
-        message: "An error occurred",
+        message,
       }),
       { status: 500 },
     );

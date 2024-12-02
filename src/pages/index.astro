@@ -1,5 +1,7 @@
 ---
-// redirect to /reports/next
-Astro.response.headers.set("Location", "/reports/next");
+import { getReports } from "../lib/data/taskWarrior";
+
+const reports = getReports();
+Astro.response.headers.set("Location", `/reports/${reports[0]}`);
 Astro.response.status = 302;
 ---
