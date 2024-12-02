@@ -26,16 +26,17 @@ export function formatDate(
   const variant = opts?.variant || "short";
   switch (variant) {
     case "short":
-      return date.toLocaleDateString("en-US", {
+      return date.toLocaleDateString(undefined, {
         month: "short",
         day: "numeric",
       });
     case "timestamp":
-      return date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
+      return date.toLocaleDateString(undefined, {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
   }
 }
