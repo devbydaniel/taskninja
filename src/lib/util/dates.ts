@@ -1,11 +1,11 @@
 export function parseDate(date: string): Date {
-  const year = date.slice(0, 4);
-  const month = date.slice(4, 6);
-  const day = date.slice(6, 8);
-  const hours = date.slice(9, 11);
-  const minutes = date.slice(11, 13);
-  const seconds = date.slice(13, 15);
-  return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`);
+  const year = parseInt(date.slice(0, 4), 10);
+  const month = parseInt(date.slice(4, 6), 10) - 1; // Months are 0-indexed
+  const day = parseInt(date.slice(6, 8), 10);
+  const hours = date.length > 8 ? parseInt(date.slice(9, 11), 10) : 0;
+  const minutes = date.length > 11 ? parseInt(date.slice(11, 13), 10) : 0;
+  const seconds = date.length > 13 ? parseInt(date.slice(13, 15), 10) : 0;
+  return new Date(Date.UTC(year, month, day, hours, minutes, seconds));
 }
 
 export function stringifyDate(date: Date): string {
