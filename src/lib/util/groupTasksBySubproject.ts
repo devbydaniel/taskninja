@@ -2,20 +2,27 @@ import type { Task } from "../models/types";
 
 export default function groupTasksBySubProject({
   tasks,
+  project,
   noSubProjectLabel,
 }: {
   tasks: Task[];
+  project: string;
   noSubProjectLabel: string;
 }): Record<string, Task[]> {
   const tasksBySubproject: Record<string, Task[]> = {};
   tasks.forEach((task) => {
-    const projectArr = task.project?.split(".");
+    const projectPath = project.split(".");
+    const taskProjectPath = task.project?.split(".");
+    const taskSubProjectPath = taskProjectPath?.slice(
+      projectPath.length,
+      taskProjectPath.length,
+    );
     let subProject = "";
-    if (!projectArr || projectArr.length === 1) {
-      // task has no project or no subproject
+    if (!taskSubProjectPath || taskSubProjectPath.length === 0) {
+      // task has no subproject
       subProject = noSubProjectLabel;
     } else {
-      subProject = projectArr[1];
+      subProject = taskSubProjectPath[0];
     }
     if (!tasksBySubproject[subProject]) {
       tasksBySubproject[subProject] = [];

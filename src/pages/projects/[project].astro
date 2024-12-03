@@ -8,7 +8,7 @@ import {
   getProjects,
   getTags,
 } from "../../lib/data/taskWarrior";
-import groupTasksByProject from "../../lib/util/groupTasksBySubproject";
+import groupTasksBySubProject from "../../lib/util/groupTasksBySubproject";
 
 const projects = await getProjects();
 const tags = await getTags();
@@ -16,10 +16,14 @@ const { project } = Astro.params;
 
 const tasks = await getProjectTasks(project!);
 const noSubProjectLabel = "No Subproject";
-const groupedTasks = groupTasksByProject({ tasks, noSubProjectLabel });
+const groupedTasks = groupTasksBySubProject({
+  tasks,
+  project: project!,
+  noSubProjectLabel,
+});
 ---
 
-<RootLayout title="Welcome to Astro.">
+<RootLayout title="TaskNinja">
   <AppLayout projects={projects} tags={tags} currentProject={project}>
     <ContentAreaLayout title={project!}>
       {
@@ -29,7 +33,11 @@ const groupedTasks = groupTasksByProject({ tasks, noSubProjectLabel });
           .map(([subproject, tasks]) => (
             <div class="subproject-section">
               {subproject !== noSubProjectLabel && (
-                <h2 class="subproject-section__heading">{subproject}</h2>
+                <h2 class="subproject-section__heading">
+                  <a href={`/projects/${project}.${subproject}`}>
+                    {subproject}
+                  </a>
+                </h2>
               )}
               <TaskList tasks={tasks} />
             </div>
