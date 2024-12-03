@@ -47,94 +47,94 @@ const reports = getReports();
       ><Icon name="mdi:dock-left" /></Button
     >
   </div>
-
-  <style>
-    .nav {
-      padding: var(--gap-md);
-      background: var(--background-raised);
-      height: 100%;
-      border-right: var(--border-width) solid var(--border-color);
-      overflow-y: auto;
-    }
-    .nav__new-task-button {
-      margin-bottom: var(--gap-md);
-    }
-    .nav__title {
-      padding: var(--gap-sm);
-      font-weight: bold;
-      color: var(--color-text-muted);
-      font-size: var(--font-size-sm);
-      margin-bottom: var(--gap-xs);
-    }
-    .nav__list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      margin-bottom: var(--gap-md);
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap-sm);
-    }
-    .nav__list__item {
-      text-align: left;
-      border: none;
-      padding: var(--gap-sm) var(--gap-md);
-      cursor: pointer;
-      text-decoration: none;
-      color: var(--color-text);
-      border-radius: var(--border-radius);
-      transitions: background 0.3s ease;
-    }
-    .nav__list__item:hover {
-      background: var(--background-focus);
-    }
-    .nav__list__item:active {
-      background: var(--background-clicked);
-    }
-    .nav__list__item--active {
-      background: var(--background-raised);
-    }
-    .nav__list__item a {
-      text-decoration: none;
-      color: var(--color-text);
-      width: 100%;
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .nav__tab-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      align-items: center;
-      background: var(--background-raised);
-      padding: var(--gap-md);
-    }
-	@media (min-width: 768px) {
-		.nav__tab-bar {
-			display: none;
-		}
-	}
-  </style>
-
-  <script>
-    import { newTaskModal } from "../lib/customEvents";
-
-    const newTaskButton = document.querySelector(".nav__new-task-button")!;
-
-    newTaskButton.addEventListener("click", () => {
-      newTaskModal.trigger();
-    });
-  </script>
-
-  <script>
-    import { navToggle } from "../lib/customEvents";
-
-    const navToggleElement = document.querySelector(".nav__toggle")!;
-    navToggleElement.addEventListener("click", () => {
-      navToggle.trigger();
-    });
-  </script>
 </div>
+
+<style>
+  .nav {
+    padding: var(--gap-md);
+    background: var(--background-raised);
+    height: 100%;
+    border-right: var(--border-width) solid var(--border-color);
+    overflow-y: auto;
+  }
+  .nav__new-task-button {
+    margin-bottom: var(--gap-md);
+  }
+  .nav__title {
+    padding: var(--gap-sm);
+    font-weight: bold;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--gap-xs);
+  }
+  .nav__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-bottom: var(--gap-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+  }
+  .nav__list__item {
+    text-align: left;
+    border: none;
+    padding: var(--gap-sm) var(--gap-md);
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-text);
+    border-radius: var(--border-radius);
+    transitions: background 0.3s ease;
+  }
+  .nav__list__item:hover {
+    background: var(--background-focus);
+  }
+  .nav__list__item:active {
+    background: var(--background-clicked);
+  }
+  .nav__list__item--active {
+    background: var(--background-raised);
+  }
+  .nav__list__item a {
+    text-decoration: none;
+    color: var(--color-text);
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .nav__tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    background: var(--background-raised);
+    padding: var(--gap-md);
+  }
+  @media (min-width: 768px) {
+    .nav__tab-bar {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { newTaskModal } from "../lib/customEvents";
+
+  const newTaskButton = document.querySelector(".nav__new-task-button")!;
+
+  newTaskButton.addEventListener("click", () => {
+    newTaskModal.trigger();
+  });
+</script>
+
+<script>
+  import { navToggle } from "../lib/customEvents";
+
+  const navToggleElement = document.querySelector(".nav__toggle")!;
+  navToggleElement.addEventListener("click", () => {
+    navToggle.trigger();
+  });
+</script>
