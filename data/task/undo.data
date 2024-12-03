@@ -352,3 +352,45 @@ time 1733258042
 old [description:"third task" entry:"1733243676" modified:"1733243676" project:"A" status:"pending" uuid:"ce03bf28-a1ed-4108-93aa-97a6dd6d0d39"]
 new [annotation_1733258042:"asdfasdf" description:"third task" entry:"1733243676" modified:"1733258042" project:"A" status:"pending" uuid:"ce03bf28-a1ed-4108-93aa-97a6dd6d0d39"]
 ---
+time 1733258976
+new [description:"task add test date" due:"1733180400" entry:"1733258976" modified:"1733258976" status:"pending" uuid:"684607b7-99a9-4d28-9396-ed538e15623f"]
+---
+time 1733259005
+old [description:"task add test date" due:"1733180400" entry:"1733258976" modified:"1733258976" status:"pending" uuid:"684607b7-99a9-4d28-9396-ed538e15623f"]
+new [description:"task add test date" due:"1733180400" entry:"1733258976" modified:"1733259005" project:"test" status:"pending" uuid:"684607b7-99a9-4d28-9396-ed538e15623f"]
+---
+time 1733259317
+old [description:"task add test date" due:"1733180400" entry:"1733258976" modified:"1733259005" project:"test" status:"pending" uuid:"684607b7-99a9-4d28-9396-ed538e15623f"]
+new [description:"task add test date" due:"1733180400" end:"1733259317" entry:"1733258976" modified:"1733259317" project:"test" status:"deleted" uuid:"684607b7-99a9-4d28-9396-ed538e15623f"]
+---
+time 1733259326
+new [description:"anothertoday" due:"1733180400" entry:"1733259326" modified:"1733259326" project:"test" status:"pending" uuid:"53342749-9535-4b1d-b935-c7f0a486f952"]
+---
+time 1733259403
+old [description:"anothertoday" due:"1733180400" entry:"1733259326" modified:"1733259326" project:"test" status:"pending" uuid:"53342749-9535-4b1d-b935-c7f0a486f952"]
+new [description:"anothertoday" due:"1733180400" end:"1733259403" entry:"1733259326" modified:"1733259403" project:"test" status:"deleted" uuid:"53342749-9535-4b1d-b935-c7f0a486f952"]
+---
+time 1733259411
+new [description:"uuuund jetzt" due:"1733180400" entry:"1733259411" modified:"1733259411" project:"test" status:"pending" uuid:"ae2f29e3-55e8-4c2f-ae83-7b446cfbcc24"]
+---
+time 1733259594
+old [description:"uuuund jetzt" due:"1733180400" entry:"1733259411" modified:"1733259411" project:"test" status:"pending" uuid:"ae2f29e3-55e8-4c2f-ae83-7b446cfbcc24"]
+new [description:"uuuund jetzt" due:"1733180400" end:"1733259594" entry:"1733259411" modified:"1733259594" project:"test" status:"deleted" uuid:"ae2f29e3-55e8-4c2f-ae83-7b446cfbcc24"]
+---
+time 1733259598
+new [description:"adfadsfsf" due:"1733180400" entry:"1733259598" modified:"1733259598" project:"test" status:"pending" uuid:"d3cf988b-f4d1-466e-90ed-523e31525461"]
+---
+time 1733259657
+old [description:"adfadsfsf" due:"1733180400" entry:"1733259598" modified:"1733259598" project:"test" status:"pending" uuid:"d3cf988b-f4d1-466e-90ed-523e31525461"]
+new [description:"adfadsfsf" due:"1733180400" end:"1733259657" entry:"1733259598" modified:"1733259657" project:"test" status:"deleted" uuid:"d3cf988b-f4d1-466e-90ed-523e31525461"]
+---
+time 1733259662
+new [description:"asdfawerawer" due:"1733180400" entry:"1733259662" modified:"1733259662" project:"test" status:"pending" uuid:"e759cf1e-abb0-4a0a-ac31-3e5887c8514a"]
+---
+time 1733259900
+old [description:"asdfawerawer" due:"1733180400" entry:"1733259662" modified:"1733259662" project:"test" status:"pending" uuid:"e759cf1e-abb0-4a0a-ac31-3e5887c8514a"]
+new [description:"asdfawerawer" due:"1733180400" end:"1733259900" entry:"1733259662" modified:"1733259900" project:"test" status:"deleted" uuid:"e759cf1e-abb0-4a0a-ac31-3e5887c8514a"]
+---
+time 1733259905
+new [description:"hallooooo" due:"1733180400" entry:"1733259905" modified:"1733259905" project:"test" status:"pending" uuid:"d9682313-536b-4657-973a-731bea29fb88"]
+---

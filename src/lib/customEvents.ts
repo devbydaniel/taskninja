@@ -5,6 +5,13 @@ export type CustomEventInfo = {
   trigger: Function;
 };
 
+export const navToggle: CustomEventInfo = {
+  eventName: "custom:nav-toggle",
+  trigger: () => {
+    document.dispatchEvent(new Event(navToggle.eventName));
+  },
+};
+
 type ConfirmationModalTriggerProps = {
   message: string;
   onConfirm: () => void;

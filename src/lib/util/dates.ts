@@ -1,22 +1,32 @@
 export function parseDate(date: string): Date {
   const year = parseInt(date.slice(0, 4), 10);
-  const month = parseInt(date.slice(4, 6), 10) - 1; // Months are 0-indexed
+  const month = parseInt(date.slice(4, 6), 10) - 1;
   const day = parseInt(date.slice(6, 8), 10);
   const hours = date.length > 8 ? parseInt(date.slice(9, 11), 10) : 0;
   const minutes = date.length > 11 ? parseInt(date.slice(11, 13), 10) : 0;
   const seconds = date.length > 13 ? parseInt(date.slice(13, 15), 10) : 0;
-  return new Date(Date.UTC(year, month, day, hours, minutes, seconds));
+
+  // Create date assuming it is in local time (German winter time) and adjust to UTC
+  const localDate = new Date(year, month, day, hours, minutes, seconds);
+  const utcDate = new Date(
+    localDate.getTime() - localDate.getTimezoneOffset() * 60000,
+  );
+
+  return utcDate;
 }
 
 export function stringifyDate(date: Date): string {
-  const utcDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-  const year = utcDate.getFullYear();
-  const month = utcDate.getMonth() + 1;
-  const day = utcDate.getDate();
-  const hours = utcDate.getHours();
-  const minutes = utcDate.getMinutes();
-  const seconds = utcDate.getSeconds();
-  return `${year}${month.toString().padStart(2, "0")}${day.toString().padStart(2, "0")}T${hours.toString().padStart(2, "0")}${minutes.toString().padStart(2, "0")}${seconds.toString().padStart(2, "0")}Z`;
+  // Convert from UTC to local time (German winter time) before formatting
+  const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+
+  const year = localDate.getFullYear();
+  const month = (localDate.getMonth() + 1).toString().padStart(2, "0");
+  const day = localDate.getDate().toString().padStart(2, "0");
+  const hours = localDate.getHours().toString().padStart(2, "0");
+  const minutes = localDate.getMinutes().toString().padStart(2, "0");
+  const seconds = localDate.getSeconds().toString().padStart(2, "0");
+
+  return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
 }
 
 export function formatDate(

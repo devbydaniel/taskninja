@@ -77,10 +77,12 @@ const { projects, tags, currentProject } = Astro.props;
   }
 
   .app__tab-bar {
+    position: fixed;
     background: var(--background-raised);
     z-index: 50;
-    position: sticky;
     bottom: 0;
+    left: 0;
+    right: 0;
     border-top: var(--border-width) solid var(--border-color);
     display: flex;
     justify-content: space-between;
@@ -127,10 +129,15 @@ const { projects, tags, currentProject } = Astro.props;
 </style>
 
 <script>
+  import { navToggle } from "../lib/customEvents";
   const menuToggle = document.querySelector("[data-js=nav-toggle]");
   const navbar = document.querySelector("[data-js=nav]");
 
   menuToggle?.addEventListener("click", () => {
+    navToggle.trigger();
+  });
+
+  document.addEventListener(navToggle.eventName, () => {
     navbar?.classList.toggle("app__nav--open");
   });
 </script>

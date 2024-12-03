@@ -91,3 +91,15 @@
 {"description":"wetrhbwebztrgfew","entry":"20241203T202541Z","modified":"20241203T202541Z","status":"pending","uuid":"7c00a9b1-74dd-4faf-9611-3be2aa3dc0f2"}
 {"description":"wertghwrgtbwrefd","entry":"20241203T202543Z","modified":"20241203T202543Z","status":"pending","uuid":"9d2dabf2-6b7b-4b34-9823-e224ae004165"}
 {"description":"third task","entry":"20241203T163436Z","modified":"20241203T203402Z","project":"A","status":"pending","uuid":"ce03bf28-a1ed-4108-93aa-97a6dd6d0d39","annotations":[{"entry":"20241203T203402Z","description":"asdfasdf"}]}
+{"description":"task add test date","due":"20241202T230000Z","entry":"20241203T204936Z","modified":"20241203T204936Z","status":"pending","uuid":"684607b7-99a9-4d28-9396-ed538e15623f"}
+{"description":"task add test date","due":"20241202T230000Z","entry":"20241203T204936Z","modified":"20241203T205005Z","project":"test","status":"pending","uuid":"684607b7-99a9-4d28-9396-ed538e15623f"}
+{"description":"task add test date","due":"20241202T230000Z","end":"20241203T205517Z","entry":"20241203T204936Z","modified":"20241203T205517Z","project":"test","status":"deleted","uuid":"684607b7-99a9-4d28-9396-ed538e15623f"}
+{"description":"anothertoday","due":"20241202T230000Z","entry":"20241203T205526Z","modified":"20241203T205526Z","project":"test","status":"pending","uuid":"53342749-9535-4b1d-b935-c7f0a486f952"}
+{"description":"anothertoday","due":"20241202T230000Z","end":"20241203T205643Z","entry":"20241203T205526Z","modified":"20241203T205643Z","project":"test","status":"deleted","uuid":"53342749-9535-4b1d-b935-c7f0a486f952"}
+{"description":"uuuund jetzt","due":"20241202T230000Z","entry":"20241203T205651Z","modified":"20241203T205651Z","project":"test","status":"pending","uuid":"ae2f29e3-55e8-4c2f-ae83-7b446cfbcc24"}
+{"description":"uuuund jetzt","due":"20241202T230000Z","end":"20241203T205954Z","entry":"20241203T205651Z","modified":"20241203T205954Z","project":"test","status":"deleted","uuid":"ae2f29e3-55e8-4c2f-ae83-7b446cfbcc24"}
+{"description":"adfadsfsf","due":"20241202T230000Z","entry":"20241203T205958Z","modified":"20241203T205958Z","project":"test","status":"pending","uuid":"d3cf988b-f4d1-466e-90ed-523e31525461"}
+{"description":"adfadsfsf","due":"20241202T230000Z","end":"20241203T210057Z","entry":"20241203T205958Z","modified":"20241203T210057Z","project":"test","status":"deleted","uuid":"d3cf988b-f4d1-466e-90ed-523e31525461"}
+{"description":"asdfawerawer","due":"20241202T230000Z","entry":"20241203T210102Z","modified":"20241203T210102Z","project":"test","status":"pending","uuid":"e759cf1e-abb0-4a0a-ac31-3e5887c8514a"}
+{"description":"asdfawerawer","due":"20241202T230000Z","end":"20241203T210500Z","entry":"20241203T210102Z","modified":"20241203T210500Z","project":"test","status":"deleted","uuid":"e759cf1e-abb0-4a0a-ac31-3e5887c8514a"}
+{"description":"hallooooo","due":"20241202T230000Z","entry":"20241203T210505Z","modified":"20241203T210505Z","project":"test","status":"pending","uuid":"d9682313-536b-4657-973a-731bea29fb88"}
