@@ -27,11 +27,13 @@ const { projects, tags, currentProject } = Astro.props;
   <main class="app__main">
     <slot />
   </main>
-  <div class="app__nav-toggle" data-js="nav-toggle">
-    <Button size="md" variant="muted"><Icon name="mdi:dock-left" /></Button>
-  </div>
-  <div class="app__new-task-button">
-    <Button size="md"><Icon name="mdi:plus" /> <span>Add Task</span></Button>
+  <div class="app__tab-bar">
+    <div class="app__nav-toggle" data-js="nav-toggle">
+      <Button size="md" variant="muted"><Icon name="mdi:dock-left" /></Button>
+    </div>
+    <div class="app__new-task-button">
+      <Button size="md"><Icon name="mdi:plus" /> <span>Add Task</span></Button>
+    </div>
   </div>
   <NewTaskModal
     projects={projects}
@@ -70,21 +72,20 @@ const { projects, tags, currentProject } = Astro.props;
     transform: translateX(0);
   }
 
-  .app__nav-toggle {
-    position: fixed;
-    bottom: 1rem;
-    left: 1rem;
-    z-index: 1000;
-  }
-
   .app__main {
+    background: var(--background);
   }
 
-  .app__new-task-button {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 100;
+  .app__tab-bar {
+    background: var(--background-raised);
+    z-index: 50;
+    position: sticky;
+    bottom: 0;
+    border-top: var(--border-width) solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--gap-md);
   }
 
   /* Tablet */
@@ -104,6 +105,10 @@ const { projects, tags, currentProject } = Astro.props;
     }
 
     .app__new-task-button {
+      display: none;
+    }
+
+    .content__tab-bar-bumper {
       display: none;
     }
   }
