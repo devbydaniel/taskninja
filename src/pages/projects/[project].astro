@@ -8,18 +8,44 @@ import {
   getProjects,
   getTags,
 } from "../../lib/data/taskWarrior";
+import groupTasksByProject from "../../lib/util/groupTasksBySubproject";
 
 const projects = await getProjects();
 const tags = await getTags();
 const { project } = Astro.params;
 
 const tasks = await getProjectTasks(project!);
+const noSubProjectLabel = "No Subproject";
+const groupedTasks = groupTasksByProject({ tasks, noSubProjectLabel });
 ---
 
 <RootLayout title="Welcome to Astro.">
   <AppLayout projects={projects} tags={tags} currentProject={project}>
     <ContentAreaLayout title={project!}>
-      <TaskList tasks={tasks} />
+      {
+        Object.entries(groupedTasks)
+          // sort without subproject first, then alphabetically
+          .sort((a, b) => (!a[0] ? 1 : a[0] > b[0] ? 1 : -1))
+          .map(([subproject, tasks]) => (
+            <div class="subproject-section">
+              {subproject !== noSubProjectLabel && (
+                <h2 class="subproject-section__heading">{subproject}</h2>
+              )}
+              <TaskList tasks={tasks} />
+            </div>
+          ))
+      }
     </ContentAreaLayout>
   </AppLayout>
 </RootLayout>
+
+<style>
+  .subproject-section {
+    margin: var(--gap-md) 0;
+  }
+
+  .subproject-section__heading {
+    padding: 0 var(--gap-md);
+    font-size: var(--font-size);
+  }
+</style>

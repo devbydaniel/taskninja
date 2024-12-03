@@ -7,7 +7,7 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-	"disable": "astro telemetry disable",
+    "disable-telemetry": "astro telemetry disable",
     "astro": "astro",
     "docker:push": "docker buildx build --platform linux/amd64,linux/arm64 -t wh00pwh00p12369/taskninja --push ."
   },
