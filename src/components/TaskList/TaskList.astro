@@ -5,9 +5,10 @@ import EmptyState from "../EmptyState.astro";
 
 interface Props {
   tasks: Task[];
+  hideProjectName?: boolean;
 }
 
-const { tasks } = Astro.props;
+const { tasks, hideProjectName = false } = Astro.props;
 ---
 
 {
@@ -15,7 +16,7 @@ const { tasks } = Astro.props;
     <ul class="task-list">
       {tasks.map((task, i) => (
         <li class="task-list__item" tabindex={i + 1}>
-          <TaskListItem task={task} />
+          <TaskListItem task={task} hideProjectName={hideProjectName} />
         </li>
       ))}
     </ul>

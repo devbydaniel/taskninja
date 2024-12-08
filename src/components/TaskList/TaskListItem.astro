@@ -6,9 +6,10 @@ import { parseDate, formatDate } from "../../lib/util/dates";
 
 interface Props {
   task: Task;
+  hideProjectName: boolean;
 }
 
-const { task } = Astro.props;
+const { task, hideProjectName } = Astro.props;
 const isOverdue = task.due && parseDate(task.due) < new Date();
 const isPastScheduled =
   task.scheduled && parseDate(task.scheduled) < new Date();
@@ -60,7 +61,7 @@ function displayDate(date: string) {
               <Icon name="mdi:flag-variant-outline" /> {displayDate(task.due)}
             </div>
           )}
-          {task.project && (
+          {!hideProjectName && task.project && (
             <div class="item__details__project">
               <Icon name="mdi:order-checkbox-descending" /> {task.project}
             </div>
