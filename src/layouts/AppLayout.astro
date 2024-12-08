@@ -27,6 +27,7 @@ const { projects, tags, currentProject } = Astro.props;
   <main class="app__main">
     <slot />
   </main>
+  <div class="app__tab-bar__bumper"></div>
   <div class="app__tab-bar">
     <div class="app__nav-toggle" data-js="nav-toggle">
       <Button size="md" variant="muted"><Icon name="mdi:dock-left" /></Button>
@@ -87,7 +88,11 @@ const { projects, tags, currentProject } = Astro.props;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--gap-md);
+    padding: var(--gap-sm);
+  }
+
+  .app__tab-bar__bumper {
+    height: 56px;
   }
 
   /* Tablet */
@@ -111,6 +116,10 @@ const { projects, tags, currentProject } = Astro.props;
     }
 
     .app__tab-bar {
+      display: none;
+    }
+
+    .app__tab-bar__bumper {
       display: none;
     }
   }

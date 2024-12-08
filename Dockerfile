@@ -7,6 +7,7 @@ RUN apk add --no-cache python3
 ENV TASKDATA=/root/.task
 ENV TASKRC=/root/.taskrc
 ENV REPORTS=
+ENV TZ=UTC
 
 WORKDIR /app
 

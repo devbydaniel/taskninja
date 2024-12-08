@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "TASKDATA=./data/task TASKRC=./data/taskrc astro dev",
+    "dev": "TZ=UTC TASKDATA=./data/task TASKRC=./data/taskrc astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",

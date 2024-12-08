@@ -394,3 +394,129 @@ new [description:"asdfawerawer" due:"1733180400" end:"1733259900" entry:"1733259
 time 1733259905
 new [description:"hallooooo" due:"1733180400" entry:"1733259905" modified:"1733259905" project:"test" status:"pending" uuid:"d9682313-536b-4657-973a-731bea29fb88"]
 ---
+time 1733668190
+new [description:"hahaha" entry:"1733668190" modified:"1733668190" status:"pending" uuid:"82d69a10-8f60-4e0b-8d80-1b008ea95d6e"]
+---
+time 1733668532
+old [description:"asdf" entry:"1733257516" modified:"1733257516" status:"pending" uuid:"03cd920b-fd23-486b-9611-61bbe4cee236"]
+new [description:"asdf" end:"1733668532" entry:"1733257516" modified:"1733668532" status:"completed" uuid:"03cd920b-fd23-486b-9611-61bbe4cee236"]
+---
+time 1733668533
+old [description:"dfgh" entry:"1733257519" modified:"1733257519" status:"pending" uuid:"895a659b-82e7-4aae-bb67-33b8856088df"]
+new [description:"dfgh" end:"1733668533" entry:"1733257519" modified:"1733668533" status:"completed" uuid:"895a659b-82e7-4aae-bb67-33b8856088df"]
+---
+time 1733668534
+old [description:"xcvb" entry:"1733257521" modified:"1733257521" status:"pending" uuid:"37e3c50a-c4c2-4840-bc57-48a9099be080"]
+new [description:"xcvb" end:"1733668534" entry:"1733257521" modified:"1733668534" status:"completed" uuid:"37e3c50a-c4c2-4840-bc57-48a9099be080"]
+---
+time 1733668535
+old [description:"sfdhsert" entry:"1733257524" modified:"1733257524" status:"pending" uuid:"577efddf-a366-4609-b0cb-963c2ca8428c"]
+new [description:"sfdhsert" end:"1733668535" entry:"1733257524" modified:"1733668535" status:"completed" uuid:"577efddf-a366-4609-b0cb-963c2ca8428c"]
+---
+time 1733668536
+old [description:"sdfgxcb" entry:"1733257526" modified:"1733257526" status:"pending" uuid:"334ff952-1c99-4611-b38f-464dd460d9ba"]
+new [description:"sdfgxcb" end:"1733668536" entry:"1733257526" modified:"1733668536" status:"completed" uuid:"334ff952-1c99-4611-b38f-464dd460d9ba"]
+---
+time 1733668537
+old [description:"wertwerhgfds" entry:"1733257528" modified:"1733257528" status:"pending" uuid:"5aa33456-4265-4a06-a135-6e38486deb54"]
+new [description:"wertwerhgfds" end:"1733668537" entry:"1733257528" modified:"1733668537" status:"completed" uuid:"5aa33456-4265-4a06-a135-6e38486deb54"]
+---
+time 1733668537
+old [description:"xfbvcbxcvbsdfg" entry:"1733257531" modified:"1733257531" status:"pending" uuid:"e79ffd64-f921-47a6-b00b-9ac3452acf7f"]
+new [description:"xfbvcbxcvbsdfg" end:"1733668537" entry:"1733257531" modified:"1733668537" status:"completed" uuid:"e79ffd64-f921-47a6-b00b-9ac3452acf7f"]
+---
+time 1733668538
+old [description:"xcvberteart" entry:"1733257533" modified:"1733257533" status:"pending" uuid:"42b15c0f-397a-4dd2-9390-2fc0db133a92"]
+new [description:"xcvberteart" end:"1733668538" entry:"1733257533" modified:"1733668538" status:"completed" uuid:"42b15c0f-397a-4dd2-9390-2fc0db133a92"]
+---
+time 1733668539
+old [description:"werghrsbgsfdvsdcs" entry:"1733257536" modified:"1733257536" status:"pending" uuid:"99bb0d51-c2d1-4d15-97f2-c8f0599615b9"]
+new [description:"werghrsbgsfdvsdcs" end:"1733668539" entry:"1733257536" modified:"1733668539" status:"completed" uuid:"99bb0d51-c2d1-4d15-97f2-c8f0599615b9"]
+---
+time 1733668540
+old [description:"dvxyerstherzb" entry:"1733257539" modified:"1733257539" status:"pending" uuid:"37362f49-674f-4466-bb0f-5111b346e1b8"]
+new [description:"dvxyerstherzb" end:"1733668540" entry:"1733257539" modified:"1733668540" status:"completed" uuid:"37362f49-674f-4466-bb0f-5111b346e1b8"]
+---
+time 1733668542
+old [description:"wetrhbwebztrgfew" entry:"1733257541" modified:"1733257541" status:"pending" uuid:"7c00a9b1-74dd-4faf-9611-3be2aa3dc0f2"]
+new [description:"wetrhbwebztrgfew" end:"1733668542" entry:"1733257541" modified:"1733668542" status:"completed" uuid:"7c00a9b1-74dd-4faf-9611-3be2aa3dc0f2"]
+---
+time 1733668542
+old [description:"wertghwrgtbwrefd" entry:"1733257543" modified:"1733257543" status:"pending" uuid:"9d2dabf2-6b7b-4b34-9823-e224ae004165"]
+new [description:"wertghwrgtbwrefd" end:"1733668542" entry:"1733257543" modified:"1733668542" status:"completed" uuid:"9d2dabf2-6b7b-4b34-9823-e224ae004165"]
+---
+time 1733668543
+old [description:"hahaha" entry:"1733668190" modified:"1733668190" status:"pending" uuid:"82d69a10-8f60-4e0b-8d80-1b008ea95d6e"]
+new [description:"hahaha" end:"1733668543" entry:"1733668190" modified:"1733668543" status:"completed" uuid:"82d69a10-8f60-4e0b-8d80-1b008ea95d6e"]
+---
+time 1733668547
+old [description:"hallooooo" due:"1733180400" entry:"1733259905" modified:"1733259905" project:"test" status:"pending" uuid:"d9682313-536b-4657-973a-731bea29fb88"]
+new [description:"hallooooo" due:"1733180400" end:"1733668547" entry:"1733259905" modified:"1733668547" project:"test" status:"completed" uuid:"d9682313-536b-4657-973a-731bea29fb88"]
+---
+time 1733668548
+old [annotation_1733090978:"ok cool" annotation_1733091252:"immer noch?" annotation_1733091296:"oder doch" annotation_1733091300:"nicht" annotation_1733166397:"test" annotation_1733166422:"another" description:"Task with" due:"1734667200" entry:"1732999990" modified:"1733176526" project:"A.very.super.long.ProjectName" scheduled:"1733356800" status:"pending" tags:"tag2" tags_tag2:"x" uuid:"cb037b29-b41e-4ec7-bd89-3ffaea958a4b"]
+new [annotation_1733090978:"ok cool" annotation_1733091252:"immer noch?" annotation_1733091296:"oder doch" annotation_1733091300:"nicht" annotation_1733166397:"test" annotation_1733166422:"another" description:"Task with" due:"1734667200" end:"1733668548" entry:"1732999990" modified:"1733668548" project:"A.very.super.long.ProjectName" scheduled:"1733356800" status:"completed" tags:"tag2" tags_tag2:"x" uuid:"cb037b29-b41e-4ec7-bd89-3ffaea958a4b"]
+---
+time 1733668549
+old [annotation_1733085844:"Cool annotation bruh" annotation_1733086980:"This is a longer, multi line annotation I came up with." annotation_1733087824:"Another one, this time it works." annotation_1733088027:"Yet another one!" annotation_1733088291:"And another one!" annotation_1733088376:"hehe" annotation_1733088445:"adsf" annotation_1733088518:"asdaf23" annotation_1733088611:"asvyxcv" annotation_1733088881:"advasdvasdv" annotation_1733089034:"aaaand another" annotation_1733089137:"jetzt aber!" annotation_1733089208:"asdf" annotation_1733089222:"http:\/\/localhost:4321\/reports\/next" annotation_1733089225:"asdf" annotation_1733089228:"hehe" annotation_1733091247:"gehts?" annotation_1733091304:"doch" annotation_1733171786:"hehe" description:"annotate:yes" due:"1735603200" entry:"1732882625" modified:"1733171786" scheduled:"1734652800" status:"pending" tags:"tag2" tags_tag2:"x" uuid:"9894c340-5f62-4ba6-9b53-9cd8e75024b6"]
+new [annotation_1733085844:"Cool annotation bruh" annotation_1733086980:"This is a longer, multi line annotation I came up with." annotation_1733087824:"Another one, this time it works." annotation_1733088027:"Yet another one!" annotation_1733088291:"And another one!" annotation_1733088376:"hehe" annotation_1733088445:"adsf" annotation_1733088518:"asdaf23" annotation_1733088611:"asvyxcv" annotation_1733088881:"advasdvasdv" annotation_1733089034:"aaaand another" annotation_1733089137:"jetzt aber!" annotation_1733089208:"asdf" annotation_1733089222:"http:\/\/localhost:4321\/reports\/next" annotation_1733089225:"asdf" annotation_1733089228:"hehe" annotation_1733091247:"gehts?" annotation_1733091304:"doch" annotation_1733171786:"hehe" description:"annotate:yes" due:"1735603200" end:"1733668549" entry:"1732882625" modified:"1733668549" scheduled:"1734652800" status:"completed" tags:"tag2" tags_tag2:"x" uuid:"9894c340-5f62-4ba6-9b53-9cd8e75024b6"]
+---
+time 1733668560
+old [annotation_1733258042:"asdfasdf" description:"third task" entry:"1733243676" modified:"1733258042" project:"A" status:"pending" uuid:"ce03bf28-a1ed-4108-93aa-97a6dd6d0d39"]
+new [annotation_1733258042:"asdfasdf" description:"third task" end:"1733668560" entry:"1733243676" modified:"1733668560" project:"A" status:"completed" uuid:"ce03bf28-a1ed-4108-93aa-97a6dd6d0d39"]
+---
+time 1733668561
+old [description:"Another task" entry:"1733243661" modified:"1733243661" project:"A.nother.project" status:"pending" uuid:"e4caee89-958a-4ea7-a7ec-d5279282501d"]
+new [description:"Another task" end:"1733668561" entry:"1733243661" modified:"1733668561" project:"A.nother.project" status:"completed" uuid:"e4caee89-958a-4ea7-a7ec-d5279282501d"]
+---
+time 1733668570
+new [description:"hallo" due:"1733612400" entry:"1733668570" modified:"1733668570" status:"pending" uuid:"b4a3b9c5-dcae-48b8-a509-203b1c6184db"]
+---
+time 1733668924
+new [description:"test" due:"1733612400" entry:"1733668924" modified:"1733668924" status:"pending" uuid:"85a65e0f-fbc0-4a65-8e83-266ec87524b7"]
+---
+time 1733668981
+new [description:"with date" entry:"1733668981" modified:"1733668981" scheduled:"1733612400" status:"pending" uuid:"c384e3e1-6eed-4f27-ba2f-5324c3fa18a8"]
+---
+time 1733669018
+old [description:"with date" entry:"1733668981" modified:"1733668981" scheduled:"1733612400" status:"pending" uuid:"c384e3e1-6eed-4f27-ba2f-5324c3fa18a8"]
+new [description:"with date" end:"1733669018" entry:"1733668981" modified:"1733669018" scheduled:"1733612400" status:"deleted" uuid:"c384e3e1-6eed-4f27-ba2f-5324c3fa18a8"]
+---
+time 1733669028
+new [description:"hallo" entry:"1733669028" modified:"1733669028" scheduled:"1733612400" status:"pending" uuid:"be68541b-589b-4c31-b58c-986cd53f61ac"]
+---
+time 1733669080
+old [description:"hallo" entry:"1733669028" modified:"1733669028" scheduled:"1733612400" status:"pending" uuid:"be68541b-589b-4c31-b58c-986cd53f61ac"]
+new [description:"hallo" end:"1733669080" entry:"1733669028" modified:"1733669080" scheduled:"1733612400" status:"deleted" uuid:"be68541b-589b-4c31-b58c-986cd53f61ac"]
+---
+time 1733669081
+old [description:"test" due:"1733612400" entry:"1733668924" modified:"1733668924" status:"pending" uuid:"85a65e0f-fbc0-4a65-8e83-266ec87524b7"]
+new [description:"test" due:"1733612400" end:"1733669081" entry:"1733668924" modified:"1733669081" status:"deleted" uuid:"85a65e0f-fbc0-4a65-8e83-266ec87524b7"]
+---
+time 1733669082
+old [description:"hallo" due:"1733612400" entry:"1733668570" modified:"1733668570" status:"pending" uuid:"b4a3b9c5-dcae-48b8-a509-203b1c6184db"]
+new [description:"hallo" due:"1733612400" end:"1733669082" entry:"1733668570" modified:"1733669082" status:"deleted" uuid:"b4a3b9c5-dcae-48b8-a509-203b1c6184db"]
+---
+time 1733669095
+new [description:"hallo" due:"1733612400" entry:"1733669095" modified:"1733669095" scheduled:"1733612400" status:"pending" uuid:"e278185c-b553-4a47-8e3c-bd44982d3edd"]
+---
+time 1733669203
+new [description:"jetzat" due:"1733612400" entry:"1733669203" modified:"1733669203" scheduled:"1733612400" status:"pending" uuid:"89243b9a-bde3-49ed-ba11-77241d595f65"]
+---
+time 1733669806
+old [description:"hallo" due:"1733612400" entry:"1733669095" modified:"1733669095" scheduled:"1733612400" status:"pending" uuid:"e278185c-b553-4a47-8e3c-bd44982d3edd"]
+new [description:"hallo" due:"1733612400" end:"1733669806" entry:"1733669095" modified:"1733669806" scheduled:"1733612400" status:"deleted" uuid:"e278185c-b553-4a47-8e3c-bd44982d3edd"]
+---
+time 1733669808
+old [description:"jetzat" due:"1733612400" entry:"1733669203" modified:"1733669203" scheduled:"1733612400" status:"pending" uuid:"89243b9a-bde3-49ed-ba11-77241d595f65"]
+new [description:"jetzat" due:"1733612400" end:"1733669808" entry:"1733669203" modified:"1733669808" scheduled:"1733612400" status:"deleted" uuid:"89243b9a-bde3-49ed-ba11-77241d595f65"]
+---
+time 1733669813
+new [description:"hallo" due:"1733616000" entry:"1733669813" modified:"1733669813" status:"pending" uuid:"136e27b0-02fd-47dc-99ad-357d433e32ef"]
+---
+time 1733669859
+new [description:"testtest" due:"1733616000" entry:"1733669859" modified:"1733669859" status:"pending" uuid:"cc51f7e4-8024-44f7-b750-afbb95ee35eb"]
+---
+time 1733670447
+new [description:"undnocheiner" due:"1733616000" entry:"1733670447" modified:"1733670447" status:"pending" uuid:"e8db2f59-2293-41c4-8e30-533a71132804"]
+---

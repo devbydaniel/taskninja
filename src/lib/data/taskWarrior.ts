@@ -108,9 +108,8 @@ export async function createTask({
   scheduled,
   due,
 }: TaskCreateFields): Promise<void> {
-  const { stderr } = await exec(
-    `${COMMAND} add ${description} ${project ? `project:${project}` : ""} ${tags ? `${tags.map((tag) => `+${tag}`).join(" ")}` : ""} ${scheduled ? `scheduled:${scheduled}` : ""} ${due ? `due:${due}` : ""}`,
-  );
+  const execCommand = `${COMMAND} add ${description} ${project ? `project:${project}` : ""} ${tags ? `${tags.map((tag) => `+${tag}`).join(" ")}` : ""} ${scheduled ? `scheduled:${scheduled}` : ""} ${due ? `due:${due}` : ""}`;
+  const { stderr } = await exec(execCommand);
   if (stderr) {
     if (stderr.includes("has changed.")) return;
     console.error("stderr in createTask: ", stderr);
