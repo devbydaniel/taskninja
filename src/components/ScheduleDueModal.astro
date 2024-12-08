@@ -69,7 +69,7 @@ import Button from "./Button.astro";
 <script>
   import { errorAlert, scheduleDueModal } from "../lib/customEvents";
   import { type Task } from "../lib/models/types";
-  import { parseDate, stringifyDate } from "../lib/util/dates";
+  import { parseDate } from "../lib/util/dates";
 
   const modal = document.getElementById(
     "schedule-due-modal",
@@ -104,7 +104,6 @@ import Button from "./Button.astro";
     taskIdInput.value = task.uuid;
 
     modal.showModal();
-    scheduledInput.focus();
 
     async function handleSubmit(event: SubmitEvent) {
       event.preventDefault();
@@ -119,7 +118,7 @@ import Button from "./Button.astro";
         },
         body: JSON.stringify({
           key: "scheduled",
-          newValue: scheduled ? stringifyDate(scheduled) : undefined,
+          newValue: scheduled,
         }),
       });
       if (!scheduledUpdateResponse.ok) {
@@ -135,7 +134,7 @@ import Button from "./Button.astro";
         },
         body: JSON.stringify({
           key: "due",
-          newValue: due ? stringifyDate(due) : undefined,
+          newValue: due,
         }),
       });
       if (!dueUpdateResponse.ok) {

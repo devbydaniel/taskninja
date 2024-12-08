@@ -7,6 +7,7 @@ interface Props {
   name: string;
   placeholder?: string;
   class?: string;
+  tabindex?: string;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   name,
   placeholder,
   class: className,
+  tabindex,
 } = Astro.props;
 ---
 
@@ -28,6 +30,7 @@ const {
   name={name}
   placeholder={placeholder}
   class:list={["input", className]}
+  tabindex={tabindex}
 />
 
 <style>
