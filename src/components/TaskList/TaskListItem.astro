@@ -21,8 +21,6 @@ const showDetails =
   !!(task.tags && task.tags.length > 0) ||
   !!(task.annotations && task.annotations.length > 0);
 
-console.log({ showDetails });
-
 function displayDate(date: string) {
   return formatDate(parseDate(date), { variant: "short" });
 }
