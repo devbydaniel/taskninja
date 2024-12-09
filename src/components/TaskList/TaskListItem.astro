@@ -15,10 +15,13 @@ const isPastScheduled =
   task.scheduled && parseDate(task.scheduled) < new Date();
 
 const showDetails =
-  task.scheduled ||
-  task.due ||
-  task.project ||
-  (task.tags && task.tags.length > 0);
+  !!task.scheduled ||
+  !!task.due ||
+  !!(!hideProjectName && task.project) ||
+  !!(task.tags && task.tags.length > 0) ||
+  !!(task.annotations && task.annotations.length > 0);
+
+console.log({ showDetails });
 
 function displayDate(date: string) {
   return formatDate(parseDate(date), { variant: "short" });
