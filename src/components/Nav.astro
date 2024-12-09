@@ -42,6 +42,7 @@ const reports = getReports();
       ))
     }
   </ul>
+  <div class="nav__tab-bar__bumper"></div>
   <div class="nav__tab-bar">
     <Button class="nav__toggle" size="md" variant="muted"
       ><Icon name="mdi:dock-left" /></Button
@@ -111,10 +112,17 @@ const reports = getReports();
     display: flex;
     align-items: center;
     background: var(--background-raised);
-    padding: var(--gap-md);
+    padding: var(--gap-sm);
+  }
+
+  .nav__tab-bar__bumper {
+    height: 56px;
   }
   @media (min-width: 768px) {
     .nav__tab-bar {
+      display: none;
+    }
+    .nav__tab-bar__bumper {
       display: none;
     }
   }
