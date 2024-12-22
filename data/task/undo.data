@@ -608,3 +608,14 @@ time 1734898534
 old [description:"test mit" entry:"1733681437" modified:"1733681437" project:"test" status:"pending" uuid:"1318d7bd-f64b-4058-b153-18fd46231f40"]
 new [description:"test mit" entry:"1733681437" modified:"1734898534" project:"test.abethaone" status:"pending" uuid:"1318d7bd-f64b-4058-b153-18fd46231f40"]
 ---
+time 1734898765
+new [description:"test test task" entry:"1734898765" modified:"1734898765" status:"pending" tags:"next" tags_next:"x" uuid:"2865732e-70b9-4aee-af55-48b3e3d234f7"]
+---
+time 1734898769
+old [description:"test test task" entry:"1734898765" modified:"1734898765" status:"pending" tags:"next" tags_next:"x" uuid:"2865732e-70b9-4aee-af55-48b3e3d234f7"]
+new [description:"test test task" end:"1734898769" entry:"1734898765" modified:"1734898769" status:"completed" tags:"next" tags_next:"x" uuid:"2865732e-70b9-4aee-af55-48b3e3d234f7"]
+---
+time 1734898773
+old [description:"test mit" entry:"1733681437" modified:"1734898534" project:"test.abethaone" status:"pending" uuid:"1318d7bd-f64b-4058-b153-18fd46231f40"]
+new [description:"test mit" end:"1734898773" entry:"1733681437" modified:"1734898773" project:"test.abethaone" status:"completed" uuid:"1318d7bd-f64b-4058-b153-18fd46231f40"]
+---

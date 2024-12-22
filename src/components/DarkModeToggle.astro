@@ -6,21 +6,33 @@ const theme = Astro.cookies.get("theme")?.value || "light";
 ---
 
 <div class="dark-mode-toggle" data-theme={theme}>
-  <Button
-    variant="ghost"
-    class="dark-mode-toggle__dark"
-    aria-label="Toggle dark mode"
+  <div
+    class:list={[
+      "dark-mode-toggle__dark",
+      theme === "dark" ? "dark-mode-toggle--hidden" : "",
+    ]}
   >
-    <Icon id="dark-mode-icon" name="mdi:moon-and-stars" />
-  </Button>
-  <Button
-    variant="ghost"
-    class="dark-mode-toggle__light"
-    aria-label="Toggle light mode"
+    <Button variant="ghost" aria-label="Toggle dark mode">
+      <Icon id="dark-mode-icon" name="mdi:moon-and-stars" />
+    </Button>
+  </div>
+  <div
+    class:list={[
+      "dark-mode-toggle__light",
+      theme === "light" ? "dark-mode-toggle--hidden" : "",
+    ]}
   >
-    <Icon id="dark-mode-icon" name="mdi:white-balance-sunny" />
-  </Button>
+    <Button variant="ghost" aria-label="Toggle light mode">
+      <Icon id="dark-mode-icon" name="mdi:white-balance-sunny" />
+    </Button>
+  </div>
 </div>
+
+<style>
+  .dark-mode-toggle--hidden {
+    display: none;
+  }
+</style>
 
 <script>
   const darkModeToggle = document.querySelector(
@@ -34,32 +46,17 @@ const theme = Astro.cookies.get("theme")?.value || "light";
   ) as HTMLElement;
   const body = document.querySelector("body")!;
 
-  let theme = darkModeToggle.dataset.theme;
-
-  document.addEventListener("DOMContentLoaded", () => {
-    // hide the dark mode toggle button if theme is dark
-    if (theme === "dark") {
-      darkModeToggleDark.style.display = "none";
-    } else if (theme === "light") {
-      darkModeToggleLight.style.display = "none";
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      darkModeToggleLight.style.display = "none";
-    } else {
-      darkModeToggleDark.style.display = "none";
-    }
-  });
-
   darkModeToggleDark.addEventListener("click", () => {
     document.cookie = "theme=dark; path=/; samesite=lax";
-    darkModeToggleDark.style.display = "none";
-    darkModeToggleLight.style.display = "block";
+    darkModeToggleDark.classList.add("dark-mode-toggle--hidden");
+    darkModeToggleLight.classList.remove("dark-mode-toggle--hidden");
     body.classList.add("dark");
   });
 
   darkModeToggleLight.addEventListener("click", () => {
     document.cookie = "theme=light; path=/; samesite=lax";
-    darkModeToggleLight.style.display = "none";
-    darkModeToggleDark.style.display = "block";
+    darkModeToggleLight.classList.add("dark-mode-toggle--hidden");
+    darkModeToggleDark.classList.remove("dark-mode-toggle--hidden");
     body.classList.remove("dark");
   });
 </script>
