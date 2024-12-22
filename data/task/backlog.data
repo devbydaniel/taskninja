@@ -160,3 +160,4 @@
 {"description":"hmmmm","due":"20241207T230000Z","end":"20241222T133324Z","entry":"20241208T174018Z","modified":"20241222T133324Z","status":"completed","uuid":"bb72234e-dff7-4692-b0fa-811e536aa5e0","annotations":[{"entry":"20241208T180231Z","description":"asdasd"}]}
 {"description":"this heute","due":"20241207T230000Z","end":"20241222T134013Z","entry":"20241208T175828Z","modified":"20241222T134013Z","status":"completed","uuid":"daaf47dd-cc59-41ca-9495-27430be5c4c2","annotations":[{"entry":"20241208T180243Z","description":"adfasd"}]}
 {"description":"testtest","due":"20241208T000000Z","end":"20241222T134013Z","entry":"20241208T145739Z","modified":"20241222T134013Z","status":"completed","uuid":"cc51f7e4-8024-44f7-b750-afbb95ee35eb"}
+{"description":"test mit","entry":"20241208T181037Z","modified":"20241222T201534Z","project":"test.abethaone","status":"pending","uuid":"1318d7bd-f64b-4058-b153-18fd46231f40"}

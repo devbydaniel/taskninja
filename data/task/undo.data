@@ -604,3 +604,7 @@ time 1734874813
 old [description:"testtest" due:"1733616000" entry:"1733669859" modified:"1733669859" status:"pending" uuid:"cc51f7e4-8024-44f7-b750-afbb95ee35eb"]
 new [description:"testtest" due:"1733616000" end:"1734874813" entry:"1733669859" modified:"1734874813" status:"completed" uuid:"cc51f7e4-8024-44f7-b750-afbb95ee35eb"]
 ---
+time 1734898534
+old [description:"test mit" entry:"1733681437" modified:"1733681437" project:"test" status:"pending" uuid:"1318d7bd-f64b-4058-b153-18fd46231f40"]
+new [description:"test mit" entry:"1733681437" modified:"1734898534" project:"test.abethaone" status:"pending" uuid:"1318d7bd-f64b-4058-b153-18fd46231f40"]
+---

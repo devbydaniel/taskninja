@@ -1,57 +1,65 @@
 ---
 import Button from "./Button.astro";
 import { Icon } from "astro-icon/components";
+
+const theme = Astro.cookies.get("theme")?.value || "light";
 ---
 
-<Button
-  variant="ghost"
-  id="dark-mode-toggle__dark"
-  aria-label="Toggle dark mode"
->
-  <Icon id="dark-mode-icon" name="mdi:moon-and-stars" />
-</Button>
-<Button
-  variant="ghost"
-  id="dark-mode-toggle__light"
-  aria-label="Toggle light mode"
->
-  <Icon id="dark-mode-icon" name="mdi:white-balance-sunny" />
-</Button>
+<div class="dark-mode-toggle" data-theme={theme}>
+  <Button
+    variant="ghost"
+    class="dark-mode-toggle__dark"
+    aria-label="Toggle dark mode"
+  >
+    <Icon id="dark-mode-icon" name="mdi:moon-and-stars" />
+  </Button>
+  <Button
+    variant="ghost"
+    class="dark-mode-toggle__light"
+    aria-label="Toggle light mode"
+  >
+    <Icon id="dark-mode-icon" name="mdi:white-balance-sunny" />
+  </Button>
+</div>
 
 <script>
-  const darkModeToggleDark = document.getElementById("dark-mode-toggle__dark")!;
-  const darkModeToggleLight = document.getElementById(
-    "dark-mode-toggle__light",
-  )!;
+  const darkModeToggle = document.querySelector(
+    ".dark-mode-toggle",
+  ) as HTMLElement;
+  const darkModeToggleDark = darkModeToggle.querySelector(
+    ".dark-mode-toggle__dark",
+  ) as HTMLElement;
+  const darkModeToggleLight = darkModeToggle.querySelector(
+    ".dark-mode-toggle__light",
+  ) as HTMLElement;
+  const body = document.querySelector("body")!;
+
+  let theme = darkModeToggle.dataset.theme;
 
   document.addEventListener("DOMContentLoaded", () => {
-    // hide the dark mode toggle button if localStorage has a value for dark mode
-    if (localStorage.getItem("taskninja--dark-mode") === "true") {
+    // hide the dark mode toggle button if theme is dark
+    if (theme === "dark") {
       darkModeToggleDark.style.display = "none";
-      document.documentElement.classList.add("dark");
-    } else if (localStorage.getItem("taskninja--dark-mode") === "false") {
+    } else if (theme === "light") {
       darkModeToggleLight.style.display = "none";
-      document.documentElement.classList.remove("dark");
     } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       darkModeToggleLight.style.display = "none";
-      document.documentElement.classList.add("dark");
     } else {
       darkModeToggleDark.style.display = "none";
-      document.documentElement.classList.remove("dark");
     }
   });
 
   darkModeToggleDark.addEventListener("click", () => {
-    localStorage.setItem("taskninja--dark-mode", "true");
+    document.cookie = "theme=dark; path=/; samesite=lax";
     darkModeToggleDark.style.display = "none";
     darkModeToggleLight.style.display = "block";
-    document.documentElement.classList.add("dark");
+    body.classList.add("dark");
   });
 
   darkModeToggleLight.addEventListener("click", () => {
-    localStorage.setItem("taskninja--dark-mode", "false");
+    document.cookie = "theme=light; path=/; samesite=lax";
     darkModeToggleLight.style.display = "none";
     darkModeToggleDark.style.display = "block";
-    document.documentElement.classList.remove("dark");
+    body.classList.remove("dark");
   });
 </script>

@@ -4,6 +4,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const theme = Astro.cookies.get("theme")?.value || "light";
 ---
 
 <!doctype html>
@@ -33,7 +34,7 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
+  <body class={theme === "dark" ? "dark" : ""}>
     <slot />
   </body>
 </html>
@@ -98,6 +99,7 @@ const { title } = Astro.props;
   p,
   ul {
     margin: 0;
+    color: var(--color-text);
   }
 
   hr {
@@ -111,9 +113,15 @@ const { title } = Astro.props;
     text-decoration: none;
   }
 
+  label {
+    color: var(--color-text);
+  }
+
   input,
   textarea {
     font-family: monospace;
+    background: var(--background-raised);
+    color: var(--color-text);
   }
 
   kbd {

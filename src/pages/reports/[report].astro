@@ -3,6 +3,7 @@ import RootLayout from "../../layouts/RootLayout.astro";
 import AppLayout from "../../layouts/AppLayout.astro";
 import ContentAreaLayout from "../../layouts/ContentAreaLayout.astro";
 import TaskList from "../../components/TaskList/TaskList.astro";
+import DarkModeToggle from "../../components/DarkModeToggle.astro";
 import {
   getReportTasks,
   getProjects,
@@ -19,6 +20,7 @@ const projects = await getProjects();
 <RootLayout title="TaskNinja">
   <AppLayout projects={projects} tags={tags}>
     <ContentAreaLayout title={report!}>
+      <DarkModeToggle slot="actions" />
       <TaskList tasks={tasks} />
     </ContentAreaLayout>
   </AppLayout>
