@@ -31,7 +31,9 @@ const { class: className } = Astro.props;
           <Button type="submit" block>Add Annotation</Button>
         </div>
       </form>
-      <div class="task-details-panel__content__annotations"></div>
+      <div class="task-details-panel__content__annotations">
+        {/* This is filled through JS below */}
+      </div>
     </div>
   </ContentAreaLayout>
 </dialog>
@@ -73,7 +75,7 @@ const { class: className } = Astro.props;
     font-size: var(--font-size);
     border: var(--border-width) solid var(--color-text-muted);
     border-radius: var(--border-radius);
-    padding: var(--gap-xs);
+    padding: var(--gap-sm);
   }
 
   .task-details-panel__content__new-annotation {
@@ -124,6 +126,7 @@ const { class: className } = Astro.props;
   ) as HTMLInputElement;
 
   function fillTaskPanel(task: Task) {
+    // show existing annotations
     if (task.annotations && task.annotations.length > 0) {
       panelAnnotations.style.display = "grid";
       addAnnotationMarkup({
@@ -133,11 +136,13 @@ const { class: className } = Astro.props;
           "task-details-panel__content__annotations__item",
       });
     }
+    // set the task id in the form
     taskIdInput.value = task.uuid;
   }
 
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
+    event.stopPropagation();
     const annotation = newAnnotationForm.querySelector(
       "#new-annotation",
     ) as HTMLTextAreaElement;
