@@ -12,7 +12,7 @@ const theme = Astro.cookies.get("theme")?.value || "light";
       theme === "dark" ? "dark-mode-toggle--hidden" : "",
     ]}
   >
-    <Button variant="ghost" aria-label="Toggle dark mode">
+    <Button square variant="ghost" size="sm" aria-label="Toggle dark mode">
       <Icon id="dark-mode-icon" name="mdi:moon-and-stars" />
     </Button>
   </div>
@@ -22,7 +22,7 @@ const theme = Astro.cookies.get("theme")?.value || "light";
       theme === "light" ? "dark-mode-toggle--hidden" : "",
     ]}
   >
-    <Button variant="ghost" aria-label="Toggle light mode">
+    <Button square variant="ghost" size="sm" aria-label="Toggle light mode">
       <Icon id="dark-mode-icon" name="mdi:white-balance-sunny" />
     </Button>
   </div>
