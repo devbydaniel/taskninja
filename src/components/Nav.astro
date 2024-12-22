@@ -13,21 +13,24 @@ const { report: reportParam } = Astro.params;
 const reports = getReports();
 ---
 
-<div class="nav">
+<div class="nav" data-reports={JSON.stringify(reports)}>
   <div class="nav__new-task-button">
     <Button block>Add Task</Button>
   </div>
   <h2 class="nav__title">Reports</h2>
   <ul class="nav__list">
     {
-      reports.map((report) => (
+      reports.map((report, i) => (
         <li
           class:list={[
             "nav__list__item",
             { "nav__list__item--active": reportParam === report },
           ]}
         >
-          <a href={`/reports/${report}`}>{report}</a>
+          <a href={`/reports/${report}`}>
+            <span>{report}</span>
+            <kbd>{i + 1}</kbd>
+          </a>
         </li>
       ))
     }
@@ -77,6 +80,11 @@ const reports = getReports();
     flex-direction: column;
     gap: var(--gap-sm);
   }
+  .nav__list__item {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    position: relative;
+  }
   .nav__list__item a {
     text-align: left;
     border: none;
@@ -84,13 +92,21 @@ const reports = getReports();
     cursor: pointer;
     text-decoration: none;
     color: var(--color-text);
-    border-radius: var(--border-radius);
     transitions: background 0.3s ease;
     text-decoration: none;
     color: var(--color-text);
-    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: block;
+    position: relative;
+  }
+  nav__list__item a span {
+  }
+  .nav__list__item a kbd {
+    position: absolute;
+    right: var(--gap-xs);
+    top: 50%;
+    transform: translateY(-50%);
   }
   .nav__list__item a:hover {
     background: var(--background-focus);
@@ -99,7 +115,7 @@ const reports = getReports();
     background: var(--background-clicked);
   }
   .nav__list__item--active {
-    background: var(--background-raised);
+    background: var(--background-focus);
   }
   .nav__tab-bar {
     position: fixed;
@@ -126,6 +142,7 @@ const reports = getReports();
 </style>
 
 <script>
+  // Add listener to open new task modal
   import { newTaskModal } from "../lib/customEvents";
 
   const newTaskButton = document.querySelector(".nav__new-task-button")!;
@@ -136,10 +153,28 @@ const reports = getReports();
 </script>
 
 <script>
+  // Add listener for toggling the navigation
   import { navToggle } from "../lib/customEvents";
 
   const navToggleElement = document.querySelector(".nav__toggle")!;
   navToggleElement.addEventListener("click", () => {
     navToggle.trigger();
+  });
+</script>
+
+<script>
+  // Add keyboard shortcuts to navigate to reports
+  import shouldTriggerKeyboardShortcut from "../lib/util/shouldTriggerKeyboardShortcut";
+
+  const nav = document.querySelector(".nav") as HTMLElement;
+  console.log({ nav });
+  const reports = JSON.parse(nav.dataset.reports!);
+  document.addEventListener("keydown", (e) => {
+    if (!shouldTriggerKeyboardShortcut(e)) return;
+    const key = parseInt(e.key);
+    if (!key || key > reports.length) return;
+    const report = reports[key - 1];
+    const url = `/reports/${report}`;
+    window.location.href = url;
   });
 </script>
