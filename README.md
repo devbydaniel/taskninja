@@ -2,11 +2,11 @@
 
 TaskNinja is a GUI frontend for [TaskWarrior](https://github.com/GothenburgBitFactory/taskwarrior), the CLI based task manager, with a minimalist design, keyboard shortcuts and optimized mobile layout.
 
-> [!] Please notice
+> [!ATTENTION] Please notice
 > TaskNinja required TaskWarrior v 2.x to work.
 > I'm happy to accept PRs for making this more flexible.
 
-> [!] Please also notice
+> [!ATTENTION] Please also notice
 > TaskNinja will modify your TaskWarrior database. Back up your data before using TaskNinja.
 
 ## Installation
@@ -60,16 +60,16 @@ If you want to display different report, you can pass an environment variable `R
 
 ## Keyboard Shortcuts
 
-| Key              | Action                                                |
-| ---------------- | ----------------------------------------------------- |
-| a                | Add new task                                          |
-| <number>         | Navigate to the <number>th report in the reports list |
-| j, k, arrow keys | Select tasks in the task list                         |
-| m                | Modify a task with a TaskWarrior command              |
-| p                | Move a task to a different project                    |
-| t                | Edit tags                                             |
-| s                | Edit schedule and due date                            |
-| Backspace        | Delete the task                                       |
+| Key              | Action                                               |
+| ---------------- | ---------------------------------------------------- |
+| a                | Add new task                                         |
+| number           | Navigate to the number-th report in the reports list |
+| j, k, arrow keys | Select tasks in the task list                        |
+| m                | Modify a task with a TaskWarrior command             |
+| p                | Move a task to a different project                   |
+| t                | Edit tags                                            |
+| s                | Edit schedule and due date                           |
+| Backspace        | Delete the task                                      |
 
 ## HTTP endpoints
 
