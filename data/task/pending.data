@@ -1,2 +1,6 @@
-[description:"another one" entry:"1734871745" modified:"1734871757" project:"test.anotherone" status:"pending" uuid:"b8cea28f-ed80-425d-a55a-e38baf422646"]
-[description:"anotheraaaa" entry:"1734871781" modified:"1734871791" project:"test.abethaone" status:"pending" uuid:"6d0755d7-f361-4dab-b84c-6457936b3326"]
+[description:"Recurring test" due:"1734908400" entry:"1734973587" mask:"++" modified:"1734974287" recur:"+1w" rtype:"periodic" status:"recurring" uuid:"f980d2b0-c889-44ed-acc1-1e7c9bc99cf9"]
+[description:"noch ein recurring" due:"1734908400" entry:"1734974727" mask:"++" modified:"1734974759" recur:"+1w" rtype:"periodic" status:"recurring" uuid:"8e9fc0d0-be7a-47ee-924f-d0eca402aa47"]
+[description:"daily task" due:"1734908400" entry:"1734974776" mask:"++" modified:"1734974791" recur:"+1d" rtype:"periodic" status:"recurring" uuid:"fc74aa09-124a-4544-81da-118f68187c7e"]
+[description:"aaaaand another one" entry:"1734975025" modified:"1734975025" status:"pending" uuid:"92295795-0e57-4b20-bd2d-f4bcd968150f"]
+[description:"Recurring test" due:"1734908400" entry:"1734975185" mask:"++" modified:"1734975229" recur:"+1w" rtype:"periodic" status:"recurring" uuid:"da4a4e86-5aa3-4dba-ae5b-6ca81a3cd86a"]
+[description:"test recur again" due:"1734908400" entry:"1734975570" mask:"++" modified:"1734975577" recur:"+1w" rtype:"periodic" status:"recurring" uuid:"98887878-8c0c-4eac-ba59-37b6123564d1"]

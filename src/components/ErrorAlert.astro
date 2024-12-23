@@ -39,4 +39,8 @@ import Button from "./Button.astro";
     errorMessage.textContent = customEvent.detail.message;
     modal.showModal();
   });
+
+  document.getElementById("ok")!.addEventListener("click", () => {
+    modal.close();
+  });
 </script>

@@ -139,6 +139,14 @@ export async function updateTask(
   }
 }
 
+export async function completeTask(taskUuid: string): Promise<void> {
+  const { stderr } = await exec(`${COMMAND} ${taskUuid} done`);
+  if (stderr && !isFalseAlarm(stderr)) {
+    console.error("stderr in completeTask: ", stderr);
+    throw new Error(stderr);
+  }
+}
+
 export async function updateTaskWithCommand(
   taskUuid: string,
   command: string,

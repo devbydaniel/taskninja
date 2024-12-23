@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { createTask } from "../../../lib/data/taskWarrior";
+import parseError from "../../../lib/util/parseError";
 
 export const POST: APIRoute = async ({ request }) => {
   const data = await request.formData();
@@ -20,6 +21,15 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 400 },
     );
   }
-  await createTask({ description, project, scheduled, due, tags });
-  return new Response(null, { status: 201 });
+  try {
+    await createTask({ description, project, scheduled, due, tags });
+    return new Response(null, { status: 201 });
+  } catch (error) {
+    return new Response(
+      JSON.stringify({
+        message: parseError(error).message,
+      }),
+      { status: 500 },
+    );
+  }
 };

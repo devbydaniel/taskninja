@@ -153,6 +153,7 @@ const tagOptions = tags.sort((a, b) => (a > b ? 1 : -1));
           body: formData,
         });
         if (!res.ok) {
+          console.log("NOT OKAY");
           const { message } = await res.json();
           errorAlert.trigger({ message: `Failed to create task: ${message}` });
           return;

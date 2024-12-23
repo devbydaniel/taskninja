@@ -285,9 +285,10 @@ function displayDate(date: string) {
   for (let i = 0; i < checkboxes.length; i++) {
     checkboxes[i].addEventListener("change", async (e) => {
       e.stopPropagation();
-      const isChecked = (e.target as HTMLInputElement).checked;
+      const checkbox = e.target as HTMLInputElement;
+      const isChecked = checkbox.checked;
       const newStatus = isChecked ? "completed" : "pending";
-      const taskData = (e.target as HTMLInputElement).dataset.task!;
+      const taskData = checkbox.dataset.task!;
       const task = JSON.parse(taskData);
       const taskUuid = task.uuid;
       const res = await fetch("/api/tasks/" + taskUuid, {
@@ -299,9 +300,13 @@ function displayDate(date: string) {
         }),
       });
       if (res.ok) {
-        (e.target as HTMLInputElement)
-          .closest(".item")
-          ?.classList.toggle("item--completed");
+        checkbox.closest(".item")?.classList.toggle("item--completed");
+        if (task.parent) {
+          // task is a recurring task and cannot
+          // be unchecked again because TaskWarrior
+          // will ask back and the command gets stuck
+          checkbox.disabled = true;
+        }
       } else {
         const { message } = await res.json();
         errorAlert.trigger({ message: `Failed to update task: ${message}` });
