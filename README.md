@@ -2,11 +2,11 @@
 
 TaskNinja is a GUI frontend for [TaskWarrior](https://github.com/GothenburgBitFactory/taskwarrior), the CLI based task manager, with a minimalist design, keyboard shortcuts and optimized mobile layout.
 
-> [!WARNING] Please notice
+> [!WARNING] Please note
 > TaskNinja required TaskWarrior v 2.x to work.
 > I'm happy to accept PRs for making this more flexible.
 
-> [!WARNING] Please also notice
+> [!WARNING] Please also note
 > TaskNinja will modify your TaskWarrior database. Back up your data before using TaskNinja.
 
 ## Installation
